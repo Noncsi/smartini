@@ -12,7 +12,7 @@ on:
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Build and Deploy Job
     steps:
       - name: Setup Node.js environment
@@ -23,15 +23,6 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: Match Angular Versions
-      # You may pin to the exact commit or the version.
-      # uses: ngworker/angular-versions-action@789aa282d502cbd0f4a1eaab070205f1e72a52f4
-        uses: ngworker/angular-versions-action@v4
-        with:
-          # The base Angular version used to match the dependency versions
-          angular-version: 17
-          # Path to the root folder containing the package.json and angular.json files
-          root-path: "/frontend"
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
