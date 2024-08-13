@@ -4,5 +4,8 @@
   },
   "platform": {
     "apiRuntime": "node:18"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
