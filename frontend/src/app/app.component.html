@@ -1,1 +1,6 @@
-<p>test websocket</p>
+<div class="container">
+  <label>Send Message to Server:</label> <br /><br />
+  <input type="text" [(ngModel)]="message" />
+  <button (click)="sendMessage()">Send</button>
+  <p>{{ receivedMessage }}</p>
+</div>
