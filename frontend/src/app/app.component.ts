@@ -29,4 +29,16 @@ export class AppComponent implements OnInit {
     this.socket.send(this.message);
     this.message = '';
   }
+
+  openHostClient() {
+    // create session
+    // show session id
+    // lobby for join
+  }
+
+  openPlayerClient() {
+    // input for session id
+    // input for name
+    // button for join
+  }
 }

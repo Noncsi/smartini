@@ -4,3 +4,11 @@
   <button (click)="sendMessage()">Send</button>
   <p>{{ receivedMessage }}</p>
 </div>
+
+<div>Select your role in the game.</div>
+<button (click)="openPlayerClient()">
+  <a routerLink="/player">Player</a>
+</button>
+<button (click)="openHostClient()"><a routerLink="/host">Host</a></button>
+
+<router-outlet></router-outlet>
