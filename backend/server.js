@@ -1,19 +1,38 @@
-console.log("henló");
-
 const WebSocket = require("ws");
+const clientWs = new WebSocket.Server({ port: 8080 });
+let counter = 0;
+console.log("Server is running...");
 
-const wss = new WebSocket.Server({ port: 8080 });
+const clients = new Map();
 
-wss.on("connection", function connection(ws) {
-  console.log("Client connected");
+clientWs.on("connection", function connection(ws) {
+  const id = counter++;
+  console.log("Player connected", id);
+  const color = Math.floor(Math.random() * 360);
+  const metadata = { color, ws };
 
-  ws.on("message", function incoming(message) {
-    console.log("Received: %s", message);
+  clients.set(id, metadata);
 
-    ws.send(`${message}`);
+  ws.on("message", function incoming(name) {
+    console.log("Player received: %s", name);
+    const message = JSON.parse(name);
+    const metadata = clients.get(ws);
+
+    // message.sender = metadata.id;
+    // message.color = metadata.color;
+
+    const outbound = JSON.stringify(message);
+
+    [...clients.keys()].forEach((key) => {
+      if (key === 0) {
+        const a = clients.get(0);
+        a.ws.send(outbound);
+      }
+    });
   });
 
   ws.on("close", function () {
-    console.log("Client disconnected");
+    console.log("Player disconnected");
+    clients.delete(ws);
   });
 });

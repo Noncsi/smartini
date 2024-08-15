@@ -1,1 +1,6 @@
-<p>host-client works!</p>
+<p>Room number: {{ roomId }}</p>
+
+<p>Joined players:</p>
+<li *ngFor="let player of joinedPlayers">
+  {{ player }}
+</li>

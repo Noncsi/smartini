@@ -1,1 +1,10 @@
-<p>player-client works!</p>
+<p>Enter room id:</p>
+<input #roomId />
+
+<p>Enter name:</p>
+<input #name />
+
+<button (click)="join(name.value)">Join</button>
+
+<p>Joined players:</p>
+<div *ngFor="let player of players">{{ player }}</div>
