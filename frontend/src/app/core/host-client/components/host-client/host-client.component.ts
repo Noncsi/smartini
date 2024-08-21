@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IoService } from '../../../../io.service';
+import { Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-host-client',
@@ -6,16 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './host-client.component.scss',
 })
 export class HostClientComponent implements OnInit {
+  socket: Socket | undefined;
   roomId: number = 123;
   joinedPlayers: string[] = [];
+  error = '';
+
+  constructor(private ioService: IoService) {}
 
   ngOnInit(): void {
-    let socket: WebSocket = new WebSocket('ws://192.168.0.103:8080');
-
-    socket.onopen = () => console.log('Room is ready for players.');
-    socket.onmessage = (e: MessageEvent) => {
-      console.log('message got', e);
-      this.joinedPlayers.push(e.data);
-    };
+    this.socket = this.ioService.joinHost();
+    this.socket.on('displayNewPlayerOnHost', (name) => {
+      this.joinedPlayers.push(name);
+      this.error = 'players: ' + this.joinedPlayers.length;
+    });
+    // this.ioService
+    //   .getMessageFromServer()
+    //   .subscribe((value: { message: string }) => {
+    //     this.joinedPlayers.push(value.message);
+    //   });
   }
 }

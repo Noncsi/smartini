@@ -9,7 +9,12 @@ import { PlayerClientComponent } from './core/player-client/components/player-cl
 import { WelcomePageComponent } from './core/welcome-page/components/welcome-page/welcome-page.component';
 
 @NgModule({
-  declarations: [AppComponent, HostClientComponent, PlayerClientComponent, WelcomePageComponent],
+  declarations: [
+    AppComponent,
+    HostClientComponent,
+    PlayerClientComponent,
+    WelcomePageComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
