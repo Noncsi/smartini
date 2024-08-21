@@ -17,7 +17,7 @@ export class HostClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.socket = this.ioService.joinHost();
-    this.socket.on('displayNewPlayerOnHost', (name) => {
+    this.socket.on('newPlayer', (name) => {
       this.joinedPlayers.push(name);
       this.error = 'players: ' + this.joinedPlayers.length;
     });

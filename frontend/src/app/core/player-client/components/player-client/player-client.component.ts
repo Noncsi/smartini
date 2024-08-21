@@ -10,8 +10,7 @@ export class PlayerClientComponent {
   error = '';
   constructor(private ioService: IoService) {}
 
-  join(name: string) {
-    this.ioService.joinPlayer(name);
-    this.error = name + ' join megvolt';
+  join(room: string, name: string) {
+    this.ioService.joinPlayer(room, name);
   }
 }

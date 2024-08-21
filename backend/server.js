@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const short_unique_id_1 = __importDefault(require("short-unique-id"));
 const socket_io_1 = require("socket.io");
-const uuid_1 = require("uuid");
 // create server
 const ioServer = new socket_io_1.Server(8080, {
     cors: {
@@ -10,23 +13,37 @@ const ioServer = new socket_io_1.Server(8080, {
     },
 });
 // create session id
-ioServer.engine.generateId = (req) => {
-    return (0, uuid_1.v4)();
-};
-// host client socket
-let hostClientSocket;
+// ioServer.engine.generateId = (req) => {
+//   return uuidv4();
+// };
+// rooms
+const rooms = [];
 console.log("Server is running...");
+// runs everytime a client connects
 ioServer.on("connection", (socket) => {
+    // join host
     socket.on("joinHost", () => {
-        hostClientSocket = socket;
-        console.log("Host has been created.");
+        // generate room code
+        const roomCode = new short_unique_id_1.default({ length: 4 }).rnd();
+        // join host to room
+        socket.join(roomCode);
+        rooms.push(roomCode);
+        console.log(`Host has been created in room: ${roomCode}`);
     });
-    socket.on("joinPlayer", (socketId, playerName) => {
-        console.log(`${playerName} has joined.`);
-        hostClientSocket.emit("displayNewPlayerOnHost", playerName);
+    // join player
+    socket.on("joinPlayer", (socketId, roomId, playerName) => {
+        console.log(rooms);
+        // find room with code given by player
+        const room = rooms.find((roomCode) => roomCode === roomId);
+        if (room === undefined) {
+            console.log(`Room was not found.`);
+        }
+        else {
+            socket.join(room);
+            console.log(`${playerName} has joined to room: ${room}.`);
+            ioServer.to(room).emit("newPlayer", playerName);
+        }
     });
-    console.log("data", socket.data);
-    console.log("Number of players in lobby:", ioServer.engine.clientsCount);
     // socket.on("disconnect", (reason: string) => {
     //   console.log(`Player with id: ${socket.id} left the lobby.`);
     //   console.log("Number of players in lobby:", ioServer.engine.clientsCount);

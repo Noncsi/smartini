@@ -1,9 +1,9 @@
 <p>Enter room id:</p>
-<input #roomId />
+<input #room />
 
 <p>Enter name:</p>
 <input #name />
 
-<button (click)="join(name.value)">Join</button>
+<button (click)="join(room.value, name.value)">Join</button>
 
 {{ error }}

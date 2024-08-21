@@ -1,3 +1,4 @@
+import ShortUniqueId from "short-unique-id";
 import { Server, Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
 
@@ -10,26 +11,43 @@ const ioServer = new Server(8080, {
 });
 
 // create session id
-ioServer.engine.generateId = (req) => {
-  return uuidv4();
-};
+// ioServer.engine.generateId = (req) => {
+//   return uuidv4();
+// };
 
-// host client socket
-let hostClientSocket: Socket;
+// rooms
+const rooms: string[] = [];
 
 console.log("Server is running...");
 
+// runs everytime a client connects
 ioServer.on("connection", (socket) => {
+  // join host
   socket.on("joinHost", () => {
-    hostClientSocket = socket;
-    console.log("Host has been created.");
+    // generate room code
+    const roomCode = new ShortUniqueId({ length: 4 }).rnd();
+    // join host to room
+    socket.join(roomCode);
+    rooms.push(roomCode);
+    console.log(`Host has been created in room: ${roomCode}`);
   });
-  socket.on("joinPlayer", (socketId: string, playerName: string) => {
-    console.log(`${playerName} has joined.`);
-    hostClientSocket.emit("displayNewPlayerOnHost", playerName);
-  });
-  console.log("data", socket.data);
-  console.log("Number of players in lobby:", ioServer.engine.clientsCount);
+
+  // join player
+  socket.on(
+    "joinPlayer",
+    (socketId: string, roomId: string, playerName: string) => {
+      console.log(rooms);
+      // find room with code given by player
+      const room = rooms.find((roomCode) => roomCode === roomId);
+      if (room === undefined) {
+        console.log(`Room was not found.`);
+      } else {
+        socket.join(room);
+        console.log(`${playerName} has joined to room: ${room}.`);
+        ioServer.to(room).emit("newPlayer", playerName);
+      }
+    }
+  );
 
   // socket.on("disconnect", (reason: string) => {
   //   console.log(`Player with id: ${socket.id} left the lobby.`);

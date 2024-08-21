@@ -16,10 +16,10 @@ export class IoService {
     return socket;
   }
 
-  joinPlayer(playerName: string) {
+  joinPlayer(roomCode: string, playerName: string) {
     const socket: Socket = io('ws://192.168.0.103:8080');
     socket.on('connect', () => {
-      socket.emit('joinPlayer', socket.id, playerName);
+      socket.emit('joinPlayer', socket.id, roomCode, playerName);
     });
   }
 
