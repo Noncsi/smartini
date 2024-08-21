@@ -9,7 +9,7 @@ import { Socket } from 'socket.io-client';
 })
 export class HostClientComponent implements OnInit {
   socket: Socket | undefined;
-  roomId: number = 123;
+  roomId: number = 0;
   joinedPlayers: string[] = [];
   error = '';
 
@@ -21,10 +21,8 @@ export class HostClientComponent implements OnInit {
       this.joinedPlayers.push(name);
       this.error = 'players: ' + this.joinedPlayers.length;
     });
-    // this.ioService
-    //   .getMessageFromServer()
-    //   .subscribe((value: { message: string }) => {
-    //     this.joinedPlayers.push(value.message);
-    //   });
+    this.socket.on('roomCode', (roomCode) => {
+      this.roomId = roomCode;
+    });
   }
 }

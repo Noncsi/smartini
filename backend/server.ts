@@ -16,7 +16,7 @@ const ioServer = new Server(8080, {
 // };
 
 // rooms
-const rooms: string[] = [];
+let rooms: string[] = [];
 
 console.log("Server is running...");
 
@@ -25,18 +25,27 @@ ioServer.on("connection", (socket) => {
   // join host
   socket.on("joinHost", () => {
     // generate room code
-    const roomCode = new ShortUniqueId({ length: 4 }).rnd();
+    const roomCode = new ShortUniqueId({ length: 4 }).rnd().toUpperCase();
     // join host to room
     socket.join(roomCode);
+    // store room
     rooms.push(roomCode);
+    // display room code on host client for players
+    socket.emit("roomCode", roomCode);
     console.log(`Host has been created in room: ${roomCode}`);
+
+    // upon host leaving the room
+    socket.on("disconnect", (reason: string) => {
+      // remove room from rooms
+      rooms = rooms.filter((r) => r !== roomCode);
+      console.log(`Room with id: ${roomCode} has been closed.`);
+    });
   });
 
   // join player
   socket.on(
     "joinPlayer",
     (socketId: string, roomId: string, playerName: string) => {
-      console.log(rooms);
       // find room with code given by player
       const room = rooms.find((roomCode) => roomCode === roomId);
       if (room === undefined) {
@@ -48,11 +57,6 @@ ioServer.on("connection", (socket) => {
       }
     }
   );
-
-  // socket.on("disconnect", (reason: string) => {
-  //   console.log(`Player with id: ${socket.id} left the lobby.`);
-  //   console.log("Number of players in lobby:", ioServer.engine.clientsCount);
-  // });
 });
 
 // let counter = 0;
