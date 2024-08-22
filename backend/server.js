@@ -18,11 +18,12 @@ const ioServer = new socket_io_1.Server(8080, {
 // };
 // rooms
 let rooms = [];
-console.log("Server is running...");
+console.log(`\x1b[34m`, `Server is running...`);
 // runs everytime a client connects
 ioServer.on("connection", (socket) => {
     // join host
     socket.on("joinHost", () => {
+        // socket = host
         // generate room code
         const roomCode = new short_unique_id_1.default({ length: 4 }).rnd().toUpperCase();
         // join host to room
@@ -31,26 +32,31 @@ ioServer.on("connection", (socket) => {
         rooms.push(roomCode);
         // display room code on host client for players
         socket.emit("roomCode", roomCode);
-        console.log(`Host has been created in room: ${roomCode}`);
+        console.log(`\x1b[32m`, `Host has been created in room: ${roomCode}`);
         // upon host leaving the room
         socket.on("disconnect", (reason) => {
             // remove room from rooms
             rooms = rooms.filter((r) => r !== roomCode);
-            console.log(`Room with id: ${roomCode} has been closed.`);
+            console.log(`\x1b[2m`, `Room with id: ${roomCode} has been closed.`);
         });
     });
     // join player
-    socket.on("joinPlayer", (socketId, roomId, playerName) => {
+    socket.on(
+    // socket = player
+    "joinPlayer", (roomId, playerName) => {
         // find room with code given by player
         const room = rooms.find((roomCode) => roomCode === roomId);
         if (room === undefined) {
-            console.log(`Room was not found.`);
+            console.log(`\x1b[31m`, `Room was not found.`);
         }
         else {
             socket.join(room);
-            console.log(`${playerName} has joined to room: ${room}.`);
+            console.log(`\x1b[32m`, `${playerName} has joined to room: ${room}.`);
             ioServer.to(room).emit("newPlayer", playerName);
         }
+        socket.on("ready", () => {
+            console.log("ready");
+        });
     });
 });
 // let counter = 0;

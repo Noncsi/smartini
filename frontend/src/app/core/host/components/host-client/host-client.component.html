@@ -1,8 +1,6 @@
-<p>Room number: {{ roomId }}</p>
+<p>Room code: {{ roomCode }}</p>
 
 <p>Joined players:</p>
 <li *ngFor="let player of joinedPlayers">
-  {{ player }}
+  {{ player.name }}
 </li>
-
-{{ error }}

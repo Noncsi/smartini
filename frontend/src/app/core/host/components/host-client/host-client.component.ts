@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IoService } from '../../../../io.service';
 import { Socket } from 'socket.io-client';
+import { Player } from '../../../player/model/player';
 
 @Component({
   selector: 'app-host-client',
@@ -9,20 +10,17 @@ import { Socket } from 'socket.io-client';
 })
 export class HostClientComponent implements OnInit {
   socket: Socket | undefined;
-  roomId: number = 0;
-  joinedPlayers: string[] = [];
-  error = '';
-
+  roomCode: string | null = null;
+  joinedPlayers: Player[] = [];
   constructor(private ioService: IoService) {}
 
   ngOnInit(): void {
     this.socket = this.ioService.joinHost();
     this.socket.on('newPlayer', (name) => {
-      this.joinedPlayers.push(name);
-      this.error = 'players: ' + this.joinedPlayers.length;
+      this.joinedPlayers.push(new Player(name));
     });
     this.socket.on('roomCode', (roomCode) => {
-      this.roomId = roomCode;
+      this.roomCode = roomCode;
     });
   }
 }

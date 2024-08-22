@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { IoService } from '../../../../io.service';
 
 @Component({
   selector: 'app-player-client',
@@ -7,10 +6,6 @@ import { IoService } from '../../../../io.service';
   styleUrl: './player-client.component.scss',
 })
 export class PlayerClientComponent {
-  error = '';
-  constructor(private ioService: IoService) {}
-
-  join(room: string, name: string) {
-    this.ioService.joinPlayer(room, name);
-  }
+  isJoined: boolean = false;
+  isReady: boolean = false;
 }
