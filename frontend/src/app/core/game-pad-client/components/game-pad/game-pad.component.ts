@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './player-pad.component.html',
   styleUrl: './player-pad.component.scss',
 })
-export class PlayerPadComponent {
+export class GamePadComponent {
   isJoined: boolean = false;
   isReady: boolean = false;
 }

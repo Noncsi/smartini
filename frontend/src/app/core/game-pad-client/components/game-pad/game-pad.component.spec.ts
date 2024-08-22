@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlayerPadComponent } from './player-pad.component';
+import { GamePadComponent } from './game-pad.component';
 
 describe('PlayerClientComponent', () => {
-  let component: PlayerPadComponent;
-  let fixture: ComponentFixture<PlayerPadComponent>;
+  let component: GamePadComponent;
+  let fixture: ComponentFixture<GamePadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PlayerPadComponent],
+      declarations: [GamePadComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PlayerPadComponent);
+    fixture = TestBed.createComponent(GamePadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

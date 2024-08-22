@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IoService } from '../../../../io.service';
 import { Socket } from 'socket.io-client';
-import { Player } from '../../../player-pad-client/model/player';
+import { Player } from '../../../game-pad-client/model/player';
 
 @Component({
   selector: 'app-game-board',
