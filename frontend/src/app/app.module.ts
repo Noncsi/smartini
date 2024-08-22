@@ -4,17 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { HostClientComponent } from './core/host/components/host-client/host-client.component';
-import { PlayerClientComponent } from './core/player/components/player-client/player-client.component';
+import { GameBoardComponent } from './core/game-board-client/components/game-board/game-board.component';
+import { PlayerPadComponent } from './core/player-pad-client/components/player-pad/player-pad.component';
 import { WelcomePageComponent } from './core/welcome-page/components/welcome-page/welcome-page.component';
-import { ReadyComponent } from './core/player/components/ready/ready.component';
-import { JoinComponent } from './core/player/components/join/join.component';
+import { ReadyComponent } from './core/player-pad-client/components/ready/ready.component';
+import { JoinComponent } from './core/player-pad-client/components/join/join.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HostClientComponent,
-    PlayerClientComponent,
+    GameBoardComponent,
+    PlayerPadComponent,
     WelcomePageComponent,
     ReadyComponent,
     JoinComponent,

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { IoService } from '../../../../io.service';
 import { Socket } from 'socket.io-client';
-import { Player } from '../../../player/model/player';
+import { Player } from '../../../player-pad-client/model/player';
 
 @Component({
-  selector: 'app-host-client',
-  templateUrl: './host-client.component.html',
-  styleUrl: './host-client.component.scss',
+  selector: 'app-game-board',
+  templateUrl: './game-board.component.html',
+  styleUrl: './game-board.component.scss',
 })
-export class HostClientComponent implements OnInit {
+export class GameBoardComponent implements OnInit {
   socket: Socket | undefined;
   roomCode: string | null = null;
   joinedPlayers: Player[] = [];
