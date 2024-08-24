@@ -5,21 +5,18 @@ import io, { Socket } from 'socket.io-client';
   providedIn: 'root',
 })
 export class IoService {
-  private _hostSocket: Socket | undefined;
-
-  joinHost(): Socket {
+  connectGameBoard(): Socket {
     const socket: Socket = io('ws://192.168.0.103:8080');
     socket.on('connect', () => {
-      socket.emit('joinHost');
-      this._hostSocket = socket;
+      socket.emit('connectGameBoard');
     });
     return socket;
   }
 
-  joinPlayer(roomCode: string, playerName: string) {
+  connectGamePad(roomCode: string, playerName: string) {
     const socket: Socket = io('ws://192.168.0.103:8080');
     socket.on('connect', () => {
-      socket.emit('joinPlayer', roomCode, playerName);
+      socket.emit('connectGamePad', roomCode, playerName);
     });
   }
 

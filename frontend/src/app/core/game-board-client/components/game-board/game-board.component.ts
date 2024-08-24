@@ -15,11 +15,11 @@ export class GameBoardComponent implements OnInit {
   constructor(private ioService: IoService) {}
 
   ngOnInit(): void {
-    this.socket = this.ioService.joinHost();
+    this.socket = this.ioService.connectGameBoard();
     this.socket.on('newPlayer', (name) => {
       this.joinedPlayers.push(new Player(name));
     });
-    this.socket.on('roomCode', (roomCode) => {
+    this.socket.on('roomCreated', (roomCode) => {
       this.roomCode = roomCode;
     });
   }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IoService } from '../../../../io.service';
 
 @Component({
   selector: 'app-ready',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './ready.component.scss',
 })
 export class ReadyComponent {
-  ready() {}
+  constructor(private ioService: IoService) {}
+  ready() {
+    this.ioService.markAsReady();
+  }
 }

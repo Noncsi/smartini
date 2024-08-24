@@ -10,6 +10,6 @@ export class JoinComponent {
   constructor(private ioService: IoService) {}
 
   join(room: string, name: string) {
-    this.ioService.joinPlayer(room, name);
+    this.ioService.connectGamePad(room, name);
   }
 }
