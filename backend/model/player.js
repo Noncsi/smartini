@@ -2,20 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Player = void 0;
 class Player {
-    constructor(socket, name) {
+    constructor(id, name, roomCode) {
         this.isReady = false;
-        this._score = 0;
+        this.score = 0;
         this.getScore = () => {
-            return this._score;
+            return this.score;
         };
         this.add1PointToScore = () => {
-            this._score++;
+            this.score++;
         };
         this.addPointsToScore = (points) => {
-            this._score = this._score + points;
+            this.score = this.score + points;
         };
-        this._socket = socket;
-        this._name = name;
+        this.id = id;
+        this.name = name;
+        this.roomCode = roomCode;
     }
 }
 exports.Player = Player;

@@ -1,26 +1,31 @@
 import { Socket } from "socket.io";
 
+export type SocketId = string;
+
 export class Player {
   isReady: boolean = false;
 
-  private _socket: Socket;
-  private _name: string;
-  private _score: number = 0;
+  readonly id: SocketId;
+  readonly name: string;
+  readonly roomCode: string;
 
-  constructor(socket: Socket, name: string) {
-    this._socket = socket;
-    this._name = name;
+  private score: number = 0;
+
+  constructor(id: SocketId, name: string, roomCode: string) {
+    this.id = id;
+    this.name = name;
+    this.roomCode = roomCode;
   }
 
   getScore = () => {
-    return this._score;
+    return this.score;
   };
 
   add1PointToScore = () => {
-    this._score++;
+    this.score++;
   };
 
   addPointsToScore = (points: number) => {
-    this._score = this._score + points;
+    this.score = this.score + points;
   };
 }

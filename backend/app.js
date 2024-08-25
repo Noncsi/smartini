@@ -1,15 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createServer = void 0;
+exports.createServer = exports.rooms = void 0;
 const socket_io_1 = require("socket.io");
 const eventHandlers_1 = require("./eventHandlers");
+const log_1 = require("./log");
+exports.rooms = new Map();
 const createServer = (port, serverOptions = {}) => {
     const ioServer = new socket_io_1.Server(port, serverOptions);
+    // const players = new Map<string, Player>();
     ioServer.on("connection", (socket) => {
-        socket.on("connectGameBoard", () => (0, eventHandlers_1.connectGameBoard)(socket));
-        socket.on("disconnect", () => { });
-        socket.on("connectGamePad", (roomCode, playerName) => (0, eventHandlers_1.connectGamePad)(socket, roomCode, playerName));
+        socket.on("createRoom", () => (0, eventHandlers_1.createRoom)(socket));
+        socket.on("connectGamePad", (roomCode, playerName, cb) => (0, eventHandlers_1.connectGamePad)(socket, roomCode, playerName, cb));
+        socket.on("markAsReady", (roomCode) => (0, eventHandlers_1.markAsReady)(socket, roomCode));
     });
-    console.log(`\x1b[34m`, `Server is running...`);
+    log_1.Log.info.serverIsRunning();
 };
 exports.createServer = createServer;
