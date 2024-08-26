@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Socket } from 'socket.io-client';
 import { Player } from '../../../player';
 import { IoService } from '../../io.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -20,7 +20,6 @@ export class AppComponent {
   ngOnInit(): void {
     this.ioService.createRoom();
     this.ioService.socket?.on('players', (players: Player[]) => {
-      console.log('1', players);
       this.players = players;
     });
     this.ioService.socket?.on('roomCreated', (roomCode) => {

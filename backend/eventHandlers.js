@@ -26,7 +26,7 @@ const connectGamePad = (gamePadSocket, roomCode, playerName, cb) => {
         gamePadSocket
             .to((_a = room === null || room === void 0 ? void 0 : room.gameBoardSocket.id) !== null && _a !== void 0 ? _a : "")
             .emit("players", room === null || room === void 0 ? void 0 : room.players);
-        cb(roomCode); // send
+        cb(true); // send
         log_1.Log.success.playerJoined(playerName, roomCode);
     }
     else {
@@ -35,22 +35,13 @@ const connectGamePad = (gamePadSocket, roomCode, playerName, cb) => {
 };
 exports.connectGamePad = connectGamePad;
 const markAsReady = (socket, roomCode) => {
-    var _a;
-    console.log("code", roomCode);
     const room = app_1.rooms.get(roomCode);
-    const readyPlayer = room === null || room === void 0 ? void 0 : room.players.find((player) => player.id === socket.id);
-    console.log("room", room);
-    console.log("readyPlayer", readyPlayer);
-    socket
-        .to((_a = room === null || room === void 0 ? void 0 : room.gameBoardSocket.id) !== null && _a !== void 0 ? _a : "")
-        .emit("ready", { playerId: readyPlayer === null || readyPlayer === void 0 ? void 0 : readyPlayer.id, isReady: true });
+    if (room) {
+        const readyPlayer = room.players.find((player) => player.id === socket.id);
+        if (readyPlayer) {
+            readyPlayer.isReady = true;
+            socket.to(room.gameBoardSocket.id).emit("ready", readyPlayer.id, true);
+        }
+    }
 };
 exports.markAsReady = markAsReady;
-// export const getPlayersInRoom = (
-//   players: Map<string, Player>,
-//   roomCode: string
-// ) => {
-//   return Array.from(players.values()).filter(
-//     (player: Player) => player.roomCode === roomCode
-//   );
-// };

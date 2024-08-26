@@ -14,7 +14,9 @@ export class IoService {
     this.socket = io('ws://192.168.0.103:8080');
     this.socket.on('connect', () => {
       this.socket?.emit('connectGamePad', roomCode, playerName, (resp: any) => {
-        this.roomCode = roomCode;
+        if (resp) {
+          this.roomCode = roomCode;
+        }
       });
     });
   }
