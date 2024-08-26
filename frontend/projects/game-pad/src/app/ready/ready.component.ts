@@ -3,6 +3,7 @@ import { IoService } from '../../../io.service';
 
 @Component({
   selector: 'app-ready',
+  standalone: true,
   templateUrl: './ready.component.html',
   styleUrl: './ready.component.scss',
 })

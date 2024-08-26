@@ -3,6 +3,7 @@ import { IoService } from '../../../io.service';
 
 @Component({
   selector: 'app-join',
+  standalone: true,
   templateUrl: './join.component.html',
   styleUrl: './join.component.scss',
 })

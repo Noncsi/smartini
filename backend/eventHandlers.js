@@ -26,7 +26,7 @@ const connectGamePad = (gamePadSocket, roomCode, playerName, cb) => {
         gamePadSocket
             .to((_a = room === null || room === void 0 ? void 0 : room.gameBoardSocket.id) !== null && _a !== void 0 ? _a : "")
             .emit("players", room === null || room === void 0 ? void 0 : room.players);
-        cb(roomCode);
+        cb(roomCode); // send
         log_1.Log.success.playerJoined(playerName, roomCode);
     }
     else {
