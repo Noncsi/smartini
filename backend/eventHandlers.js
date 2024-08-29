@@ -16,16 +16,14 @@ const createRoom = (socket) => {
     log_1.Log.success.gameBoardCreated(roomCode);
 };
 exports.createRoom = createRoom;
-const connectGamePad = (gamePadSocket, roomCode, playerName, cb) => {
+const connectGamePad = (socket, roomCode, playerName, cb) => {
     var _a;
     if (app_1.rooms.has(roomCode)) {
         // ts flow analysis doesn't recognise .has() as undefined check
         const room = app_1.rooms.get(roomCode);
-        room === null || room === void 0 ? void 0 : room.addPlayer(gamePadSocket.id, playerName);
-        gamePadSocket.join(roomCode);
-        gamePadSocket
-            .to((_a = room === null || room === void 0 ? void 0 : room.gameBoardSocket.id) !== null && _a !== void 0 ? _a : "")
-            .emit("players", room === null || room === void 0 ? void 0 : room.players);
+        room === null || room === void 0 ? void 0 : room.addPlayer(socket.id, playerName);
+        socket.join(roomCode);
+        socket.to((_a = room === null || room === void 0 ? void 0 : room.gameBoardSocket.id) !== null && _a !== void 0 ? _a : "").emit("players", room === null || room === void 0 ? void 0 : room.players);
         cb(true); // send
         log_1.Log.success.playerJoined(playerName, roomCode);
     }
@@ -41,6 +39,10 @@ const markAsReady = (socket, roomCode) => {
         if (readyPlayer) {
             readyPlayer.isReady = true;
             socket.to(room.gameBoardSocket.id).emit("ready", readyPlayer.id, true);
+        }
+        if (room.players.every((player) => player.isReady)) {
+            socket.to(room.gameBoardSocket.id).emit("startGame");
+            console.log(`Game has started in room: ${roomCode}`);
         }
     }
 };

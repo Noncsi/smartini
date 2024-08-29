@@ -1,4 +1,12 @@
 import { Injectable } from '@angular/core';
+import {
+  BehaviorSubject,
+  last,
+  lastValueFrom,
+  Subject,
+  takeLast,
+  tap,
+} from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
@@ -6,23 +14,23 @@ import { io, Socket } from 'socket.io-client';
 })
 export class IoService {
   socket: Socket | undefined;
-  roomCode: string = '';
-
-  constructor() {}
+  roomCode$ = new BehaviorSubject<string>('');
 
   connectGamePad(roomCode: string, playerName: string) {
     this.socket = io('ws://192.168.0.103:8080');
     this.socket.on('connect', () => {
       this.socket?.emit('connectGamePad', roomCode, playerName, (resp: any) => {
         if (resp) {
-          this.roomCode = roomCode;
+          this.roomCode$.next(roomCode);
         }
       });
     });
   }
 
   markAsReady() {
-    console.log('roomcode:', this.roomCode);
-    this.socket?.emit('markAsReady', this.roomCode);
+    // const value = lastValueFrom(this.roomCode$);
+    // const value = this.roomCode$.pipe(last((roomCode: string) => roomCode));
+    // console.log('value: ', value);
+    this.socket?.emit('markAsReady', this.roomCode$.value);
   }
 }

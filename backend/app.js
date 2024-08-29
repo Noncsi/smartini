@@ -7,11 +7,12 @@ const log_1 = require("./log");
 exports.rooms = new Map();
 const createServer = (port, serverOptions = {}) => {
     const ioServer = new socket_io_1.Server(port, serverOptions);
-    // const players = new Map<string, Player>();
     ioServer.on("connection", (socket) => {
         socket.on("createRoom", () => (0, eventHandlers_1.createRoom)(socket));
         socket.on("connectGamePad", (roomCode, playerName, cb) => (0, eventHandlers_1.connectGamePad)(socket, roomCode, playerName, cb));
-        socket.on("markAsReady", (roomCode) => (0, eventHandlers_1.markAsReady)(socket, roomCode));
+        socket.on("markAsReady", (roomCode) => {
+            return (0, eventHandlers_1.markAsReady)(socket, roomCode);
+        });
     });
     log_1.Log.info.serverIsRunning();
 };
