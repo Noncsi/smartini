@@ -6,7 +6,8 @@ enum color {
 
 export const Log = {
   info: {
-    serverIsRunning: () => console.log(color.blue, `Server is running...`),
+    serverIsRunning: (port: number) =>
+      console.log(color.blue, `Server is running on port: ${port.toString()}.`),
   },
   success: {
     gameBoardCreated: (roomCode: string) =>

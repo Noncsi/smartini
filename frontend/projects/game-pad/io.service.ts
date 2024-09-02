@@ -15,6 +15,7 @@ import { io, Socket } from 'socket.io-client';
 export class IoService {
   socket: Socket | undefined;
   roomCode$ = new BehaviorSubject<string>('');
+  isGameStarted$ = new BehaviorSubject<boolean>(false);
 
   connectGamePad(roomCode: string, playerName: string) {
     this.socket = io('ws://192.168.0.103:8080');
@@ -23,6 +24,11 @@ export class IoService {
         if (resp) {
           this.roomCode$.next(roomCode);
         }
+      });
+
+      this.socket?.on('startGame', () => {
+        console.log('Game has started');
+        this.isGameStarted$.next(true);
       });
     });
   }

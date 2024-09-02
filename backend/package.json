@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
     "short-unique-id": "^5.2.0",
     "socket.io": "^4.7.5",
     "uuid": "^10.0.0",

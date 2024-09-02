@@ -1,10 +1,17 @@
+import { IoService } from './services/io.service';
 import { GameComponent } from './components/game/game.component';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Player } from '../../../player';
-import { IoService } from './services/io.service';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Player } from './model/player';
+import {
+  selectGamePhase,
+  selectPlayers,
+  selectRoomCode,
+} from './state/gameboard.selector';
+import { Game, GamePhase, Question } from './state/gameboard.reducer';
 
 @Component({
   selector: 'app-root',
@@ -15,31 +22,22 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class AppComponent {
   title = 'game-board';
-  roomCode: string = '';
-  players: Player[] = [];
-  startGame = false;
-  constructor(private ioService: IoService) {}
+  gamePhase = GamePhase;
+  phase$: Observable<GamePhase>;
+  players$: Observable<Player[]>;
+  roomCode$: Observable<string>;
 
-  ngOnInit(): void {
-    this.ioService.createRoom();
-    this.ioService.socket?.on('players', (players: Player[]) => {
-      this.players = players;
-    });
-    this.ioService.socket?.on('roomCreated', (roomCode) => {
-      this.roomCode = roomCode;
-    });
-    this.ioService.socket?.on('ready', (playerId: string, isReady: boolean) => {
-      const player = this.players?.find(
-        (player: Player) => player.id === playerId
-      );
-      if (player) {
-        player.isReady = isReady;
-      }
-    });
+  constructor(
+    private IoService: IoService,
+    private store: Store<{ game: Game }> // private clipBoard: Clipboard
+  ) {
+    this.phase$ = this.store.select(selectGamePhase);
+    this.roomCode$ = this.store.select(selectRoomCode);
+    this.players$ = this.store.select(selectPlayers);
+  }
 
-    this.ioService.socket?.on('startGame', () => {
-      console.log('Game has started');
-      this.startGame = true;
-    });
+  copy() {
+    // const asd: ClipboardItems = Clipboard[''];
+    // this.clipBoard.write(asd);
   }
 }

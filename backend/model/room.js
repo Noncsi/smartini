@@ -8,13 +8,14 @@ var GameStage;
     GameStage[GameStage["game"] = 1] = "game";
 })(GameStage || (GameStage = {}));
 class Room {
-    constructor(roomCode, gameBoardSocket) {
+    constructor(roomId, roomCode, gameBoardSocket) {
         this.stage = GameStage.lobby;
         this.players = [];
         this.addPlayer = (id, name) => {
-            this.players.push(new player_1.Player(id, name, this.roomCode));
+            this.players.push(new player_1.Player(id, name, this.code));
         };
-        this.roomCode = roomCode;
+        this.id = roomId;
+        this.code = roomCode;
         this.gameBoardSocket = gameBoardSocket;
         // put gameBoardSocket into room upon initialization
         this.gameBoardSocket.join(roomCode);

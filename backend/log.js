@@ -9,7 +9,7 @@ var color;
 })(color || (color = {}));
 exports.Log = {
     info: {
-        serverIsRunning: () => console.log(color.blue, `Server is running...`),
+        serverIsRunning: (port) => console.log(color.blue, `Server is running on port: ${port.toString()}.`),
     },
     success: {
         gameBoardCreated: (roomCode) => console.log(color.green, `Host has been created in room: ${roomCode}`),

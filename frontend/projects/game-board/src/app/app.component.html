@@ -1,8 +1,17 @@
-@if(startGame) {
-<app-game></app-game>
-} @else {
-<p>Room code: {{ roomCode }}</p>
-
-<p>Joined players:</p>
-<li *ngFor="let player of players">{{ player.name }} - {{ player.isReady }}</li>
-}
+<ng-container
+  *ngIf="{
+    phase: phase$ | async,
+    roomCode: roomCode$ | async,
+    players: players$ | async
+  } as vars"
+>
+  @if(vars.phase === gamePhase.lobby) {
+  <p>Room code: {{ vars.roomCode }}</p>
+  <p>Joined players:</p>
+  <li *ngFor="let player of vars.players">
+    {{ player.name }} - {{ player.isReady }}
+  </li>
+  } @else if (vars.phase === gamePhase.gamePlay) {
+  <app-game></app-game>
+  } @else { }
+</ng-container>

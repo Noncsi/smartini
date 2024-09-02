@@ -6,17 +6,20 @@ enum GameStage {
   "game",
 }
 
+export type RoomId = string;
 export type RoomCode = string;
 
 export class Room {
   stage: GameStage = GameStage.lobby;
 
-  readonly roomCode: RoomCode;
+  readonly id: RoomId;
+  readonly code: RoomCode;
   readonly gameBoardSocket: Socket;
   readonly players: Player[] = [];
 
-  constructor(roomCode: RoomCode, gameBoardSocket: Socket) {
-    this.roomCode = roomCode;
+  constructor(roomId: RoomId, roomCode: RoomCode, gameBoardSocket: Socket) {
+    this.id = roomId;
+    this.code = roomCode;
     this.gameBoardSocket = gameBoardSocket;
 
     // put gameBoardSocket into room upon initialization
@@ -26,6 +29,6 @@ export class Room {
   }
 
   addPlayer = (id: SocketId, name: string) => {
-    this.players.push(new Player(id, name, this.roomCode));
+    this.players.push(new Player(id, name, this.code));
   };
 }

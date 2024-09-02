@@ -1,7 +1,11 @@
-<ng-container *ngIf="{ isJoined: isJoined$ | async } as vars">
+<ng-container
+  *ngIf="{ isJoined: isJoined$ | async, isStarted: isStarted$ | async } as vars"
+>
   @if(vars.isJoined) {
   <app-ready></app-ready>
-  } @else {
+  @if(vars.isStarted) {
+  <app-choose-answer></app-choose-answer>
+  } } @else {
   <app-join></app-join>
   }
 </ng-container>

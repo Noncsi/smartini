@@ -1,7 +1,13 @@
 import { Server, ServerOptions } from "socket.io";
-import { connectGamePad, createRoom, markAsReady } from "./eventHandlers";
+import {
+  connectGamePad,
+  createRoom,
+  getQuestion,
+  setPlayerReadyStatus,
+} from "./eventHandlers";
 import { Log } from "./log";
 import { Room, RoomCode } from "./model/room";
+import { instrument } from "@socket.io/admin-ui";
 
 export const rooms = new Map<RoomCode, Room>();
 
@@ -12,6 +18,7 @@ export const createServer = (
   const ioServer = new Server(port, serverOptions);
 
   ioServer.on("connection", (socket) => {
+    // socket.on("disconnect", () => disconnect(socket));
     socket.on("createRoom", () => createRoom(socket));
     socket.on(
       "connectGamePad",
@@ -19,9 +26,13 @@ export const createServer = (
         connectGamePad(socket, roomCode, playerName, cb)
     );
     socket.on("markAsReady", (roomCode: RoomCode) => {
-      return markAsReady(socket, roomCode);
+      setPlayerReadyStatus(socket, roomCode);
+    });
+    socket.on("getQuestion", async (roomCode: RoomCode) => {
+      getQuestion(socket, roomCode);
     });
   });
 
-  Log.info.serverIsRunning();
+  Log.info.serverIsRunning(port);
+  instrument(ioServer, { auth: false });
 };
