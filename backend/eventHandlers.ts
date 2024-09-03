@@ -86,15 +86,16 @@ export const setPlayerReadyStatus = (
 
 export const getQuestion = (socket: GameBoardSocket, roomCode: RoomCode) => {
   console.log(roomCode);
-  fetch("https://opentdb.com/api.php?amount=1").then((response) => {
-    response.json().then((resp) => {
-      console.log("results", resp.results[0]);
-      const question: QuestionResponse = {
-        question: resp.results[0].question,
-        correctAnswer: resp.results[0].correct_answer,
-        wrongAnswers: resp.results[0].incorrect_answers,
-      };
-      socket.nsp.to(roomCode).emit("question", question);
-    });
-  });
+  fetch("https://opentdb.com/api.php?amount=1&type=multiple").then(
+    (response) => {
+      response.json().then((resp) => {
+        const question: QuestionResponse = {
+          question: resp.results[0].question,
+          correctAnswer: resp.results[0].correct_answer,
+          wrongAnswers: resp.results[0].incorrect_answers,
+        };
+        socket.nsp.to(roomCode).emit("question", question);
+      });
+    }
+  );
 };

@@ -70,9 +70,8 @@ const setPlayerReadyStatus = (socket, roomCode) => {
 exports.setPlayerReadyStatus = setPlayerReadyStatus;
 const getQuestion = (socket, roomCode) => {
     console.log(roomCode);
-    fetch("https://opentdb.com/api.php?amount=1").then((response) => {
+    fetch("https://opentdb.com/api.php?amount=1&type=multiple").then((response) => {
         response.json().then((resp) => {
-            console.log("results", resp.results[0]);
             const question = {
                 question: resp.results[0].question,
                 correctAnswer: resp.results[0].correct_answer,

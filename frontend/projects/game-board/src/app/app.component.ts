@@ -11,7 +11,7 @@ import {
   selectPlayers,
   selectRoomCode,
 } from './state/gameboard.selector';
-import { Game, GamePhase, Question } from './state/gameboard.reducer';
+import { Game, GamePhase } from './state/gameboard.reducer';
 
 @Component({
   selector: 'app-root',
