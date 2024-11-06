@@ -10,20 +10,62 @@ export class IoService {
   roomCode$ = new BehaviorSubject<string>('');
   isGameStarted$ = new BehaviorSubject<boolean>(false);
 
-  connectGamePad(roomCode: string, playerName: string) {
+  connectToServer() {
     this.socket = io('ws://192.168.0.103:8080');
-    this.socket.on('connect', () => {
-      this.socket?.emit('connectGamePad', roomCode, playerName, (resp: any) => {
-        if (resp) {
-          this.roomCode$.next(roomCode);
+    this.socket.on('connect', () => {});
+    this.socket?.emit(
+      'connectGamePad',
+      localStorage.getItem('roomCode'),
+      (isReconnect: boolean) => {
+        if (isReconnect) {
+          console.log('él a szoba');
+        } else {
+          console.log('Room with code stored in local storage closed.');
         }
-      });
-
-      this.socket?.on('startGame', () => {
-        console.log('Game has started');
-        this.isGameStarted$.next(true);
-      });
+      }
+    );
+    this.socket?.on('nameTaken', () => {
+      console.log('name is taken');
     });
+    this.socket?.on('roomDisconnected', () => {});
+    this.socket?.on('playerDisconnected', () => {});
+
+    this.socket?.on('startGame', () => {
+      console.log('Game has started');
+      this.isGameStarted$.next(true);
+    });
+  }
+
+  joinRoom(roomCode: string, playerName: string) {
+    this.socket?.emit(
+      'joinRoom',
+      roomCode,
+      playerName,
+      (isJoinSuccess: boolean) => {
+        if (isJoinSuccess) {
+          this.roomCode$.next(roomCode);
+          localStorage.setItem('roomCode', roomCode);
+        } else {
+          console.log('Error: Room was not found');
+        }
+      }
+    );
+  }
+
+  reJoinRoom(roomCode: string, playerId: string) {
+    this.socket?.emit(
+      'reJoinRoom',
+      roomCode,
+      playerId,
+      (isJoinSuccess: boolean) => {
+        if (isJoinSuccess) {
+          this.roomCode$.next(roomCode);
+          localStorage.setItem('roomCode', roomCode);
+        } else {
+          console.log('Error: Room was not found');
+        }
+      }
+    );
   }
 
   markAsReady() {

@@ -1,11 +1,15 @@
 <ng-container
-  *ngIf="{ isJoined: isJoined$ | async, isStarted: isStarted$ | async } as vars"
+  *ngIf="{
+    isJoined: isJoined$ | async,
+    isStarted: isStarted$ | async,
+    isAlreadyInGame: isAlreadyInGame
+  } as vars"
 >
   @if(vars.isJoined) {
   <app-ready></app-ready>
   @if(vars.isStarted) {
   <app-choose-answer></app-choose-answer>
-  } } @else {
+  } } @else { @if(vars.isAlreadyInGame) {<app-rejoin></app-rejoin> } @else {
   <app-join></app-join>
-  }
+  } }
 </ng-container>

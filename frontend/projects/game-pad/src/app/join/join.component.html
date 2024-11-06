@@ -1,7 +1,41 @@
-<p>Enter room id:</p>
-<input #room />
+<div class="text-center mb-5">
+  <img
+    src="assets/images/blocks/logos/hyper.svg"
+    alt="Image"
+    height="50"
+    class="mb-3"
+  />
+  <div class="text-900 text-3xl font-medium mb-3">Smartini</div>
+  <span class="text-600 font-medium line-height-3">Join game</span>
+</div>
 
-<p>Enter name:</p>
-<input #name />
+<div>
+  <label for="room-id" class="block text-900 font-medium mb-2">Room ID</label>
+  <input
+    #room
+    id="room-id"
+    type="text"
+    placeholder="Room ID"
+    pInputText
+    class="w-full mb-3"
+  />
 
-<button (click)="join(room.value, name.value)">Join</button>
+  <label for="name" class="block text-900 font-medium mb-2">Name</label>
+  <input
+    #name
+    id="name"
+    type="text"
+    placeholder="Name"
+    pInputText
+    class="w-full mb-3"
+  />
+
+  <button
+    pButton
+    pRipple
+    label="Join Room"
+    icon="pi pi-user"
+    class="w-full"
+    (click)="join(room.value, name.value)"
+  ></button>
+</div>

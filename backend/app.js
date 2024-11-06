@@ -16,11 +16,16 @@ const log_1 = require("./log");
 const admin_ui_1 = require("@socket.io/admin-ui");
 exports.rooms = new Map();
 const createServer = (port, serverOptions = {}) => {
-    const ioServer = new socket_io_1.Server(port, serverOptions);
-    ioServer.on("connection", (socket) => {
-        // socket.on("disconnect", () => disconnect(socket));
+    const io = new socket_io_1.Server(port, serverOptions);
+    io.on("connection", (socket) => {
         socket.on("createRoom", () => (0, eventHandlers_1.createRoom)(socket));
-        socket.on("connectGamePad", (roomCode, playerName, cb) => (0, eventHandlers_1.connectGamePad)(socket, roomCode, playerName, cb));
+        socket.on("connectGamePad", (roomCodeForReconnect, cb) => (0, eventHandlers_1.connectGamePad)(roomCodeForReconnect, cb));
+        socket.on("joinRoom", (roomCode, playerName, cb) => {
+            (0, eventHandlers_1.joinGamePadToRoom)(socket, roomCode, playerName, cb);
+        });
+        socket.on("reJoinRoom", (roomCode, playerId, cb) => {
+            (0, eventHandlers_1.reJoinGamePadToRoom)(socket, roomCode, playerId, cb);
+        });
         socket.on("markAsReady", (roomCode) => {
             (0, eventHandlers_1.setPlayerReadyStatus)(socket, roomCode);
         });
@@ -29,6 +34,6 @@ const createServer = (port, serverOptions = {}) => {
         }));
     });
     log_1.Log.info.serverIsRunning(port);
-    (0, admin_ui_1.instrument)(ioServer, { auth: false });
+    (0, admin_ui_1.instrument)(io, { auth: false });
 };
 exports.createServer = createServer;

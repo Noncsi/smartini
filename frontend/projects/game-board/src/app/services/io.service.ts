@@ -6,6 +6,7 @@ import {
   askQuestion,
   getPlayers,
   getRoomCode,
+  pause,
   setPlayerReadyStatus,
   startGame,
 } from '../state/gameboard.actions';
@@ -21,6 +22,13 @@ export class IoService {
     this.socket = io('ws://192.168.0.103:8080');
     this.socket.on('connect', () => {
       this.socket?.emit('createRoom');
+    });
+
+    this.socket.on('roomDisconnected', () => {
+      this.store.dispatch(pause());
+    });
+    this.socket.on('playerDisconnected', () => {
+      this.store.dispatch(pause());
     });
 
     this.socket.on('roomCreated', (roomCode: string) => {

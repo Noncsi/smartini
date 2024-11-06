@@ -35,9 +35,4 @@ export class AppComponent {
     this.roomCode$ = this.store.select(selectRoomCode);
     this.players$ = this.store.select(selectPlayers);
   }
-
-  copy() {
-    // const asd: ClipboardItems = Clipboard[''];
-    // this.clipBoard.write(asd);
-  }
 }

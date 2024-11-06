@@ -2,6 +2,10 @@ import { createAction, props } from '@ngrx/store';
 import { Player } from '../model/player';
 import { Question } from './gameboard.reducer';
 
+export const pause = createAction('pause');
+
+export const resume = createAction('resume');
+
 export const getPlayers = createAction(
   'getPlayers',
   props<{ players: Player[] }>()

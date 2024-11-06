@@ -6,6 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 import { ChooseAnswerComponent } from './choose-answer/choose-answer.component';
+import { RejoinComponent } from './rejoin/rejoin.component';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { ChooseAnswerComponent } from './choose-answer/choose-answer.component';
     CommonModule,
     RouterOutlet,
     JoinComponent,
+    RejoinComponent,
     ReadyComponent,
     ChooseAnswerComponent,
   ],
@@ -25,8 +27,13 @@ export class AppComponent {
   title = 'game-pad';
   isJoined$: Observable<boolean>;
   isStarted$: Observable<boolean>;
+  isAlreadyInGame: boolean = false;
 
   constructor(private ioService: IoService) {
+    // check if room in ls is live
+    // if yes, show reconnect page
+    // if not, show connect page, delete room in ls
+    this.ioService.connectToServer();
     this.isJoined$ = this.ioService.roomCode$.pipe(
       map((roomCode: string) => roomCode !== '')
     );

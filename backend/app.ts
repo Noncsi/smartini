@@ -2,7 +2,10 @@ import { Server, ServerOptions } from "socket.io";
 import {
   connectGamePad,
   createRoom,
+  disconnect,
   getQuestion,
+  joinGamePadToRoom,
+  reJoinGamePadToRoom,
   setPlayerReadyStatus,
 } from "./eventHandlers";
 import { Log } from "./log";
@@ -15,15 +18,25 @@ export const createServer = (
   port: number,
   serverOptions: Partial<ServerOptions> = {}
 ) => {
-  const ioServer = new Server(port, serverOptions);
-
-  ioServer.on("connection", (socket) => {
-    // socket.on("disconnect", () => disconnect(socket));
+  const io = new Server(port, serverOptions);
+  io.on("connection", (socket) => {
     socket.on("createRoom", () => createRoom(socket));
     socket.on(
       "connectGamePad",
-      (roomCode: RoomCode, playerName: string, cb: () => {}) =>
-        connectGamePad(socket, roomCode, playerName, cb)
+      (roomCodeForReconnect: RoomCode, cb: () => {}) =>
+        connectGamePad(roomCodeForReconnect, cb)
+    );
+    socket.on(
+      "joinRoom",
+      (roomCode: RoomCode, playerName: string, cb: () => {}) => {
+        joinGamePadToRoom(socket, roomCode, playerName, cb);
+      }
+    );
+    socket.on(
+      "reJoinRoom",
+      (roomCode: RoomCode, playerId: string, cb: () => {}) => {
+        reJoinGamePadToRoom(socket, roomCode, playerId, cb);
+      }
     );
     socket.on("markAsReady", (roomCode: RoomCode) => {
       setPlayerReadyStatus(socket, roomCode);
@@ -34,5 +47,5 @@ export const createServer = (
   });
 
   Log.info.serverIsRunning(port);
-  instrument(ioServer, { auth: false });
+  instrument(io, { auth: false });
 };

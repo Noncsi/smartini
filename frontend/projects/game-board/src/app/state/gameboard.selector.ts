@@ -3,6 +3,11 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const selectGame = createFeatureSelector<Game>('game');
 
+export const selectIsPaused = createSelector(
+  selectGame,
+  (game: Game) => game.isPaused
+);
+
 export const selectRoomCode = createSelector(
   selectGame,
   (game: Game) => game.roomCode
