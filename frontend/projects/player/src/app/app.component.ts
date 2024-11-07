@@ -24,7 +24,7 @@ import { RejoinComponent } from './rejoin/rejoin.component';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'game-pad';
+  title = 'player';
   isJoined$: Observable<boolean>;
   isStarted$: Observable<boolean>;
   isAlreadyInGame: boolean = false;

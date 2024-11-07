@@ -8,7 +8,7 @@ export const Log = {
   info: {
     gameBoardDisconnected: (roomCode: string) =>
       console.log(color.blue, `Room ${roomCode} has been disconnected.`),
-    gamePadDisconnected: (name: string) =>
+    playerDisconnected: (name: string) =>
       console.log(color.blue, `Player ${name} has been disconnected.`),
     serverIsRunning: (port: number) =>
       console.log(color.blue, `Server is running on port: ${port.toString()}.`),

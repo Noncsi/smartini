@@ -1,11 +1,11 @@
 import { Server, ServerOptions } from "socket.io";
 import {
-  connectGamePad,
+  connectPlayer,
   createRoom,
   disconnect,
   getQuestion,
-  joinGamePadToRoom,
-  reJoinGamePadToRoom,
+  joinPlayerToRoom,
+  reJoinPlayerToRoom,
   setPlayerReadyStatus,
 } from "./eventHandlers";
 import { Log } from "./log";
@@ -21,21 +21,19 @@ export const createServer = (
   const io = new Server(port, serverOptions);
   io.on("connection", (socket) => {
     socket.on("createRoom", () => createRoom(socket));
-    socket.on(
-      "connectGamePad",
-      (roomCodeForReconnect: RoomCode, cb: () => {}) =>
-        connectGamePad(roomCodeForReconnect, cb)
+    socket.on("connectPlayer", (roomCodeForReconnect: RoomCode, cb: () => {}) =>
+      connectPlayer(roomCodeForReconnect, cb)
     );
     socket.on(
       "joinRoom",
       (roomCode: RoomCode, playerName: string, cb: () => {}) => {
-        joinGamePadToRoom(socket, roomCode, playerName, cb);
+        joinPlayerToRoom(socket, roomCode, playerName, cb);
       }
     );
     socket.on(
       "reJoinRoom",
       (roomCode: RoomCode, playerId: string, cb: () => {}) => {
-        reJoinGamePadToRoom(socket, roomCode, playerId, cb);
+        reJoinPlayerToRoom(socket, roomCode, playerId, cb);
       }
     );
     socket.on("markAsReady", (roomCode: RoomCode) => {

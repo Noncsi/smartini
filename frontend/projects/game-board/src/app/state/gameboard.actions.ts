@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Player } from '../model/player';
-import { Question } from './gameboard.reducer';
+import { Player, Question } from './gameboard.reducer';
 
 export const pause = createAction('pause');
 

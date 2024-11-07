@@ -14,7 +14,7 @@ export class IoService {
     this.socket = io('ws://192.168.0.103:8080');
     this.socket.on('connect', () => {});
     this.socket?.emit(
-      'connectGamePad',
+      'connectPlayer',
       localStorage.getItem('roomCode'),
       (isReconnect: boolean) => {
         if (isReconnect) {

@@ -8,7 +8,6 @@ import {
   setPlayerReadyStatus,
   startGame,
 } from './gameboard.actions';
-import { Player } from '../model/player';
 
 export interface Game {
   phase: GamePhase;
@@ -22,6 +21,13 @@ export enum GamePhase {
   lobby,
   gamePlay,
   result,
+}
+
+export interface Player {
+  id: string;
+  name: string;
+  score: number;
+  isReady: boolean;
 }
 
 export interface Question {
@@ -45,13 +51,14 @@ export const gameReducer = createReducer(
   on(getRoomCode, (state, { roomCode }) => ({ ...state, roomCode })),
   on(getPlayers, (state, { players }) => ({ ...state, players })),
   on(setPlayerReadyStatus, (state, { playerId, isReady }) => {
+    console.log('isready', playerId, isReady);
     const idx = state.players.findIndex(
       (player: Player) => player.id === playerId
     );
 
     return {
       ...state,
-      players: state.players.map((player) =>
+      players: state.players.map((player: Player) =>
         player.id === state.players[idx].id ? { ...player, isReady } : player
       ),
     };

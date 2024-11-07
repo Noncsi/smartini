@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { Player } from '../model/player';
 import { Store } from '@ngrx/store';
 import {
   askQuestion,
@@ -10,7 +9,7 @@ import {
   setPlayerReadyStatus,
   startGame,
 } from '../state/gameboard.actions';
-import { Question } from '../state/gameboard.reducer';
+import { Player, Question } from '../state/gameboard.reducer';
 
 @Injectable({
   providedIn: 'root',

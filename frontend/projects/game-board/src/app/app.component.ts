@@ -5,13 +5,12 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Player } from './model/player';
 import {
   selectGamePhase,
   selectPlayers,
   selectRoomCode,
 } from './state/gameboard.selector';
-import { Game, GamePhase } from './state/gameboard.reducer';
+import { Game, GamePhase, Player } from './state/gameboard.reducer';
 
 @Component({
   selector: 'app-root',

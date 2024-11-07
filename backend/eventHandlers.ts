@@ -1,26 +1,25 @@
-import { GamePad } from "./model/gamePad";
 import ShortUniqueId from "short-unique-id";
 import { Socket } from "socket.io";
-import { Player } from "./model/player";
 import { Log } from "./log";
 import { Room, RoomCode } from "./model/room";
 import { rooms } from "./app";
+import { Player } from "./model/player";
 
 type GameBoardSocket = Socket;
-type GamePadSocket = Socket;
+type PlayerSocket = Socket;
 type QuestionResponse = {
   question: string;
   correctAnswer: string;
   wrongAnswers: string[];
 };
 
-export const disconnect = (socket: GameBoardSocket | GamePadSocket) => {
+export const disconnect = (socket: GameBoardSocket | PlayerSocket) => {
   // make diff between board closing and player quitting
   const isGameBoard = Array.from(rooms.values()).some(
     (room: Room) => room.gameBoardSocket.id === socket.id
   );
-  const isGamePad = Array.from(rooms.values()).some((room: Room) =>
-    room.gamePads.find((gamePad: GamePad) => gamePad.socket.id === socket.id)
+  const isPlayer = Array.from(rooms.values()).some((room: Room) =>
+    room.players.find((player: Player) => player.socket.id === socket.id)
   );
 
   if (isGameBoard) {
@@ -36,9 +35,9 @@ export const disconnect = (socket: GameBoardSocket | GamePadSocket) => {
       // automatically continues upon reconnect
       Log.info.gameBoardDisconnected(room.code);
     }
-  } else if (isGamePad) {
+  } else if (isPlayer) {
     const room = Array.from(rooms.values()).find((room: Room) =>
-      room.gamePads.find((gamePad: GamePad) => gamePad.socket.id === socket.id)
+      room.players.find((player: Player) => player.socket.id === socket.id)
     );
     if (room) {
       // pauses game
@@ -47,13 +46,12 @@ export const disconnect = (socket: GameBoardSocket | GamePadSocket) => {
       room.gameBoardSocket.to(room.code).emit("playerDisconnected");
 
       // automatically continues upon reconnect
-      // disconnected player's pad jumps back to join game view
+      // disconnected player jumps back to join game view
       // freeze player
       const disconnectedPlayer =
-        room.gamePads.find(
-          (gamePad: GamePad) => gamePad.socket.id === socket.id
-        )?.player.name ?? "";
-      Log.info.gamePadDisconnected(disconnectedPlayer);
+        room.players.find((player: Player) => player.socket.id === socket.id)
+          ?.name ?? "";
+      Log.info.playerDisconnected(disconnectedPlayer);
     }
   } else {
     // socket couldn't be identified
@@ -68,15 +66,15 @@ export const createRoom = (socket: GameBoardSocket) => {
   Log.success.gameBoardCreated(roomCode);
 };
 
-export const connectGamePad = (
+export const connectPlayer = (
   roomCodeForReconnect: RoomCode,
   cb: (isReconnect: boolean) => {}
 ) => {
   rooms.has(roomCodeForReconnect) ? cb(true) : cb(false);
 };
 
-export const joinGamePadToRoom = (
-  socket: GamePadSocket,
+export const joinPlayerToRoom = (
+  socket: PlayerSocket,
   roomCode: string,
   playerName: string,
   cb: (isJoinSuccess: boolean) => {}
@@ -84,7 +82,7 @@ export const joinGamePadToRoom = (
   if (rooms.has(roomCode)) {
     // ts flow analysis doesn't recognise .has() as undefined check
     const room = rooms.get(roomCode);
-    room?.addGamePad(socket, playerName);
+    room?.addPlayer(socket, playerName);
     cb(true);
     Log.success.playerJoined(playerName, roomCode);
   } else {
@@ -93,8 +91,8 @@ export const joinGamePadToRoom = (
   }
 };
 
-export const reJoinGamePadToRoom = (
-  socket: GamePadSocket,
+export const reJoinPlayerToRoom = (
+  socket: PlayerSocket,
   roomCode: string,
   playerId: string,
   cb: (isJoinSuccess: any) => {}
@@ -102,7 +100,7 @@ export const reJoinGamePadToRoom = (
   if (rooms.has(roomCode)) {
     // ts flow analysis doesn't recognise .has() as undefined check
     const room = rooms.get(roomCode);
-    room?.reconnectGamePad(playerId);
+    room?.reconnectPlayer(playerId);
     cb(true);
     Log.success.playerJoined(playerId, roomCode);
   } else {
@@ -112,22 +110,22 @@ export const reJoinGamePadToRoom = (
 };
 
 export const setPlayerReadyStatus = (
-  socket: GamePadSocket,
+  socket: PlayerSocket,
   roomCode: RoomCode
 ) => {
   const room = rooms.get(roomCode);
   if (room) {
-    const gamePad = room.gamePads.find(
-      (gamePad: GamePad) => gamePad.socket.id === socket.id
+    const player = room.players.find(
+      (player: Player) => player.socket.id === socket.id
     );
-    if (gamePad) {
-      gamePad.player.isReady = !gamePad.player.isReady;
+    if (player) {
+      player.isReady = !player.isReady;
       socket
         .to(room.gameBoardSocket.id)
-        .emit("ready", gamePad.socket.id, gamePad.player.isReady);
+        .emit("ready", player.socket.id, player.isReady);
     }
 
-    if (room.gamePads.every((gamePad: GamePad) => gamePad.player.isReady)) {
+    if (room.players.every((player: Player) => player.isReady)) {
       socket.nsp.to(room.code).emit("startGame");
       console.log(`Game has started in room: ${roomCode}`);
     }

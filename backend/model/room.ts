@@ -1,6 +1,5 @@
 import { Socket } from "socket.io";
 import { Player } from "./player";
-import { GamePad } from "./gamePad";
 
 enum GameStage {
   lobby,
@@ -15,7 +14,7 @@ export class Room {
 
   readonly code: RoomCode;
   readonly gameBoardSocket: Socket;
-  readonly gamePads: GamePad[] = [];
+  readonly players: Player[] = [];
 
   constructor(roomCode: RoomCode, gameBoardSocket: Socket) {
     this.code = roomCode;
@@ -27,23 +26,23 @@ export class Room {
     this.emitRoomCode();
   }
 
-  addGamePad = (socket: Socket, name: string) => {
-    const isNameTaken = this.gamePads.some(
-      (gamePad: GamePad) => gamePad.player.name === name
+  addPlayer = (socket: Socket, name: string) => {
+    const isNameTaken = this.players.some(
+      (player: Player) => player.name === name
     );
     if (isNameTaken) {
       this.emitNameTaken();
     } else {
-      this.gamePads.push(new GamePad(socket, this.code, new Player(name)));
+      this.players.push(new Player(socket, this.code, name));
       this.emitPlayers();
     }
   };
 
-  reconnectGamePad = (playerId: string) => {
-    const reconnectingGamePad = this.gamePads.find(
-      (gamePad: GamePad) => gamePad.id === playerId
+  reconnectPlayer = (playerId: string) => {
+    const reconnectingPlayer = this.players.find(
+      (player: Player) => player.id === playerId
     );
-    reconnectingGamePad?.setToConnected();
+    reconnectingPlayer?.setToConnected();
   };
 
   // emitter events
@@ -54,7 +53,7 @@ export class Room {
   emitPlayers = () => {
     this.gameBoardSocket.emit(
       "players",
-      Array.from(this.gamePads.map((gamePad: GamePad) => gamePad.player))
+      Array.from(this.players.map((player: Player) => player))
     );
   };
 

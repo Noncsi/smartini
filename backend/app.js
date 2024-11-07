@@ -19,12 +19,12 @@ const createServer = (port, serverOptions = {}) => {
     const io = new socket_io_1.Server(port, serverOptions);
     io.on("connection", (socket) => {
         socket.on("createRoom", () => (0, eventHandlers_1.createRoom)(socket));
-        socket.on("connectGamePad", (roomCodeForReconnect, cb) => (0, eventHandlers_1.connectGamePad)(roomCodeForReconnect, cb));
+        socket.on("connectPlayer", (roomCodeForReconnect, cb) => (0, eventHandlers_1.connectPlayer)(roomCodeForReconnect, cb));
         socket.on("joinRoom", (roomCode, playerName, cb) => {
-            (0, eventHandlers_1.joinGamePadToRoom)(socket, roomCode, playerName, cb);
+            (0, eventHandlers_1.joinPlayerToRoom)(socket, roomCode, playerName, cb);
         });
         socket.on("reJoinRoom", (roomCode, playerId, cb) => {
-            (0, eventHandlers_1.reJoinGamePadToRoom)(socket, roomCode, playerId, cb);
+            (0, eventHandlers_1.reJoinPlayerToRoom)(socket, roomCode, playerId, cb);
         });
         socket.on("markAsReady", (roomCode) => {
             (0, eventHandlers_1.setPlayerReadyStatus)(socket, roomCode);

@@ -10,7 +10,7 @@ var color;
 exports.Log = {
     info: {
         gameBoardDisconnected: (roomCode) => console.log(color.blue, `Room ${roomCode} has been disconnected.`),
-        gamePadDisconnected: (name) => console.log(color.blue, `Player ${name} has been disconnected.`),
+        playerDisconnected: (name) => console.log(color.blue, `Player ${name} has been disconnected.`),
         serverIsRunning: (port) => console.log(color.blue, `Server is running on port: ${port.toString()}.`),
     },
     success: {

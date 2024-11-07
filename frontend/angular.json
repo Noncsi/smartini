@@ -89,31 +89,31 @@
         }
       }
     },
-    "game-pad": {
+    "player": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/game-pad",
-      "sourceRoot": "projects/game-pad/src",
+      "root": "projects/player",
+      "sourceRoot": "projects/player/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/game-pad",
-            "index": "projects/game-pad/src/index.html",
-            "browser": "projects/game-pad/src/main.ts",
+            "outputPath": "dist/player",
+            "index": "projects/player/src/index.html",
+            "browser": "projects/player/src/main.ts",
             "polyfills": ["zone.js"],
-            "tsConfig": "projects/game-pad/tsconfig.app.json",
+            "tsConfig": "projects/player/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/game-pad/src/favicon.ico",
-              "projects/game-pad/src/assets"
+              "projects/player/src/favicon.ico",
+              "projects/player/src/assets"
             ],
-            "styles": ["projects/game-pad/src/styles.scss"],
+            "styles": ["projects/player/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -148,10 +148,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "game-pad:build:production"
+              "buildTarget": "player:build:production"
             },
             "development": {
-              "buildTarget": "game-pad:build:development"
+              "buildTarget": "player:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -159,20 +159,20 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "game-pad:build"
+            "buildTarget": "player:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "projects/game-pad/tsconfig.spec.json",
+            "tsConfig": "projects/player/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/game-pad/src/favicon.ico",
-              "projects/game-pad/src/assets"
+              "projects/player/src/favicon.ico",
+              "projects/player/src/assets"
             ],
-            "styles": ["projects/game-pad/src/styles.scss"],
+            "styles": ["projects/player/src/styles.scss"],
             "scripts": []
           }
         }
