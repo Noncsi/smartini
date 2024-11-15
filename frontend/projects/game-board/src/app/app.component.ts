@@ -27,7 +27,7 @@ export class AppComponent {
   roomCode$: Observable<string>;
 
   constructor(
-    private IoService: IoService,
+    private service: IoService,
     private store: Store<{ game: Game }> // private clipBoard: Clipboard
   ) {
     this.phase$ = this.store.select(selectGamePhase);

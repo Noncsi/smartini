@@ -1,5 +1,6 @@
 import { Server, ServerOptions } from "socket.io";
 import {
+  checkAnswer,
   connectPlayer,
   createRoom,
   disconnect,
@@ -36,11 +37,14 @@ export const createServer = (
         reJoinPlayerToRoom(socket, roomCode, playerId, cb);
       }
     );
-    socket.on("markAsReady", (roomCode: RoomCode) => {
-      setPlayerReadyStatus(socket, roomCode);
+    socket.on("setReady", (playerId: string, roomCode: RoomCode) => {
+      setPlayerReadyStatus(socket, playerId, roomCode);
     });
     socket.on("getQuestion", async (roomCode: RoomCode) => {
       getQuestion(socket, roomCode);
+    });
+    socket.on("answer", (playerId: string, text: string) => {
+      checkAnswer(socket, playerId, text);
     });
   });
 

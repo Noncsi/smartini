@@ -9,6 +9,7 @@ class Player {
     constructor(socket, roomCode, name) {
         this.isReady = false;
         this.score = 0;
+        this.isConnectedToGame = true;
         this.setToConnected = () => {
             this.isConnectedToGame = true;
         };
@@ -28,7 +29,6 @@ class Player {
         this.roomCode = roomCode;
         this.name = name;
         this.id = new short_unique_id_1.default({ length: 10 }).rnd();
-        this.isConnectedToGame = true;
         // join player to io room upon initialization
         this.socket.join(roomCode);
     }

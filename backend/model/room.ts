@@ -26,16 +26,16 @@ export class Room {
     this.emitRoomCode();
   }
 
-  addPlayer = (socket: Socket, name: string) => {
-    const isNameTaken = this.players.some(
-      (player: Player) => player.name === name
-    );
-    if (isNameTaken) {
+  addPlayer = (socket: Socket, name: string): Player | null => {
+    if (this.players.some((player: Player) => player.name === name)) {
       this.emitNameTaken();
-    } else {
-      this.players.push(new Player(socket, this.code, name));
-      this.emitPlayers();
+      return null;
     }
+
+    const newPlayer = new Player(socket, this.code, name);
+    this.players.push(newPlayer);
+    this.emitPlayers();
+    return newPlayer;
   };
 
   reconnectPlayer = (playerId: string) => {
@@ -53,7 +53,7 @@ export class Room {
   emitPlayers = () => {
     this.gameBoardSocket.emit(
       "players",
-      Array.from(this.players.map((player: Player) => player))
+      this.players.map(({ socket, ...obj }) => obj)
     );
   };
 

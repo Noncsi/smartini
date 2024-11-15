@@ -2,13 +2,28 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
+export interface Question {
+  question: string;
+  answerOptions: string[];
+}
+
+export interface Answer {
+  // id: number;
+  text: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class IoService {
   socket: Socket | undefined;
   roomCode$ = new BehaviorSubject<string>('');
+  playerId$ = new BehaviorSubject<string>('');
   isGameStarted$ = new BehaviorSubject<boolean>(false);
+  question$ = new BehaviorSubject<Question>({
+    question: '',
+    answerOptions: [],
+  });
 
   connectToServer() {
     this.socket = io('ws://192.168.0.103:8080');
@@ -34,6 +49,13 @@ export class IoService {
       console.log('Game has started');
       this.isGameStarted$.next(true);
     });
+
+    this.socket?.on('question', (question: Question) => {
+      this.question$.next(question);
+    });
+    this.socket?.on('answerResult', (isCorrect) => {
+      console.log('isCorrect', isCorrect);
+    });
   }
 
   joinRoom(roomCode: string, playerName: string) {
@@ -41,13 +63,15 @@ export class IoService {
       'joinRoom',
       roomCode,
       playerName,
-      (isJoinSuccess: boolean) => {
-        if (isJoinSuccess) {
-          this.roomCode$.next(roomCode);
-          localStorage.setItem('roomCode', roomCode);
-        } else {
-          console.log('Error: Room was not found');
+      (newPlayerId: string | null) => {
+        if (!newPlayerId) {
+          console.log('Error: Room was not found OR name was already taken.');
+          return;
         }
+
+        this.roomCode$.next(roomCode);
+        this.playerId$.next(newPlayerId);
+        localStorage.setItem('roomCode', roomCode);
       }
     );
   }
@@ -68,10 +92,11 @@ export class IoService {
     );
   }
 
-  markAsReady() {
-    // const value = lastValueFrom(this.roomCode$);
-    // const value = this.roomCode$.pipe(last((roomCode: string) => roomCode));
-    // console.log('value: ', value);
-    this.socket?.emit('markAsReady', this.roomCode$.value);
+  setReady() {
+    this.socket?.emit('setReady', this.playerId$.value, this.roomCode$.value);
+  }
+
+  sendAnswer(text: string) {
+    this.socket?.emit('answer', this.playerId$.value, text);
   }
 }

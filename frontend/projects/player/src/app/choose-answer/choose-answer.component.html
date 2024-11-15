@@ -1,1 +1,7 @@
-<p>choose-answer works!</p>
+<ng-container>
+  @if(question$ | async; as question) {
+  <h1>{{ question.question }}</h1>
+  @for(answer of question.answerOptions; track answer){
+  <button (click)="sendAnswer(answer)">{{ answer }}</button>
+  }}
+</ng-container>

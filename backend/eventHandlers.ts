@@ -13,6 +13,8 @@ type QuestionResponse = {
   wrongAnswers: string[];
 };
 
+let correctAnswer: string;
+
 export const disconnect = (socket: GameBoardSocket | PlayerSocket) => {
   // make diff between board closing and player quitting
   const isGameBoard = Array.from(rooms.values()).some(
@@ -77,17 +79,21 @@ export const joinPlayerToRoom = (
   socket: PlayerSocket,
   roomCode: string,
   playerName: string,
-  cb: (isJoinSuccess: boolean) => {}
+  cb: (newPlayerId: string | null) => void
 ) => {
-  if (rooms.has(roomCode)) {
-    // ts flow analysis doesn't recognise .has() as undefined check
-    const room = rooms.get(roomCode);
-    room?.addPlayer(socket, playerName);
-    cb(true);
+  const room = rooms.get(roomCode);
+  if (!room) {
+    cb(null);
+    Log.error.roomNotFound();
+    return;
+  }
+
+  const newPlayer = room.addPlayer(socket, playerName);
+  if (newPlayer) {
+    cb(newPlayer.id);
     Log.success.playerJoined(playerName, roomCode);
   } else {
-    cb(false);
-    Log.error.roomNotFound();
+    cb(null); // name already taken
   }
 };
 
@@ -111,18 +117,19 @@ export const reJoinPlayerToRoom = (
 
 export const setPlayerReadyStatus = (
   socket: PlayerSocket,
+  playerId: string,
   roomCode: RoomCode
 ) => {
   const room = rooms.get(roomCode);
   if (room) {
     const player = room.players.find(
-      (player: Player) => player.socket.id === socket.id
+      (player: Player) => player.id === playerId
     );
     if (player) {
       player.isReady = !player.isReady;
-      socket
+      socket // tell the gameBoard who clicked ready
         .to(room.gameBoardSocket.id)
-        .emit("ready", player.socket.id, player.isReady);
+        .emit("ready", player.id, player.isReady);
     }
 
     if (room.players.every((player: Player) => player.isReady)) {
@@ -132,8 +139,22 @@ export const setPlayerReadyStatus = (
   }
 };
 
+const shuffle = (array: Array<any>): Array<any> => {
+  let currentIndex = array.length;
+
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+};
+
 export const getQuestion = (socket: GameBoardSocket, roomCode: RoomCode) => {
-  console.log(roomCode);
   fetch("https://opentdb.com/api.php?amount=1&type=multiple").then(
     (response) => {
       response.json().then((resp) => {
@@ -142,8 +163,37 @@ export const getQuestion = (socket: GameBoardSocket, roomCode: RoomCode) => {
           correctAnswer: resp.results[0].correct_answer,
           wrongAnswers: resp.results[0].incorrect_answers,
         };
-        socket.nsp.to(roomCode).emit("question", question);
+
+        // const shuffledIndexedAnswers = Object.assign(
+        //   {},
+        //   shuffle([question.correctAnswer, ...question.wrongAnswers])
+        // );
+
+        // console.log("ASD", shuffledIndexedAnswers);
+
+        // correctAnswerId = shuffledIndexedAnswers.find(
+        //   (answer: any) => answer.value === question.correctAnswer
+        // );
+
+        correctAnswer = question.correctAnswer;
+
+        socket.nsp.to(roomCode).emit("question", {
+          question: question.question,
+          answerOptions: shuffle([
+            question.correctAnswer,
+            ...question.wrongAnswers,
+          ]),
+        });
       });
     }
   );
+};
+
+export const checkAnswer = (
+  socket: GameBoardSocket,
+  playerId: string,
+  text: string
+) => {
+  const isCorrect = text === correctAnswer;
+  socket.emit("answerResult", isCorrect);
 };

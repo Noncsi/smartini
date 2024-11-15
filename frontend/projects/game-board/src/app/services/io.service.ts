@@ -11,13 +11,11 @@ import {
 } from '../state/gameboard.actions';
 import { Player, Question } from '../state/gameboard.reducer';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class IoService {
   socket: Socket | undefined;
 
-  constructor(private store: Store<{ players: Player[] }>) {
+  constructor(private store: Store) {
     this.socket = io('ws://192.168.0.103:8080');
     this.socket.on('connect', () => {
       this.socket?.emit('createRoom');
@@ -47,7 +45,7 @@ export class IoService {
     });
 
     this.socket.on('question', (question: Question) => {
-      console.log('asd', question);
+      console.log('question', question);
       this.store.dispatch(askQuestion({ question }));
     });
   }

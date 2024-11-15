@@ -10,6 +10,6 @@ import { IoService } from '../../../io.service';
 export class ReadyComponent {
   constructor(private ioService: IoService) {}
   ready() {
-    this.ioService.markAsReady();
+    this.ioService.setReady();
   }
 }

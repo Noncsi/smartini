@@ -26,12 +26,15 @@ const createServer = (port, serverOptions = {}) => {
         socket.on("reJoinRoom", (roomCode, playerId, cb) => {
             (0, eventHandlers_1.reJoinPlayerToRoom)(socket, roomCode, playerId, cb);
         });
-        socket.on("markAsReady", (roomCode) => {
-            (0, eventHandlers_1.setPlayerReadyStatus)(socket, roomCode);
+        socket.on("setReady", (playerId, roomCode) => {
+            (0, eventHandlers_1.setPlayerReadyStatus)(socket, playerId, roomCode);
         });
         socket.on("getQuestion", (roomCode) => __awaiter(void 0, void 0, void 0, function* () {
             (0, eventHandlers_1.getQuestion)(socket, roomCode);
         }));
+        socket.on("answer", (playerId, text) => {
+            (0, eventHandlers_1.checkAnswer)(socket, playerId, text);
+        });
     });
     log_1.Log.info.serverIsRunning(port);
     (0, admin_ui_1.instrument)(io, { auth: false });
