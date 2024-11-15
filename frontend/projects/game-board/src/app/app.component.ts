@@ -10,7 +10,8 @@ import {
   selectPlayers,
   selectRoomCode,
 } from './state/gameboard.selector';
-import { Game, GamePhase, Player } from './state/gameboard.reducer';
+import { Game, GamePhase } from '@models/game';
+import { Player } from '@models/player';
 
 @Component({
   selector: 'app-root',

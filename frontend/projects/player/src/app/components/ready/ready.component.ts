@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IoService } from '../../../io.service';
+import { IoService } from '../../services/io.service';
 
 @Component({
   selector: 'app-ready',

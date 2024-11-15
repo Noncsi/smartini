@@ -1,10 +1,11 @@
 import { first, Observable, tap } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Game, Question } from '../../state/gameboard.reducer';
 import { Store } from '@ngrx/store';
 import { selectQuestion, selectRoomCode } from '../../state/gameboard.selector';
 import { IoService } from '../../services/io.service';
+import { Question } from '@models/question';
+import { Game } from '@models/game';
 
 @Component({
   selector: 'app-game',

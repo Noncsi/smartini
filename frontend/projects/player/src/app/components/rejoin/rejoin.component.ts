@@ -1,4 +1,4 @@
-import { IoService } from './../../../io.service';
+import { IoService } from '../../services/io.service';
 import { Component } from '@angular/core';
 
 @Component({

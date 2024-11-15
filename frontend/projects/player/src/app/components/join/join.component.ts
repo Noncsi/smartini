@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IoService } from '../../../io.service';
+import { IoService } from '../../services/io.service';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';

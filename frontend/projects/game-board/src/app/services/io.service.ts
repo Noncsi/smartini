@@ -9,7 +9,8 @@ import {
   setPlayerReadyStatus,
   startGame,
 } from '../state/gameboard.actions';
-import { Player, Question } from '../state/gameboard.reducer';
+import { Question } from '@models/question';
+import { Player } from '@models/player';
 
 @Injectable({ providedIn: 'root' })
 export class IoService {
@@ -29,11 +30,11 @@ export class IoService {
     });
 
     this.socket.on('roomCreated', (roomCode: string) => {
-      this.store.dispatch(getRoomCode({ roomCode: roomCode }));
+      this.store.dispatch(getRoomCode({ roomCode }));
     });
 
     this.socket.on('players', (players: Player[]) => {
-      this.store.dispatch(getPlayers({ players: players }));
+      this.store.dispatch(getPlayers({ players }));
     });
 
     this.socket.on('ready', (playerId: string, isReady: boolean) => {

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { IoService } from '../../io.service';
-import { JoinComponent } from './join/join.component';
-import { ReadyComponent } from './ready/ready.component';
+import { IoService } from './services/io.service';
+import { JoinComponent } from './components/join/join.component';
+import { ReadyComponent } from './components/ready/ready.component';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
-import { ChooseAnswerComponent } from './choose-answer/choose-answer.component';
-import { RejoinComponent } from './rejoin/rejoin.component';
+import { RejoinComponent } from './components/rejoin/rejoin.component';
+import { ChooseAnswerComponent } from './components/choose-answer/choose-answer.component';
 
 @Component({
   selector: 'app-root',

@@ -8,33 +8,8 @@ import {
   setPlayerReadyStatus,
   startGame,
 } from './gameboard.actions';
-
-export interface Game {
-  phase: GamePhase;
-  roomCode: string;
-  isPaused: boolean;
-  players: Player[];
-  currentQuestion: Question;
-}
-
-export enum GamePhase {
-  lobby,
-  gamePlay,
-  result,
-}
-
-export interface Player {
-  id: string;
-  name: string;
-  score: number;
-  isReady: boolean;
-}
-
-export interface Question {
-  question: string;
-  answer: string;
-  wrongAnswers: string[];
-}
+import { Game, GamePhase } from '@models/game';
+import { Player } from '@models/player';
 
 const initialState: Game = {
   phase: GamePhase.lobby,
