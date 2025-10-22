@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"npm run backend:start\" \"npm run frontend:game-board\" \"npm run frontend:player\"",
-    "backend:start": "cd backend && npm start",
+    "backend:start": "cd backend && npm run build && npm start",
     "frontend:game-board": "cd frontend && npm run start:game-board",
     "frontend:player": "cd frontend && npm run start:player"
   },

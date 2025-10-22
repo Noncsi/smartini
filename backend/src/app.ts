@@ -3,11 +3,10 @@ import {
   checkAnswer,
   connectPlayer,
   createRoom,
-  disconnect,
   getQuestion,
   joinPlayerToRoom,
   reJoinPlayerToRoom,
-  setPlayerReadyStatus,
+  toggleReadyStatus,
 } from "./eventHandlers";
 import { Log } from "./log";
 import { Room, RoomCode } from "./model/room";
@@ -19,8 +18,8 @@ export const createServer = (
   port: number,
   serverOptions: Partial<ServerOptions> = {}
 ) => {
-  const io = new Server(port, serverOptions);
-  io.on("connection", (socket) => {
+  const server = new Server(port, serverOptions);
+  server.on("connection", (socket) => {
     socket.on("createRoom", () => createRoom(socket));
     socket.on("connectPlayer", (roomCodeForReconnect: RoomCode, cb: () => {}) =>
       connectPlayer(roomCodeForReconnect, cb)
@@ -37,8 +36,8 @@ export const createServer = (
         reJoinPlayerToRoom(socket, roomCode, playerId, cb);
       }
     );
-    socket.on("setReady", (playerId: string, roomCode: RoomCode) => {
-      setPlayerReadyStatus(socket, playerId, roomCode);
+    socket.on("toggleReadyStatus", (playerId: string, roomCode: RoomCode) => {
+      toggleReadyStatus(socket, playerId, roomCode);
     });
     socket.on("getQuestion", async (roomCode: RoomCode) => {
       getQuestion(socket, roomCode);
@@ -49,5 +48,5 @@ export const createServer = (
   });
 
   Log.info.serverIsRunning(port);
-  instrument(io, { auth: false });
+  instrument(server, { auth: false });
 };
