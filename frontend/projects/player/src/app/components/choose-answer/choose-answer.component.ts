@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IoService, Question } from '../../services/io.service';
+import { WebSocketService, Question } from '../../services/websocket.service';
 
 @Component({
   selector: 'app-choose-answer',
@@ -13,7 +13,7 @@ import { IoService, Question } from '../../services/io.service';
 export class ChooseAnswerComponent {
   question$: Observable<Question>;
 
-  constructor(private ioService: IoService) {
+  constructor(private ioService: WebSocketService) {
     this.question$ = this.ioService.question$;
   }
 

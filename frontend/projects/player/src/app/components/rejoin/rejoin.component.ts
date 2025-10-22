@@ -1,4 +1,4 @@
-import { IoService } from '../../services/io.service';
+import { WebSocketService } from '../../services/websocket.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './rejoin.component.scss',
 })
 export class RejoinComponent {
-  constructor(private ioService: IoService) {}
+  constructor(private ioService: WebSocketService) {}
   rejoin() {
     const roomCode = localStorage.getItem('roomCode');
     const playerId = localStorage.getItem('playerId');

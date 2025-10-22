@@ -6,13 +6,13 @@ export const pause = createAction('pause');
 
 export const resume = createAction('resume');
 
-export const getPlayers = createAction(
-  'getPlayers',
+export const receivePlayers = createAction(
+  'receivePlayers',
   props<{ players: Player[] }>()
 );
 
-export const getRoomCode = createAction(
-  'getRoomCode',
+export const receiveRoomCode = createAction(
+  'receiveRoomCode',
   props<{ roomCode: string }>()
 );
 
@@ -22,6 +22,8 @@ export const setPlayerReadyStatus = createAction(
 );
 
 export const startGame = createAction('startGame');
+
+export const getQuestion = createAction('getQuestion');
 
 export const askQuestion = createAction(
   'askQuestion',

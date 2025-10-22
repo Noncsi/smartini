@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IoService } from '../../services/io.service';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-join',
@@ -12,9 +12,9 @@ import { ButtonModule } from 'primeng/button';
   imports: [CardModule, InputTextModule, ButtonModule],
 })
 export class JoinComponent {
-  constructor(private ioService: IoService) {}
+  constructor(private gameService: GameService) {}
 
-  join(room: string, name: string) {
-    this.ioService.joinRoom(room, name);
+  joinToRoom(roomCode: string, playerName: string) {
+    this.gameService.joinToRoom(roomCode, playerName);
   }
 }

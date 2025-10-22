@@ -1,12 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  askQuestion,
-  getPlayers,
-  getRoomCode,
+  receivePlayers,
+  receiveRoomCode,
   pause,
   resume,
   setPlayerReadyStatus,
   startGame,
+  askQuestion,
 } from './gameboard.actions';
 import { Game, GamePhase } from '@models/game';
 import { Player } from '@models/player';
@@ -23,8 +23,8 @@ export const gameReducer = createReducer(
   initialState,
   on(pause, (state) => ({ ...state, isPaused: true })),
   on(resume, (state) => ({ ...state, isPaused: false })),
-  on(getRoomCode, (state, { roomCode }) => ({ ...state, roomCode })),
-  on(getPlayers, (state, { players }) => ({ ...state, players })),
+  on(receiveRoomCode, (state, { roomCode }) => ({ ...state, roomCode })),
+  on(receivePlayers, (state, { players }) => ({ ...state, players })),
   on(setPlayerReadyStatus, (state, { playerId, isReady }) => {
     console.log('isready', playerId, isReady);
     const idx = state.players.findIndex(

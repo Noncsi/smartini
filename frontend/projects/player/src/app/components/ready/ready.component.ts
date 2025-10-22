@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IoService } from '../../services/io.service';
+import { WebSocketService } from '../../services/websocket.service';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-ready',
@@ -8,8 +9,8 @@ import { IoService } from '../../services/io.service';
   styleUrl: './ready.component.scss',
 })
 export class ReadyComponent {
-  constructor(private ioService: IoService) {}
+  constructor(private gameService: GameService) {}
   ready() {
-    this.ioService.setReady();
+    this.gameService.setReady();
   }
 }
