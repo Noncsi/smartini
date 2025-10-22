@@ -1,17 +1,12 @@
-import { IoService } from './services/io.service';
+import { WebSocketService } from './services/websocket.service';
 import { GameComponent } from './components/game/game.component';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import {
-  selectGamePhase,
-  selectPlayers,
-  selectRoomCode,
-} from './state/gameboard.selector';
-import { Game, GamePhase } from '@models/game';
+import { GamePhase } from '@models/game';
 import { Player } from '@models/player';
+import { GameService } from './services/game.service';
 
 @Component({
   selector: 'app-root',
@@ -28,11 +23,11 @@ export class AppComponent {
   roomCode$: Observable<string>;
 
   constructor(
-    private service: IoService,
-    private store: Store<{ game: Game }> // private clipBoard: Clipboard
+    private webSocketService: WebSocketService,
+    private gameService: GameService
   ) {
-    this.phase$ = this.store.select(selectGamePhase);
-    this.roomCode$ = this.store.select(selectRoomCode);
-    this.players$ = this.store.select(selectPlayers);
+    this.phase$ = this.gameService.phase$;
+    this.roomCode$ = this.gameService.roomCode$;
+    this.players$ = this.gameService.players$;
   }
 }
