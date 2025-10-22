@@ -3,7 +3,7 @@ import { createAction, props } from '@ngrx/store';
 export const joinToRoom = createAction(
   'joinToRoom',
   props<{ roomCode: string; playerName: string }>()
-); // write joinToRoom reducer and effect
+);
 
 export const pause = createAction('pause');
 

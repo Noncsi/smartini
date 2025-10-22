@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { WebSocketService } from './services/websocket.service';
 import { JoinComponent } from './components/join/join.component';
 import { ReadyComponent } from './components/ready/ready.component';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { RejoinComponent } from './components/rejoin/rejoin.component';
 import { ChooseAnswerComponent } from './components/choose-answer/choose-answer.component';
@@ -16,7 +15,6 @@ import { selectGamePhase, selectRoomCode } from './state/player.selector';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     JoinComponent,
     RejoinComponent,
     ReadyComponent,
