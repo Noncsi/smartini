@@ -1,5 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 
+export const joinToRoom = createAction(
+  'joinToRoom',
+  props<{ roomCode: string; playerName: string }>()
+); // write joinToRoom reducer and effect
+
 export const pause = createAction('pause');
 
 export const resume = createAction('resume');
@@ -9,9 +14,8 @@ export const getRoomCode = createAction(
   props<{ roomCode: string }>()
 );
 
-export const setReadyStatus = createAction(
-  'setReadyStatus',
-  props<{ id: string; isReady: boolean }>()
-);
+export const getId = createAction('getId', props<{ id: string }>());
+
+export const toggleReadyStatus = createAction('toggleReadyStatus');
 
 export const startGame = createAction('startGame');

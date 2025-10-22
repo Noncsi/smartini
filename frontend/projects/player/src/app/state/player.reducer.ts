@@ -1,8 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
-import { getRoomCode, pause, resume, startGame } from './player.actions';
+import {
+  getId,
+  getRoomCode,
+  pause,
+  resume,
+  startGame,
+  toggleReadyStatus,
+} from './player.actions';
 import { Game, GamePhase } from '@models/game';
+import { Player } from '@models/player';
 
-const initialState: Game = {
+const initialStateGame: Game = {
   phase: GamePhase.lobby,
   roomCode: '',
   isPaused: false,
@@ -10,10 +18,23 @@ const initialState: Game = {
   currentQuestion: { question: '', answer: '', wrongAnswers: [] },
 };
 
+const initialStatePlayer: Player = {
+  id: '',
+  name: '',
+  score: 0,
+  isReady: false,
+};
+
 export const gameReducer = createReducer(
-  initialState,
+  initialStateGame,
   on(pause, (state) => ({ ...state, isPaused: true })),
   on(resume, (state) => ({ ...state, isPaused: false })),
   on(getRoomCode, (state, { roomCode }) => ({ ...state, roomCode })),
   on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay }))
+);
+
+export const playerReducer = createReducer(
+  initialStatePlayer,
+  on(getId, (state, { id }) => ({ ...state, id })),
+  on(toggleReadyStatus, (state) => ({ ...state, isReady: !state.isReady }))
 );
