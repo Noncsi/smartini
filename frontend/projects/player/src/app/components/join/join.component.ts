@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { GameService } from '../../services/game.service';
   imports: [],
 })
 export class JoinComponent {
-  constructor(private gameService: GameService) {}
+  gameService = inject(GameService);
 
-  joinToRoom(roomCode: string, playerName: string) {
-    this.gameService.joinToRoom(roomCode, playerName);
+  join(roomCode: string, playerName: string) {
+    this.gameService.join(roomCode, playerName);
   }
 }

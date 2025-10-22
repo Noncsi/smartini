@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Store } from '@ngrx/store';
-import {
-  receivePlayers,
-  receiveRoomCode,
-} from '../state/gameboard.actions';
+import { receivePlayers, receiveRoomCode } from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
 

@@ -1,26 +1,3 @@
-<input
-  #room
-  id="room-id"
-  type="text"
-  placeholder="Room ID"
-  pInputText
-  class="w-full mb-3"
-/>
-
-<input
-  #name
-  id="name"
-  type="text"
-  placeholder="Name"
-  pInputText
-  class="w-full mb-3"
-/>
-
-<button
-  pButton
-  pRipple
-  label="Join Room"
-  icon="pi pi-user"
-  class="w-full"
-  (click)="joinToRoom(room.value, name.value)"
-></button>
+<input #room id="room-id" type="text" placeholder="Room ID" />
+<input #name id="name" type="text" placeholder="Name" />
+<button (click)="join(room.value, name.value)"></button>

@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   getId,
   getRoomCode,
-  joinToRoom,
+  join,
   pause,
   resume,
   startGame,
@@ -38,7 +38,7 @@ export const gameReducer = createReducer(
 export const playerReducer = createReducer(
   initialStatePlayer,
   on(getId, (state, { id }) => ({ ...state, id })),
-  on(joinToRoom, (state, { roomCode, playerName }) => ({
+  on(join, (state, { roomCode, playerName }) => ({
     ...state,
     roomCode,
     name: playerName,

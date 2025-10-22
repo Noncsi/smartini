@@ -1,9 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 
-export const joinToRoom = createAction(
-  'joinToRoom',
+export const join = createAction(
+  '[Player] join',
   props<{ roomCode: string; playerName: string }>()
 );
+export const joinSuccess = createAction('[Player] join success');
+export const joinError = createAction('[Player] join error');
 
 export const pause = createAction('pause');
 
