@@ -1,0 +1,18 @@
+{
+  "name": "quiz-game",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run backend:start\" \"npm run frontend:game-board\" \"npm run frontend:player\"",
+    "backend:start": "cd backend && npm start",
+    "frontend:game-board": "cd frontend && npm run start:game-board",
+    "frontend:player": "cd frontend && npm run start:player"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2"
+  },
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
