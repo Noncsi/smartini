@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -9,7 +6,7 @@ import { GameService } from '../../services/game.service';
   standalone: true,
   templateUrl: './join.component.html',
   styleUrl: './join.component.scss',
-  imports: [CardModule, InputTextModule, ButtonModule],
+  imports: [],
 })
 export class JoinComponent {
   constructor(private gameService: GameService) {}
