@@ -1,0 +1,6 @@
+<p>Room code: {{ roomCode() }}</p>
+@for (player of players(); track player.id) {
+<li>{{ player.name }} - {{ player.isReady }}</li>
+} @empty {
+<li>It's quiet here...</li>
+}
