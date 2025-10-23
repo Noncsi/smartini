@@ -6,10 +6,6 @@ import { joinAttempt, toggleReadyStatusAttempt } from '../state/player.actions';
 export class GameService {
   store = inject(Store);
 
-  join(roomCode: string, playerName: string) {
-    this.store.dispatch(joinAttempt({ roomCode, playerName }));
-  }
-
   setReady() {
     this.store.dispatch(toggleReadyStatusAttempt());
   }
