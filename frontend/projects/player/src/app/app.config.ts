@@ -5,7 +5,8 @@ import { routes } from './app.routes';
 import { provideStore, StoreModule } from '@ngrx/store';
 import { gameReducer, playerReducer } from './state/player.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { PlayerEffects } from './state/player.effects';
+import { JoinEffects } from './modules/join/state/join.effects';
+import { ReadyEffects } from './modules/ready/state/ready.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     importProvidersFrom(
       StoreModule.forRoot({ game: gameReducer, player: playerReducer }),
-      EffectsModule.forRoot([PlayerEffects])
+      EffectsModule.forRoot([JoinEffects, ReadyEffects])
     ),
   ],
 };

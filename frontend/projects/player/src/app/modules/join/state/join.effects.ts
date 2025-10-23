@@ -9,7 +9,7 @@ import { WebSocketService } from '../../../services/websocket.service';
 import { selectRoomCode } from '../../../state/player.selector';
 
 @Injectable()
-export class PlayerEffects {
+export class JoinEffects {
   private webSocketService = inject(WebSocketService);
   private store = inject(Store);
   private actions$ = inject(Actions);

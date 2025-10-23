@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { joinAttempt, toggleReadyStatusAttempt } from '../state/player.actions';
+import { toggleReadyStatusAttempt } from '../state/ready.actions';
 
 @Injectable({ providedIn: 'root' })
-export class GameService {
+export class ReadyService {
   store = inject(Store);
 
   setReady() {

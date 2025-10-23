@@ -1,59 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
-import SocketEvent from '../../../../../../socket-event';
-import { WebSocketService } from '../services/websocket.service';
-import {
-  joinAttempt,
-  joinError,
-  joinSuccess,
-  toggleReadyStatusAttempt,
-  toggleReadyStatusError,
-  toggleReadyStatusSuccess,
-} from './player.actions';
 import { tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectPlayerId, selectRoomCode } from './player.selector';
+import { WebSocketService } from '../../../services/websocket.service';
+import SocketEvent from '../../../../../../../../socket-event';
+import { selectPlayerId, selectRoomCode } from '../../../state/player.selector';
+import { toggleReadyStatusAttempt, toggleReadyStatusSuccess, toggleReadyStatusError } from './ready.actions';
 
 @Injectable()
-export class PlayerEffects {
+export class ReadyEffects {
   private webSocketService = inject(WebSocketService);
   private store = inject(Store);
   private actions$ = inject(Actions);
-
-  joinAttempt$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(joinAttempt),
-      tap(({ roomCode, playerName }) => {
-        this.webSocketService.socket?.emit(
-          SocketEvent.JoinRoom,
-          roomCode,
-          playerName
-        );
-      })
-    )
-  );
-
-  joinSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(joinSuccess),
-        concatLatestFrom(() => this.store.select(selectRoomCode)),
-        tap(([, roomCode]) => localStorage.setItem('roomCode', roomCode))
-      ),
-    { dispatch: false }
-  );
-
-  joinError$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(joinError),
-        tap(() =>
-          console.log('Join failed (Room not found or name is already taken)')
-        )
-      ),
-    { dispatch: false }
-  );
 
   emitToggleReadyStatus$ = createEffect(
     () =>

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { WebSocketService } from './services/websocket.service';
-import { ReadyComponent } from './components/ready/ready.component';
 import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { RejoinComponent } from './components/rejoin/rejoin.component';
@@ -9,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { Game, GamePhase } from '@models/game';
 import { selectGamePhase, selectRoomCode } from './state/player.selector';
 import { JoinComponent } from './modules/join/component/join.component';
+import { ReadyComponent } from './modules/ready/component/ready.component';
 
 @Component({
   selector: 'app-root',

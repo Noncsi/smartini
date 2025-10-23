@@ -6,17 +6,6 @@ import { WebSocketService } from '../services/websocket.service';
 
 @Injectable()
 export class GameBoardEffects {
-  getPlayers$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType('getPlayers'),
-      exhaustMap(() =>
-        this.webSocketService.players$.pipe(
-          map((players) => players),
-          catchError(() => EMPTY)
-        )
-      )
-    )
-  );
 
-  constructor(private actions$: Actions, private webSocketService: WebSocketService) {}
+
 }

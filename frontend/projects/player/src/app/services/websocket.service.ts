@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, fromEvent, map, take, tap } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
-import {
-  joinError,
-  joinSuccess,
-  startGame,
-  toggleReadyStatusError,
-  toggleReadyStatusSuccess,
-} from '../state/player.actions';
+import { startGame } from '../state/player.actions';
 import { selectPlayerId } from '../state/player.selector';
 import SocketEvent from '../../../../../../socket-event';
+import { joinSuccess, joinError } from '../modules/join/state/join.actions';
+import {
+  toggleReadyStatusSuccess,
+  toggleReadyStatusError,
+} from '../modules/ready/state/ready.actions';
 
 export interface Question {
   question: string;
@@ -38,7 +37,9 @@ export class WebSocketService {
     this.connect();
 
     fromEvent(this.socket, SocketEvent.JoinRoomSuccess)
-      .pipe(map(([, newPlayerId]) => this.store.dispatch(joinSuccess(newPlayerId))))
+      .pipe(
+        map(([, newPlayerId]) => this.store.dispatch(joinSuccess(newPlayerId)))
+      )
       .subscribe();
 
     fromEvent(this.socket, SocketEvent.JoinRoomError)

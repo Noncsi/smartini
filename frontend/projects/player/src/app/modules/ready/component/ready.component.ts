@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { WebSocketService } from '../../services/websocket.service';
-import { GameService } from '../../services/game.service';
+import { ReadyService } from '../service/ready.service';
 
 @Component({
   selector: 'app-ready',
@@ -9,8 +8,8 @@ import { GameService } from '../../services/game.service';
   styleUrl: './ready.component.scss',
 })
 export class ReadyComponent {
-  constructor(private gameService: GameService) {}
+  constructor(private readyService: ReadyService) {}
   ready() {
-    this.gameService.setReady();
+    this.readyService.setReady();
   }
 }

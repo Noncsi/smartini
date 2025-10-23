@@ -1,15 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
+import { pause, resume, startGame } from './player.actions';
+import { Game, GamePhase } from '@models/game';
+import { Player } from '@models/player';
 import {
   joinAttempt,
   joinError,
   joinSuccess,
-  pause,
-  resume,
-  startGame,
-  toggleReadyStatusSuccess,
-} from './player.actions';
-import { Game, GamePhase } from '@models/game';
-import { Player } from '@models/player';
+} from '../modules/join/state/join.actions';
+import { toggleReadyStatusSuccess } from '../modules/ready/state/ready.actions';
 
 const initialStateGame: Game = {
   phase: GamePhase.lobby,

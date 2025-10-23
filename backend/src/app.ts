@@ -1,7 +1,6 @@
 import { Server, ServerOptions } from "socket.io";
 import {
   checkAnswer,
-  connectPlayer,
   createRoom,
   getQuestion,
   joinPlayerToRoom,
@@ -22,9 +21,6 @@ export const createServer = (
   const server = new Server(port, serverOptions);
   server.on("connection", (socket) => {
     socket.on(SocketEvent.CreateRoom, () => createRoom(socket));
-    socket.on(SocketEvent.ConnectPlayer, (roomCodeForReconnect: RoomCode, cb: () => {}) =>
-      connectPlayer(roomCodeForReconnect, cb)
-    );
     socket.on(
       SocketEvent.JoinRoom,
       (roomCode: RoomCode, playerName: string) => {
