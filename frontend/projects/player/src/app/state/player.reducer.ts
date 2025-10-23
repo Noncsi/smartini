@@ -1,12 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  getId,
-  getRoomCode,
-  join,
+  joinAttempt,
+  joinError,
+  joinSuccess,
   pause,
   resume,
   startGame,
-  toggleReadyStatus,
+  toggleReadyStatusSuccess,
 } from './player.actions';
 import { Game, GamePhase } from '@models/game';
 import { Player } from '@models/player';
@@ -31,17 +31,27 @@ export const gameReducer = createReducer(
   initialStateGame,
   on(pause, (state) => ({ ...state, isPaused: true })),
   on(resume, (state) => ({ ...state, isPaused: false })),
-  on(getRoomCode, (state, { roomCode }) => ({ ...state, roomCode })),
   on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay }))
 );
 
 export const playerReducer = createReducer(
   initialStatePlayer,
-  on(getId, (state, { id }) => ({ ...state, id })),
-  on(join, (state, { roomCode, playerName }) => ({
+  on(joinAttempt, (state, { roomCode, playerName }) => ({
     ...state,
     roomCode,
-    name: playerName,
+    playerName,
   })),
-  on(toggleReadyStatus, (state) => ({ ...state, isReady: !state.isReady }))
+  on(joinSuccess, (state, { id }) => ({
+    ...state,
+    id,
+  })),
+  on(joinError, (state) => ({
+    ...state,
+    roomCode: '',
+    name: '',
+  })),
+  on(toggleReadyStatusSuccess, (state) => ({
+    ...state,
+    isReady: !state.isReady,
+  }))
 );

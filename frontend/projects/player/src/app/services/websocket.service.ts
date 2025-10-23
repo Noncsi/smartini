@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, fromEvent, take, tap } from 'rxjs';
+import { BehaviorSubject, fromEvent, map, take, tap } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
-import { getId, getRoomCode, startGame } from '../state/player.actions';
-import { selectPlayerId, selectRoomCode } from '../state/player.selector';
+import {
+  joinSuccess,
+  startGame,
+  toggleReadyStatusError,
+  toggleReadyStatusSuccess,
+} from '../state/player.actions';
+import { selectPlayerId } from '../state/player.selector';
+import SocketEvent from '../../../../../../socket-event';
 
 export interface Question {
   question: string;
@@ -18,7 +24,7 @@ export interface Answer {
   providedIn: 'root',
 })
 export class WebSocketService {
-  socket: Socket | undefined;
+  public socket: Socket | undefined;
   question$ = new BehaviorSubject<Question>({
     question: '',
     answerOptions: [],
@@ -30,11 +36,13 @@ export class WebSocketService {
     fromEvent(this.socket, 'connect').pipe(take(1)).subscribe();
     this.connect();
 
-    // this.socket?.on('nameTaken', () => {
-    //   console.log('name is taken');
-    // });
-    //this.socket?.on('roomDisconnected', () => {});
-    //this.socket?.on('playerDisconnected', () => {});
+    fromEvent(this.socket, SocketEvent.ToggleReadyStatusSuccess)
+      .pipe(map(() => this.store.dispatch(toggleReadyStatusSuccess())))
+      .subscribe();
+
+    fromEvent(this.socket, SocketEvent.ToggleReadyStatusError)
+      .pipe(map(() => this.store.dispatch(toggleReadyStatusError())))
+      .subscribe();
 
     fromEvent(this.socket, 'startGame')
       .pipe(
@@ -73,42 +81,20 @@ export class WebSocketService {
     );
   }
 
-  joinRoom(roomCode: string, playerName: string) {
-    this.socket?.emit(
-      'joinRoom',
-      roomCode,
-      playerName,
-      (newPlayerId: string | null) => {
-        if (!newPlayerId) {
-          console.log('Error: Room was not found OR name was already taken.');
-          return;
-        }
-
-        this.store.dispatch(getRoomCode({ roomCode }));
-        this.store.dispatch(getId({ id: newPlayerId }));
-        localStorage.setItem('roomCode', roomCode);
-      }
-    );
-  }
-
   reJoinRoom(roomCode: string, playerId: string) {
-    this.socket?.emit(
-      'reJoinRoom',
-      roomCode,
-      playerId,
-      (isJoinSuccess: boolean) => {
-        if (isJoinSuccess) {
-          this.store.dispatch(getRoomCode({ roomCode }));
-          localStorage.setItem('roomCode', roomCode);
-        } else {
-          console.log('Error: Room was not found');
-        }
-      }
-    );
-  }
-
-  toggleReadyStatus(playerId: string, roomCode: string) {
-    this.socket?.emit('toggleReadyStatus', playerId, roomCode);
+    // this.socket?.emit(
+    //   'reJoinRoom',
+    //   roomCode,
+    //   playerId,
+    //   (isJoinSuccess: boolean) => {
+    //     if (isJoinSuccess) {
+    //       this.store.dispatch(getRoomCode({ roomCode }));
+    //       localStorage.setItem('roomCode', roomCode);
+    //     } else {
+    //       console.log('Error: Room was not found');
+    //     }
+    //   }
+    // );
   }
 
   sendAnswer(text: string) {

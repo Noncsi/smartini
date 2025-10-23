@@ -8,6 +8,7 @@ import {
   reJoinPlayerToRoom,
   toggleReadyStatus,
 } from "./eventHandlers";
+import SocketEvent from '../../socket-event';
 import { Log } from "./log";
 import { Room, RoomCode } from "./model/room";
 import { instrument } from "@socket.io/admin-ui";
@@ -25,7 +26,7 @@ export const createServer = (
       connectPlayer(roomCodeForReconnect, cb)
     );
     socket.on(
-      "joinRoom",
+      SocketEvent.JoinRoom,
       (roomCode: RoomCode, playerName: string, cb: () => {}) => {
         joinPlayerToRoom(socket, roomCode, playerName, cb);
       }
@@ -36,9 +37,12 @@ export const createServer = (
         reJoinPlayerToRoom(socket, roomCode, playerId, cb);
       }
     );
-    socket.on("toggleReadyStatus", (playerId: string, roomCode: RoomCode) => {
-      toggleReadyStatus(socket, playerId, roomCode);
-    });
+    socket.on(
+      SocketEvent.ToggleReadyStatus,
+      (playerId: string, roomCode: RoomCode) => {
+        toggleReadyStatus(socket, playerId, roomCode);
+      }
+    );
     socket.on("getQuestion", async (roomCode: RoomCode) => {
       getQuestion(socket, roomCode);
     });

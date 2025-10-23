@@ -120,28 +120,19 @@ export const toggleReadyStatus = (
   playerId: string,
   roomCode: RoomCode
 ) => {
-  console.log("ready reached backend");
   const room = rooms.get(roomCode);
-  console.log(playerId);
-  console.log(roomCode);
-  if (room) {
-    console.log("in if room");
-    const player = room.players.find(
-      (player: Player) => player.id === playerId
-    );
-    if (player) {
-      console.log("in if player");
+  if (!room) return socket.emit(SocketEvent.ToggleReadyStatusError);
+  const player = room.players.find((player: Player) => player.id === playerId);
+  if (!player) return socket.emit(SocketEvent.ToggleReadyStatusError);
       player.isReady = !player.isReady;
       socket // tell the gameBoard who clicked ready
         .to(room.gameBoardSocket.id)
         .emit("ready", player.id, player.isReady);
-      console.log("playerid", player.id);
-    }
+
+  socket.emit(SocketEvent.ToggleReadyStatusSuccess, player.id, player.isReady);
 
     if (room.players.every((player: Player) => player.isReady)) {
       socket.nsp.to(room.code).emit("startGame");
-      console.log(`Game has started in room: ${roomCode}`);
-    }
   }
 };
 

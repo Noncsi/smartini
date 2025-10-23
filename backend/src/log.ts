@@ -21,5 +21,8 @@ export const Log = {
     playerReconnected: (name: string) =>
       console.log(color.green, `${name} has been reconnected.`),
   },
-  error: { roomNotFound: () => console.log(color.red, `Room was not found.`) },
+  error: {
+    roomNotFound: () => console.log(color.red, `Room was not found.`),
+    nameAlreadyTaken: (name: string) => console.log(color.red, `Name "${name}" is already taken.`),
+  },
 };

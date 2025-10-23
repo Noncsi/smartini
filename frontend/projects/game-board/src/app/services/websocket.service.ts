@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Store } from '@ngrx/store';
 import { receivePlayers, receiveRoomCode } from '../state/gameboard.actions';
@@ -7,9 +7,10 @@ import { fromEvent, take, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class WebSocketService {
+  private store = inject(Store);
   socket: Socket | undefined;
 
-  constructor(private store: Store) {
+  constructor() {
     // handshake
     this.socket = io('ws://192.168.0.103:8080');
     // connect -> client emits to create room
@@ -36,7 +37,6 @@ export class WebSocketService {
         tap((players: Player[]) =>
           this.store.dispatch(receivePlayers({ players }))
         ),
-        take(1)
       )
       .subscribe();
 
@@ -47,7 +47,6 @@ export class WebSocketService {
           (asd) => console.log('asd', asd)
           // this.store.dispatch(setPlayerReadyStatus({ playerId, isReady }))
         ),
-        take(1)
       )
       .subscribe();
 
