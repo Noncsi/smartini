@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, fromEvent, map, take, tap } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import {
+  joinError,
   joinSuccess,
   startGame,
   toggleReadyStatusError,
@@ -35,6 +36,14 @@ export class WebSocketService {
     this.socket = io('ws://192.168.0.103:8080');
     fromEvent(this.socket, 'connect').pipe(take(1)).subscribe();
     this.connect();
+
+    fromEvent(this.socket, SocketEvent.JoinRoomSuccess)
+      .pipe(map(([, newPlayerId]) => this.store.dispatch(joinSuccess(newPlayerId))))
+      .subscribe();
+
+    fromEvent(this.socket, SocketEvent.JoinRoomError)
+      .pipe(map(() => this.store.dispatch(joinError())))
+      .subscribe();
 
     fromEvent(this.socket, SocketEvent.ToggleReadyStatusSuccess)
       .pipe(map(() => this.store.dispatch(toggleReadyStatusSuccess())))

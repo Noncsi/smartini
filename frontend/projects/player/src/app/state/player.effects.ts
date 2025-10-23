@@ -28,11 +28,7 @@ export class PlayerEffects {
         this.webSocketService.socket?.emit(
           SocketEvent.JoinRoom,
           roomCode,
-          playerName,
-          (newPlayerId: string | '') => {
-            if (!newPlayerId) return this.store.dispatch(joinError());
-            return this.store.dispatch(joinSuccess({ id: newPlayerId }));
-          }
+          playerName
         );
       })
     )

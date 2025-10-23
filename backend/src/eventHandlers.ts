@@ -4,6 +4,7 @@ import { Log } from "./log";
 import { Room, RoomCode } from "./model/room";
 import { rooms } from "./app";
 import { Player } from "./model/player";
+import SocketEvent from "../../socket-event";
 
 type GameBoardSocket = Socket;
 type PlayerSocket = Socket;
@@ -78,22 +79,21 @@ export const connectPlayer = (
 export const joinPlayerToRoom = (
   socket: PlayerSocket,
   roomCode: string,
-  playerName: string,
-  cb: (newPlayerId: string | null) => void
+  playerName: string
 ) => {
   const room = rooms.get(roomCode);
   if (!room) {
-    cb(null);
     Log.error.roomNotFound();
-    return;
+    return socket.emit(SocketEvent.JoinRoomError);
   }
 
   const newPlayer = room.addPlayer(socket, playerName);
   if (newPlayer) {
-    cb(newPlayer.id);
     Log.success.playerJoined(playerName, roomCode);
+    return socket.emit(SocketEvent.JoinRoomSuccess, newPlayer.id);
   } else {
-    cb(null); // name already taken
+    Log.error.nameAlreadyTaken(playerName);
+    return socket.emit(SocketEvent.JoinRoomError);
   }
 };
 
@@ -124,15 +124,15 @@ export const toggleReadyStatus = (
   if (!room) return socket.emit(SocketEvent.ToggleReadyStatusError);
   const player = room.players.find((player: Player) => player.id === playerId);
   if (!player) return socket.emit(SocketEvent.ToggleReadyStatusError);
-      player.isReady = !player.isReady;
-      socket // tell the gameBoard who clicked ready
-        .to(room.gameBoardSocket.id)
-        .emit("ready", player.id, player.isReady);
+  player.isReady = !player.isReady;
+  socket // tell the gameBoard who clicked ready
+    .to(room.gameBoardSocket.id)
+    .emit("ready", player.id, player.isReady);
 
   socket.emit(SocketEvent.ToggleReadyStatusSuccess, player.id, player.isReady);
 
-    if (room.players.every((player: Player) => player.isReady)) {
-      socket.nsp.to(room.code).emit("startGame");
+  if (room.players.every((player: Player) => player.isReady)) {
+    socket.nsp.to(room.code).emit("startGame");
   }
 };
 
