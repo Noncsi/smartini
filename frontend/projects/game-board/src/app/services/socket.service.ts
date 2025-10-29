@@ -15,14 +15,11 @@ export class SocketService {
   constructor() {
     fromEvent(
       this.socket.on(SocketEvent.Connect, () => {
-        console.log('aha');
       }),
       SocketEvent.Connect
     )
       .pipe(
-        tap(() => console.log('create room attempt')),
         tap(() => this.socket?.emit(SocketEvent.CreateRoomAttempt)),
-        tap(() => console.log('create room attempt 2')),
         // take(1)
       )
       .subscribe();

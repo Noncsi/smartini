@@ -42,7 +42,7 @@ export class LobbyEffects {
       this.actions$.pipe(
         ofType(joinSuccess),
         concatLatestFrom(() => this.store.select(selectRoomCode)),
-        tap(([, roomCode]) => localStorage.setItem('roomCode', roomCode))
+        tap(([, roomCode]) => localStorage.setItem('roomCode', roomCode)),
       ),
     { dispatch: false }
   );
@@ -63,14 +63,15 @@ export class LobbyEffects {
       this.actions$.pipe(
         ofType(toggleReadyStatusAttempt),
         concatLatestFrom(() => [
-          this.store.select(selectPlayerId),
           this.store.select(selectRoomCode),
+          this.store.select(selectPlayerId),
         ]),
-        tap(([, playerId, roomCode]) =>
+        tap(([, roomCode, playerId])=> console.log(roomCode, playerId)),
+        tap(([, roomCode, playerId]) =>
           this.socketService.socket?.emit(
             SocketEvent.ToggleReadyStatusAttempt,
-            playerId,
-            roomCode
+            roomCode,
+            playerId
           )
         )
       ),

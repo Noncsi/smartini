@@ -22,15 +22,15 @@ export const createServer = (
   const server = new Server(port, serverOptions);
   server.on(SocketEvent.Connection, (socket: Socket) => {
     log.info.newSocketConnected(socket.id);
-    socket.on(SocketEvent.Disconnect, (reason) => disconnect(socket, reason));
+    socket.on(SocketEvent.Disconnect, () => disconnect(socket));
     socket.on(SocketEvent.CreateRoomAttempt, () => createRoom(socket));
     socket.on(SocketEvent.JoinRoomAttempt, (roomCode: RoomCode, playerName: string) =>
       joinPlayerToRoom(server, socket, roomCode, playerName)
     );
     socket.on(
       SocketEvent.ToggleReadyStatusAttempt,
-      (playerId: string, roomCode: RoomCode) => {
-        toggleReadyStatus(socket, server, playerId, roomCode);
+      (roomCode: RoomCode, playerId: string) => {
+        toggleReadyStatus(socket, server, roomCode, playerId);
       }
     );
     socket.on("getQuestion", async (roomCode: RoomCode) => {

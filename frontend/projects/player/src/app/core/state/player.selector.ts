@@ -3,7 +3,7 @@ import { Player } from '@models/player';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const selectGame = createFeatureSelector<Game>('game');
-export const selectPlayer = createFeatureSelector<Player>('game');
+export const selectPlayer = createFeatureSelector<Player>('player');
 
 export const selectIsPaused = createSelector(
   selectGame,

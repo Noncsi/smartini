@@ -19,9 +19,10 @@ export const log = {
   info: {
     newSocketConnected: (socketId: string) =>
       logger.info(`New socket is connected to server. Socket id: ${socketId}.`),
-    gameBoardDisconnected: () => logger.info(`Game board has disconnected.`),
-    playerDisconnected: (name: string) =>
-      logger.info(`Player '${name}' has disconnected`),
+    gameBoardDisconnected: (socketId: string) =>
+      logger.info(`Game board has disconnected. Socket id: ${socketId}`),
+    playerDisconnected: (socketId: string) =>
+      logger.info(`Player has disconnected. Socket id: ${socketId}`),
     serverIsRunning: () => logger.info(`Server is running on port ${PORT}.`),
   },
   success: {
@@ -39,5 +40,7 @@ export const log = {
       logger.error(`Room '${roomCode}' was not found.`),
     nameAlreadyTaken: (name: string) =>
       logger.error(`Name '${name}' is already taken.`),
+    playerNotFound: (id: string) =>
+      logger.error(`Player with id: ${id} was not found.`),
   },
 };

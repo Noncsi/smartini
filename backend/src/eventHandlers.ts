@@ -14,18 +14,18 @@ import {
 
 let correctAnswer: string;
 
-export const disconnect = (socket: Socket, reason: string): void => {
+export const disconnect = (socket: Socket): void => {
   if (socket.data.clientType === "GameBoardSocket") {
-    log.info.gameBoardDisconnected();
+    log.info.gameBoardDisconnected(socket.id);
   } else if (socket.data.clientType === "PlayerSocket") {
-    log.info.playerDisconnected(reason);
+    log.info.playerDisconnected(socket.id);
   } else {
     log.info;
   }
 };
 
 export const createRoom = (socket: GameBoardSocket): void => {
-  const roomCode = generateRoomCode();
+  const roomCode: RoomCode = generateRoomCode();
   rooms.set(roomCode, new Room(roomCode, socket));
   socket.data.clientType = "GameBoardSocket";
   socket.emit(SocketEvent.CreateRoomSuccess, roomCode);
@@ -57,17 +57,23 @@ export const joinPlayerToRoom = (
 export const toggleReadyStatus = (
   socket: PlayerSocket,
   server: Server,
-  playerId: string,
-  roomCode: RoomCode
+  roomCode: RoomCode,
+  playerId: string
 ) => {
   const room = rooms.get(roomCode);
-  if (!room) return socket.emit(SocketEvent.ToggleReadyStatusError);
+  if (!room) {
+    log.error.roomNotFound(roomCode);
+    return socket.emit(SocketEvent.ToggleReadyStatusError);
+  }
+
   const player = room.players.get(playerId);
-  if (!player) return socket.emit(SocketEvent.ToggleReadyStatusError);
+  if (!player) {
+    log.error.playerNotFound(playerId);
+    return socket.emit(SocketEvent.ToggleReadyStatusError);
+  }
+
   player.isReady = !player.isReady;
-  server // tell the gameBoard who clicked ready
-    .to(room.socket.id)
-    .emit("ready", player.id, player.isReady);
+  server.to(room.socket.id).emit("ready", player.id, player.isReady);
 
   server.emit(SocketEvent.ToggleReadyStatusSuccess, player.id, player.isReady);
 

@@ -11,7 +11,7 @@ export const joinSuccess = createAction(
 export const joinError = createAction('[Player:Lobby] join error');
 
 export const toggleReadyStatusAttempt = createAction(
-  '[Player:Lobby] toggle ready status'
+  '[Player:Lobby] toggle ready status attempt'
 );
 export const toggleReadyStatusSuccess = createAction(
   '[Player:Lobby] toggle ready status success'
