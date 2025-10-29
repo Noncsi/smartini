@@ -1,16 +1,19 @@
-<ng-container
-  *ngIf="{
-    isJoined: isJoined$ | async,
-    isStarted: isStarted$ | async,
-    currentPhase: currentPhase$ | async,
-    isAlreadyInGame: isAlreadyInGame
-  } as vars"
->
-  @if(vars.isJoined) {
-  <app-ready></app-ready>
-  @if(vars.isStarted) {
-  <app-choose-answer></app-choose-answer>
-  } } @else { @if(vars.isAlreadyInGame) {<app-rejoin></app-rejoin> } @else {
-  <app-join></app-join>
-  } }
-</ng-container>
+@switch (currentPhase()) {
+  @case (gamePhase.lobby) {
+    @if(isJoined()) {
+      <app-ready></app-ready>
+    } @else {
+      <app-join></app-join>
+    }
+  }
+  @case (gamePhase.gamePlay) { 
+    <span>game phase</span>
+  }
+  @case (gamePhase.result) { 
+    <span>result phase</span>
+  }
+  @default {
+    <span>unexpected error</span>
+  }
+}
+

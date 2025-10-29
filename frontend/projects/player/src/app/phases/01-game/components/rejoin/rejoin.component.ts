@@ -1,5 +1,5 @@
-import { WebSocketService } from '../../services/websocket.service';
 import { Component } from '@angular/core';
+import { SocketService } from '../../../../core/services/socket.service';
 
 @Component({
   selector: 'app-rejoin',
@@ -9,12 +9,12 @@ import { Component } from '@angular/core';
   styleUrl: './rejoin.component.scss',
 })
 export class RejoinComponent {
-  constructor(private ioService: WebSocketService) {}
+  constructor(private socketService: SocketService) {}
   rejoin() {
     const roomCode = localStorage.getItem('roomCode');
     const playerId = localStorage.getItem('playerId');
     roomCode && playerId
-      ? this.ioService.reJoinRoom(roomCode, playerId)
+      ? this.socketService.reJoinRoom(roomCode, playerId)
       : console.log('Reconnection was unsuccessful: Necessary info missing.');
   }
 }

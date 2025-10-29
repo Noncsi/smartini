@@ -15,6 +15,11 @@ export const selectRoomCode = createSelector(
   (game: Game) => game.roomCode
 );
 
+export const selectIsJoined = createSelector(
+  selectPlayer,
+  (player: Player) => !!player.id
+);
+
 export const selectPlayerId = createSelector(
   selectPlayer,
   (player: Player) => player.id

@@ -1,0 +1,45 @@
+import { Socket } from "socket.io";
+import { Player } from "./player";
+import { GameBoardSocket, GameStage, PlayerSocket, RoomCode } from "../types";
+import { log } from "../log";
+import SocketEvent from "../../../shared/socket-event";
+
+export class Room {
+  stage: GameStage = GameStage.lobby;
+  isPaused = false;
+
+  readonly roomCode: RoomCode;
+  readonly socket: GameBoardSocket;
+  readonly players: Map<string, Player> = new Map();
+
+  constructor(roomCode: RoomCode, socket: GameBoardSocket) {
+    this.roomCode = roomCode;
+    this.socket = socket;
+
+    this.socket.join(roomCode);
+    log.success.gameBoardCreated(roomCode);
+  }
+
+  addNewPlayer = (socket: PlayerSocket, name: string): Player | null => {
+    if (this.players.has(name)) {
+      return null;
+    }
+
+    const newPlayer = new Player(socket, this.roomCode, name);
+    this.players.set(newPlayer.id, newPlayer);
+    this.emitPlayers();
+    log.success.playerJoined(name, this.roomCode);
+    return newPlayer;
+  };
+
+  emitPlayers = () => {
+    this.socket.emit(
+      SocketEvent.Players,
+      [...this.players.values()].map((player) => ({
+        id: player.id,
+        name: player.name,
+        isReady: player.isReady,
+      }))
+    );
+  };
+}

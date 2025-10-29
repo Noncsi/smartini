@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   receivePlayers,
-  receiveRoomCode,
+  createRoomSuccess,
   pause,
   resume,
   setPlayerReadyStatus,
@@ -23,7 +23,7 @@ export const gameReducer = createReducer(
   initialState,
   on(pause, (state) => ({ ...state, isPaused: true })),
   on(resume, (state) => ({ ...state, isPaused: false })),
-  on(receiveRoomCode, (state, { roomCode }) => ({ ...state, roomCode })),
+  on(createRoomSuccess, (state, { roomCode }) => ({ ...state, roomCode })),
   on(receivePlayers, (state, { players }) => ({ ...state, players })),
   on(setPlayerReadyStatus, (state, { playerId, isReady }) => {
     console.log('isready', playerId, isReady);

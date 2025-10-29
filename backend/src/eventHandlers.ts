@@ -1,44 +1,38 @@
-import ShortUniqueId from "short-unique-id";
-import { Socket } from "socket.io";
-import { Log } from "./log";
-import { Room, RoomCode } from "./model/room";
+import { Server, Socket } from "socket.io";
+import { log } from "./log";
+import { Room } from "./models/room";
 import { rooms } from "./app";
-import { Player } from "./model/player";
-import SocketEvent from "../../socket-event";
-
-type GameBoardSocket = Socket;
-type PlayerSocket = Socket;
-type QuestionResponse = {
-  question: string;
-  correctAnswer: string;
-  wrongAnswers: string[];
-};
+import { Player } from "./models/player";
+import SocketEvent from "../../shared/socket-event";
+import { generateRoomCode } from "./utils";
+import {
+  GameBoardSocket,
+  PlayerSocket,
+  QuestionResponse,
+  RoomCode,
+} from "./types";
 
 let correctAnswer: string;
 
+export const disconnect = (socket: Socket, reason: string): void => {
+  if (socket.data.clientType === "GameBoardSocket") {
     log.info.gameBoardDisconnected();
+  } else if (socket.data.clientType === "PlayerSocket") {
     log.info.playerDisconnected(reason);
   } else {
-    // socket couldn't be identified
+    log.info;
   }
 };
 
-export const createRoom = (socket: GameBoardSocket) => {
-  const roomCode: RoomCode = new ShortUniqueId({ length: 4 })
-    .rnd()
-    .toUpperCase();
+export const createRoom = (socket: GameBoardSocket): void => {
+  const roomCode = generateRoomCode();
   rooms.set(roomCode, new Room(roomCode, socket));
-  Log.success.gameBoardCreated(roomCode);
-};
-
-export const connectPlayer = (
-  roomCodeForReconnect: RoomCode,
-  cb: (isReconnect: boolean) => {}
-) => {
-  rooms.has(roomCodeForReconnect) ? cb(true) : cb(false);
+  socket.data.clientType = "GameBoardSocket";
+  socket.emit(SocketEvent.CreateRoomSuccess, roomCode);
 };
 
 export const joinPlayerToRoom = (
+  server: Server,
   socket: PlayerSocket,
   roomCode: string,
   playerName: string
@@ -46,54 +40,39 @@ export const joinPlayerToRoom = (
   const room = rooms.get(roomCode);
   if (!room) {
     log.error.roomNotFound(roomCode);
+    server.emit(SocketEvent.JoinRoomError);
+    return;
   }
 
-  const newPlayer = room.addPlayer(socket, playerName);
-  if (newPlayer) {
-    Log.success.playerJoined(playerName, roomCode);
-    return socket.emit(SocketEvent.JoinRoomSuccess, newPlayer.id);
-  } else {
-    Log.error.nameAlreadyTaken(playerName);
-    return socket.emit(SocketEvent.JoinRoomError);
+  const player = room.addNewPlayer(socket, playerName);
+  if (!player) {
+    server.emit(SocketEvent.JoinRoomError);
+    return;
   }
-};
 
-export const reJoinPlayerToRoom = (
-  socket: PlayerSocket,
-  roomCode: string,
-  playerId: string,
-  cb: (isJoinSuccess: any) => {}
-) => {
-  if (rooms.has(roomCode)) {
-    // ts flow analysis doesn't recognise .has() as undefined check
-    const room = rooms.get(roomCode);
-    room?.reconnectPlayer(playerId);
-    cb(true);
-    Log.success.playerJoined(playerId, roomCode);
-  } else {
-    cb(false);
-    Log.error.roomNotFound();
-  }
+  socket.data.clientType = "PlayerSocket";
+  server.emit(SocketEvent.JoinRoomSuccess, player.id);
 };
 
 export const toggleReadyStatus = (
   socket: PlayerSocket,
+  server: Server,
   playerId: string,
   roomCode: RoomCode
 ) => {
   const room = rooms.get(roomCode);
   if (!room) return socket.emit(SocketEvent.ToggleReadyStatusError);
-  const player = room.players.find((player: Player) => player.id === playerId);
+  const player = room.players.get(playerId);
   if (!player) return socket.emit(SocketEvent.ToggleReadyStatusError);
   player.isReady = !player.isReady;
-  socket // tell the gameBoard who clicked ready
-    .to(room.gameBoardSocket.id)
+  server // tell the gameBoard who clicked ready
+    .to(room.socket.id)
     .emit("ready", player.id, player.isReady);
 
-  socket.emit(SocketEvent.ToggleReadyStatusSuccess, player.id, player.isReady);
+  server.emit(SocketEvent.ToggleReadyStatusSuccess, player.id, player.isReady);
 
-  if (room.players.every((player: Player) => player.isReady)) {
-    socket.nsp.to(room.code).emit("startGame");
+  if ([...room.players.values()].every((player: Player) => player.isReady)) {
+    socket.nsp.to(room.roomCode).emit("startGame");
   }
 };
 

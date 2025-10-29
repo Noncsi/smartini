@@ -3,10 +3,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideStore, StoreModule } from '@ngrx/store';
-import { gameReducer, playerReducer } from './state/player.reducer';
+import { gameReducer, playerReducer } from './core/state/player.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { JoinEffects } from './modules/join/state/join.effects';
-import { ReadyEffects } from './modules/ready/state/ready.effects';
+import { LobbyEffects } from './phases/00-lobby/state/lobby.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     importProvidersFrom(
       StoreModule.forRoot({ game: gameReducer, player: playerReducer }),
-      EffectsModule.forRoot([JoinEffects, ReadyEffects])
+      EffectsModule.forRoot([LobbyEffects])
     ),
   ],
 };

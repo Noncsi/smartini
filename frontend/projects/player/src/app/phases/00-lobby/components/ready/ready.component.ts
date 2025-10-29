@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ReadyService } from '../service/ready.service';
+import { Component, inject } from '@angular/core';
+import { LobbyService } from '../../service/lobby.service';
 
 @Component({
   selector: 'app-ready',
@@ -8,8 +8,9 @@ import { ReadyService } from '../service/ready.service';
   styleUrl: './ready.component.scss',
 })
 export class ReadyComponent {
-  constructor(private readyService: ReadyService) {}
+  lobbyService = inject(LobbyService);
+
   ready() {
-    this.readyService.setReady();
+    this.lobbyService.setReady();
   }
 }

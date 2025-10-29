@@ -1,7 +1,7 @@
 import { ServerOptions } from "socket.io";
 import { createServer } from "./app";
+import { PORT } from "../../shared/constants";
 
-const port: number = 8080;
 const serverOptions: Partial<ServerOptions> = {
   cors: {
     origin: [
@@ -15,4 +15,4 @@ const serverOptions: Partial<ServerOptions> = {
   },
 };
 
-createServer(port, serverOptions);
+createServer(PORT, serverOptions);

@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WebSocketService, Question } from '../../services/websocket.service';
+import { SocketService } from '../../../../core/services/socket.service';
+import { Question } from '@models/question';
 
 @Component({
   selector: 'app-choose-answer',
@@ -11,14 +12,14 @@ import { WebSocketService, Question } from '../../services/websocket.service';
   styleUrl: './choose-answer.component.scss',
 })
 export class ChooseAnswerComponent {
-  question$: Observable<Question>;
+  // question$: Observable<Question>;
 
-  constructor(private ioService: WebSocketService) {
-    this.question$ = this.ioService.question$;
+  constructor(private socketService: SocketService) {
+    // this.question$ = this.socketService.question$;
   }
 
   sendAnswer(text: string) {
-    this.ioService.sendAnswer(text);
+    this.socketService.sendAnswer(text);
 
     const set = new Map(
       'abcdefghijklmnopqrstuvwxyz'

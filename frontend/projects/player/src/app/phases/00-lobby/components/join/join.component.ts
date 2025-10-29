@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { JoinService } from '../service/join.service';
+import { LobbyService } from '../../service/lobby.service';
 
 @Component({
   selector: 'app-join',
@@ -9,9 +9,9 @@ import { JoinService } from '../service/join.service';
   imports: [],
 })
 export class JoinComponent {
-  joinService = inject(JoinService);
+  lobbyService = inject(LobbyService);
 
   join(roomCode: string, playerName: string) {
-    this.joinService.join(roomCode, playerName);
+    this.lobbyService.join(roomCode, playerName);
   }
 }

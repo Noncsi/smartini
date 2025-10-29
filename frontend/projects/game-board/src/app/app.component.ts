@@ -4,7 +4,7 @@ import { GamePhase } from '@models/game';
 import { Store } from '@ngrx/store';
 import { selectGamePhase } from './state/gameboard.selector';
 import { LobbyComponent } from './components/lobby/lobby.component';
-import { WebSocketService } from './services/websocket.service';
+import { SocketService } from './services/socket.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import { WebSocketService } from './services/websocket.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  webSocketService = inject(WebSocketService)
+  webSocketService = inject(SocketService);
   store = inject(Store);
   gamePhase = GamePhase;
   currentPhase: Signal<GamePhase> = this.store.selectSignal(selectGamePhase);
