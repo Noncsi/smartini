@@ -1,28 +1,43 @@
-enum color {
-  blue = "\x1b[34m",
-  green = "\x1b[32m",
-  red = "\x1b[31m",
-}
+import winston from "winston";
+import { PORT } from "../../shared/constants";
+import { RoomCode } from "./types";
 
-export const Log = {
+const { combine, timestamp, printf, colorize } = winston.format;
+
+const logger = winston.createLogger({
+  format: combine(
+    colorize(),
+    timestamp({ format: "HH:mm:ss" }),
+    printf(
+      ({ level, message, timestamp }) => `${timestamp} [${level}] ${message}`
+    )
+  ),
+  transports: [new winston.transports.Console()],
+});
+
+export const log = {
   info: {
-    gameBoardDisconnected: (roomCode: string) =>
-      console.log(color.blue, `Room ${roomCode} has been disconnected.`),
+    newSocketConnected: (socketId: string) =>
+      logger.info(`New socket is connected to server. Socket id: ${socketId}.`),
+    gameBoardDisconnected: () => logger.info(`Game board has disconnected.`),
     playerDisconnected: (name: string) =>
-      console.log(color.blue, `Player ${name} has been disconnected.`),
-    serverIsRunning: (port: number) =>
-      console.log(color.blue, `Server is running on port: ${port.toString()}.`),
+      logger.info(`Player '${name}' has disconnected`),
+    serverIsRunning: () => logger.info(`Server is running on port ${PORT}.`),
   },
   success: {
-    gameBoardCreated: (roomCode: string) =>
-      console.log(color.green, `Room ${roomCode} has opened.`),
-    playerJoined: (name: string, roomCode: string) =>
-      console.log(color.green, `${name} has joined to room: ${roomCode}.`),
-    playerReconnected: (name: string) =>
-      console.log(color.green, `${name} has been reconnected.`),
+    gameBoardCreated: (roomCode: RoomCode) =>
+      logger.info(`Room '${roomCode}' has been opened.`),
+    playerJoined: (name: string, roomCode: RoomCode) =>
+      logger.info(`Player '${name}' has joined room '${roomCode}'.`),
   },
   error: {
-    roomNotFound: () => console.log(color.red, `Room was not found.`),
-    nameAlreadyTaken: (name: string) => console.log(color.red, `Name "${name}" is already taken.`),
+    unspecifiedSocketDisconnected: () =>
+      logger.error(
+        `Unspecified socket disconnected. (Should be specified at connection).`
+      ),
+    roomNotFound: (roomCode: RoomCode) =>
+      logger.error(`Room '${roomCode}' was not found.`),
+    nameAlreadyTaken: (name: string) =>
+      logger.error(`Name '${name}' is already taken.`),
   },
 };

@@ -16,46 +16,8 @@ type QuestionResponse = {
 
 let correctAnswer: string;
 
-export const disconnect = (socket: GameBoardSocket | PlayerSocket) => {
-  // make diff between board closing and player quitting
-  const isGameBoard = Array.from(rooms.values()).some(
-    (room: Room) => room.gameBoardSocket.id === socket.id
-  );
-  const isPlayer = Array.from(rooms.values()).some((room: Room) =>
-    room.players.find((player: Player) => player.socket.id === socket.id)
-  );
-
-  if (isGameBoard) {
-    const room = Array.from(rooms.values()).find(
-      (room: Room) => room.gameBoardSocket.id === socket.id
-    );
-    if (room) {
-      // pause game
-      room.isPaused = true;
-      // send players a message that the board disconected
-      room.gameBoardSocket.to(room.code).emit("roomDisconnected");
-      // button for "close room / end game" if players want to finish
-      // automatically continues upon reconnect
-      Log.info.gameBoardDisconnected(room.code);
-    }
-  } else if (isPlayer) {
-    const room = Array.from(rooms.values()).find((room: Room) =>
-      room.players.find((player: Player) => player.socket.id === socket.id)
-    );
-    if (room) {
-      // pauses game
-      room.isPaused = true;
-      // send board an option for continue without disconnected player (stays in room, but freezed)
-      room.gameBoardSocket.to(room.code).emit("playerDisconnected");
-
-      // automatically continues upon reconnect
-      // disconnected player jumps back to join game view
-      // freeze player
-      const disconnectedPlayer =
-        room.players.find((player: Player) => player.socket.id === socket.id)
-          ?.name ?? "";
-      Log.info.playerDisconnected(disconnectedPlayer);
-    }
+    log.info.gameBoardDisconnected();
+    log.info.playerDisconnected(reason);
   } else {
     // socket couldn't be identified
   }
@@ -83,8 +45,7 @@ export const joinPlayerToRoom = (
 ) => {
   const room = rooms.get(roomCode);
   if (!room) {
-    Log.error.roomNotFound();
-    return socket.emit(SocketEvent.JoinRoomError);
+    log.error.roomNotFound(roomCode);
   }
 
   const newPlayer = room.addPlayer(socket, playerName);

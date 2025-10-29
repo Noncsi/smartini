@@ -7,9 +7,7 @@ import {
   reJoinPlayerToRoom,
   toggleReadyStatus,
 } from "./eventHandlers";
-import SocketEvent from "../../socket-event";
-import { Log } from "./log";
-import { Room, RoomCode } from "./model/room";
+import { log } from "./log";
 import { instrument } from "@socket.io/admin-ui";
 
 export const rooms = new Map<RoomCode, Room>();
@@ -19,13 +17,7 @@ export const createServer = (
   serverOptions: Partial<ServerOptions> = {}
 ) => {
   const server = new Server(port, serverOptions);
-  server.on("connection", (socket) => {
-    socket.on(SocketEvent.CreateRoom, () => createRoom(socket));
-    socket.on(
-      SocketEvent.JoinRoom,
-      (roomCode: RoomCode, playerName: string) => {
-        joinPlayerToRoom(socket, roomCode, playerName);
-      }
+    log.info.newSocketConnected(socket.id);
     );
     socket.on(
       "reJoinRoom",
@@ -47,6 +39,6 @@ export const createServer = (
     });
   });
 
-  Log.info.serverIsRunning(port);
+  log.info.serverIsRunning();
   instrument(server, { auth: false });
 };
