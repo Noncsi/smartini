@@ -12,6 +12,7 @@ enum SocketEvent {
   ToggleReadyStatusAttempt = 'toggleReadyStatusAttempt',
   ToggleReadyStatusSuccess = 'toggleReadyStatusSuccess',
   ToggleReadyStatusError = 'toggleReadyStatusError',
+  PlayerSetReady = 'playerSetReady',
 };
 
 export default SocketEvent;

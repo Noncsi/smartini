@@ -1,7 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Store } from '@ngrx/store';
-import { receivePlayers, createRoomSuccess } from '../state/gameboard.actions';
+import {
+  receivePlayers,
+  createRoomSuccess,
+  setPlayerReadyStatus,
+} from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
 import SocketEvent from '../../../../../../shared/socket-event';
@@ -14,12 +18,11 @@ export class SocketService {
 
   constructor() {
     fromEvent(
-      this.socket.on(SocketEvent.Connect, () => {
-      }),
+      this.socket.on(SocketEvent.Connect, () => {}),
       SocketEvent.Connect
     )
       .pipe(
-        tap(() => this.socket?.emit(SocketEvent.CreateRoomAttempt)),
+        tap(() => this.socket?.emit(SocketEvent.CreateRoomAttempt))
         // take(1)
       )
       .subscribe();
@@ -41,13 +44,16 @@ export class SocketService {
       )
       .subscribe();
 
-    // server emits readiness for a player -> client sets the player's ready state
-    fromEvent(this.socket, 'ready')
+    fromEvent(this.socket, SocketEvent.PlayerSetReady)
       .pipe(
-        tap(
-          (asd) => console.log('asd', asd)
-          // this.store.dispatch(setPlayerReadyStatus({ playerId, isReady }))
-        )
+        tap((result) => {
+          this.store.dispatch(
+            setPlayerReadyStatus({
+              playerId: result.playerId,
+              isReady: result.isReady,
+            })
+          );
+        })
       )
       .subscribe();
 

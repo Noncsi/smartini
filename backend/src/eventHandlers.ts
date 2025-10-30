@@ -73,7 +73,12 @@ export const toggleReadyStatus = (
   }
 
   player.isReady = !player.isReady;
-  server.to(room.socket.id).emit("ready", player.id, player.isReady);
+  server
+    .to(room.socket.id)
+    .emit(SocketEvent.PlayerSetReady, {
+      playerId: player.id,
+      isReady: player.isReady,
+    });
 
   server.emit(SocketEvent.ToggleReadyStatusSuccess, player.id, player.isReady);
 
