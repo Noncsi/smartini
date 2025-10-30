@@ -4,12 +4,12 @@ import { log } from "./log";
 import { instrument } from "@socket.io/admin-ui";
 import { Room } from "./models/room";
 import { RoomCode } from "./types";
-import { disconnect } from "./eventHandlers/disconnect";
-import { createRoom } from "./eventHandlers/createRoom";
-import { joinPlayerToRoom } from "./eventHandlers/joinPlayerToRoom";
-import { toggleReadyStatus } from "./eventHandlers/toggleReadyStatus";
-import { checkAnswer } from "./eventHandlers/checkAnswer";
-import { getQuestion } from "./eventHandlers/getQuestion";
+import { disconnect } from "./event-handlers/disconnect";
+import { createRoom } from "./event-handlers/create-room";
+import { joinPlayerToRoom } from "./event-handlers/join-player-to-room";
+import { toggleReadyStatus } from "./event-handlers/toggle-ready-status";
+import { checkAnswer } from "./event-handlers/check-answer";
+import { getQuestion } from "./event-handlers/get-question";
 
 export const rooms = new Map<RoomCode, Room>();
 export let correctAnswer: string;
