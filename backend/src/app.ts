@@ -1,19 +1,18 @@
 import { Server, ServerOptions, Socket } from "socket.io";
-import {
-  checkAnswer,
-  createRoom,
-  disconnect,
-  getQuestion,
-  joinPlayerToRoom,
-  toggleReadyStatus,
-} from "./eventHandlers";
 import SocketEvent from "../../shared/socket-event";
 import { log } from "./log";
 import { instrument } from "@socket.io/admin-ui";
 import { Room } from "./models/room";
 import { RoomCode } from "./types";
+import { disconnect } from "./eventHandlers/disconnect";
+import { createRoom } from "./eventHandlers/createRoom";
+import { joinPlayerToRoom } from "./eventHandlers/joinPlayerToRoom";
+import { toggleReadyStatus } from "./eventHandlers/toggleReadyStatus";
+import { checkAnswer } from "./eventHandlers/checkAnswer";
+import { getQuestion } from "./eventHandlers/getQuestion";
 
 export const rooms = new Map<RoomCode, Room>();
+export let correctAnswer: string;
 
 export const createServer = (
   port: number,
@@ -24,8 +23,10 @@ export const createServer = (
     log.info.newSocketConnected(socket.id);
     socket.on(SocketEvent.Disconnect, () => disconnect(socket));
     socket.on(SocketEvent.CreateRoomAttempt, () => createRoom(socket));
-    socket.on(SocketEvent.JoinRoomAttempt, (roomCode: RoomCode, playerName: string) =>
-      joinPlayerToRoom(server, socket, roomCode, playerName)
+    socket.on(
+      SocketEvent.JoinRoomAttempt,
+      (roomCode: RoomCode, playerName: string) =>
+        joinPlayerToRoom(server, socket, roomCode, playerName)
     );
     socket.on(
       SocketEvent.ToggleReadyStatusAttempt,

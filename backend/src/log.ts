@@ -32,9 +32,9 @@ export const log = {
       logger.info(`Player '${name}' has joined room '${roomCode}'.`),
   },
   error: {
-    unspecifiedSocketDisconnected: () =>
+    unspecifiedSocketDisconnected: (socketId: string) =>
       logger.error(
-        `Unspecified socket disconnected. (Should be specified at connection).`
+        `Unspecified socket disconnected. (Should be specified at connection) Socket id: ${socketId}.`
       ),
     roomNotFound: (roomCode: RoomCode) =>
       logger.error(`Room '${roomCode}' was not found.`),
