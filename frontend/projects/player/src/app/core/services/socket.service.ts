@@ -46,26 +46,23 @@ export class SocketService {
     this.eventSubscriptions.push(
       fromEvent(this.socket, SocketEvent.JoinRoomSuccess)
         .pipe(
-          tap((playerId: string) =>
+          map((playerId: string) =>
             this.store.dispatch(joinSuccess({ id: playerId }))
           )
         )
-        .subscribe()
-    );
-
-    this.eventSubscriptions.push(
+        .subscribe(),
       fromEvent(this.socket, SocketEvent.JoinRoomError)
         .pipe(map(() => this.store.dispatch(joinError())))
+        .subscribe(),
       fromEvent(this.socket, SocketEvent.SetReadyStatusSuccess)
         .pipe(map(() => this.store.dispatch(setReadyStatusSuccess())))
+        .subscribe(),
       fromEvent(this.socket, SocketEvent.SetReadyStatusError)
         .pipe(map(() => this.store.dispatch(setReadyStatusError())))
+        .subscribe(),
       fromEvent(this.socket, 'startGame')
         .pipe(tap(() => this.store.dispatch(startGame())))
-        .subscribe()
-    );
-
-    this.eventSubscriptions.push(
+        .subscribe(),
       fromEvent(this.socket, 'answerResult')
         .pipe(tap((isCorrect) => console.log('isCorrect', isCorrect)))
         .subscribe()
