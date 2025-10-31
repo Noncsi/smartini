@@ -5,6 +5,7 @@ import {
   receivePlayers,
   createRoomSuccess,
   setPlayerReadyStatus,
+  startGame,
 } from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
@@ -57,9 +58,9 @@ export class SocketService {
       )
       .subscribe();
 
-    // this.socket.on('startGame', () => {
-    //   this.store.dispatch(startGame());
-    // });
+    this.socket.on(SocketEvent.StartGame, () => {
+      this.store.dispatch(startGame());
+    });
     // this.socket.on('question', (question: Question) => {
     //   console.log('question', question);
     //   this.store.dispatch(askQuestion({ question }));

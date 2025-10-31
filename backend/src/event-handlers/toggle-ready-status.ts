@@ -33,6 +33,6 @@ export const toggleReadyStatus = (
   log.info.playerStatusSet(player.name, roomCode, player.isReady);
 
   if ([...room.players.values()].every((player: Player) => player.isReady)) {
-    socket.nsp.to(room.roomCode).emit("startGame");
+    socket.nsp.to(room.roomCode).emit(SocketEvent.StartGame);
   }
 };

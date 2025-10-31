@@ -60,7 +60,7 @@ export class SocketService {
       fromEvent(this.socket, SocketEvent.SetReadyStatusError)
         .pipe(map(() => this.store.dispatch(setReadyStatusError())))
         .subscribe(),
-      fromEvent(this.socket, 'startGame')
+      fromEvent(this.socket, SocketEvent.StartGame)
         .pipe(tap(() => this.store.dispatch(startGame())))
         .subscribe(),
       fromEvent(this.socket, 'answerResult')

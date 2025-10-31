@@ -5,11 +5,10 @@ import { PlayerSocket, SocketType } from "../types";
 import { log } from "../log";
 
 export const joinPlayerToRoom = (
-  server: Server,
   socket: PlayerSocket,
   roomCode: string,
   playerName: string
-) => {
+) => { 
   const room = rooms.get(roomCode);
   if (!room) {
     log.error.roomNotFound(roomCode);
@@ -34,9 +33,4 @@ export const joinPlayerToRoom = (
     }))
   );
   socket.emit(SocketEvent.JoinRoomSuccess, player.id);
-
-  console.log([...room.players.values()].map((player) => ({
-      id: player.id,
-      name: player.name,
-    })))
 };

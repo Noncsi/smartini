@@ -1,3 +1,15 @@
-@if(currentPhase() === gamePhase.lobby) {
-<app-lobby></app-lobby>
+@switch (currentPhase()) {
+  @case (gamePhase.lobby) {
+    <app-lobby></app-lobby>
+  }
+  @case (gamePhase.gamePlay) { 
+    <span>game phase</span>
+  }
+  @case (gamePhase.result) { 
+    <span>result phase</span>
+  }
+  @default {
+    <span>unexpected error</span>
+  }
 }
+

@@ -13,6 +13,7 @@ enum SocketEvent {
   SetReadyStatusSuccess = 'setReadyStatusSuccess',
   SetReadyStatusError = 'setReadyStatusError',
   PlayerSetReady = 'playerSetReady',
+  StartGame = 'startGame',
 };
 
 export default SocketEvent;
