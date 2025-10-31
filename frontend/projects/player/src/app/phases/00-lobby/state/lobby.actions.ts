@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 
 export const joinAttempt = createAction(
   '[Player:Lobby] join attempt',
-  props<{ roomCode: string; playerName: string }>()
+  props<{ roomCode: string; name: string }>()
 );
 export const joinSuccess = createAction(
   '[Player:Lobby] join success',

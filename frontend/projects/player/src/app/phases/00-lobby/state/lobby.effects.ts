@@ -26,10 +26,10 @@ export class LobbyEffects {
     () =>
       this.actions$.pipe(
         ofType(joinAttempt),
-        tap(({ roomCode, playerName }) => {
+        tap(({ roomCode, name }) => {
           this.socketService
             .connect()
-            .emit(SocketEvent.JoinRoomAttempt, roomCode, playerName);
+            .emit(SocketEvent.JoinRoomAttempt, roomCode, name);
         })
       ),
     { dispatch: false }

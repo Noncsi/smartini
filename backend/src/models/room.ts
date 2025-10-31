@@ -26,19 +26,7 @@ export class Room {
 
     const newPlayer = new Player(socket, this.roomCode, name);
     this.players.set(newPlayer.id, newPlayer);
-    this.emitPlayers();
-    log.info.playerJoined(name, this.roomCode);
+    log.info.playerJoined(newPlayer.name, this.roomCode);
     return newPlayer;
-  };
-
-  emitPlayers = () => {
-    this.socket.emit(
-      SocketEvent.Players,
-      [...this.players.values()].map((player) => ({
-        id: player.id,
-        name: player.name,
-        isReady: player.isReady,
-      }))
-    );
   };
 }

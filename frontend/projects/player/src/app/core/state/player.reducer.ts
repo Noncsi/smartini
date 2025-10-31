@@ -27,7 +27,7 @@ const initialPlayerState: Player = {
 
 export const gameReducer = createReducer(
   initialGameState,
-  on(joinAttempt, (state, { roomCode, playerName }) => ({
+  on(joinAttempt, (state, { roomCode, name }) => ({
     ...state,
     roomCode,
   })),
@@ -42,9 +42,9 @@ export const gameReducer = createReducer(
 
 export const playerReducer = createReducer(
   initialPlayerState,
-  on(joinAttempt, (state, { roomCode, playerName }) => ({
+  on(joinAttempt, (state, { roomCode, name }) => ({
     ...state,
-    playerName,
+    name,
   })),
   on(joinSuccess, (state, { id }) => ({
     ...state,

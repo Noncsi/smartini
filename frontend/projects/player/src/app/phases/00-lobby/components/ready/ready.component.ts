@@ -12,6 +12,7 @@ import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/sl
 export class ReadyComponent {
   lobbyService = inject(LobbyService);
   isReady = this.lobbyService.isReady;
+  me = this.lobbyService.me;
 
   setReady(event: MatSlideToggleChange) {
     this.lobbyService.setReady(event.checked);

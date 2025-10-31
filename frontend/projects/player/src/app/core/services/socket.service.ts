@@ -46,8 +46,8 @@ export class SocketService {
     this.eventSubscriptions.push(
       fromEvent(this.socket, SocketEvent.JoinRoomSuccess)
         .pipe(
-          map((playerId: string) =>
-            this.store.dispatch(joinSuccess({ id: playerId }))
+          map((id: string) =>
+            this.store.dispatch(joinSuccess({ id }))
           )
         )
         .subscribe(),

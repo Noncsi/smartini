@@ -13,16 +13,30 @@ export const joinPlayerToRoom = (
   const room = rooms.get(roomCode);
   if (!room) {
     log.error.roomNotFound(roomCode);
-    server.emit(SocketEvent.JoinRoomError);
+    socket.emit(SocketEvent.JoinRoomError);
     return;
   }
-
+  
   const player = room.addNewPlayer(socket, playerName);
   if (!player) {
-    server.emit(SocketEvent.JoinRoomError);
+    socket.emit(SocketEvent.JoinRoomError);
     return;
   }
 
   socket.data.clientType = SocketType.PlayerSocket;
-  server.emit(SocketEvent.JoinRoomSuccess, player.id);
+
+  room.socket.emit(
+    SocketEvent.Players,
+    [...room.players.values()].map((player) => ({
+      id: player.id,
+      name: player.name,
+      isReady: player.isReady,
+    }))
+  );
+  socket.emit(SocketEvent.JoinRoomSuccess, player.id);
+
+  console.log([...room.players.values()].map((player) => ({
+      id: player.id,
+      name: player.name,
+    })))
 };
