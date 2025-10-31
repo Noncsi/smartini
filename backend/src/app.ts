@@ -29,9 +29,9 @@ export const createServer = (
         joinPlayerToRoom(server, socket, roomCode, playerName)
     );
     socket.on(
-      SocketEvent.ToggleReadyStatusAttempt,
-      (roomCode: RoomCode, playerId: string) => {
-        toggleReadyStatus(socket, server, roomCode, playerId);
+      SocketEvent.SetReadyStatusAttempt,
+      (roomCode: RoomCode, playerId: string, isReady: boolean) => {
+        toggleReadyStatus(socket, server, roomCode, playerId, isReady);
       }
     );
     socket.on("getQuestion", async (roomCode: RoomCode) => {

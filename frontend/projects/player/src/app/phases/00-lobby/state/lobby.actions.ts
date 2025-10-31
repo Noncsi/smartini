@@ -10,12 +10,13 @@ export const joinSuccess = createAction(
 );
 export const joinError = createAction('[Player:Lobby] join error');
 
-export const toggleReadyStatusAttempt = createAction(
-  '[Player:Lobby] toggle ready status attempt'
+export const setReadyStatusAttempt = createAction(
+  '[Player:Lobby] set ready status attempt',
+  props<{ isReady: boolean }>()
 );
-export const toggleReadyStatusSuccess = createAction(
-  '[Player:Lobby] toggle ready status success'
+export const setReadyStatusSuccess = createAction(
+  '[Player:Lobby] set ready status success'
 );
-export const toggleReadyStatusError = createAction(
-  '[Player:Lobby] toggle ready status error'
+export const setReadyStatusError = createAction(
+  '[Player:Lobby] set ready status error'
 );

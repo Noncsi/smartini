@@ -1,1 +1,3 @@
-<button (click)="ready()">READY!</button>
+<mat-slide-toggle [checked]="isReady()" (change)="setReady($event)">
+  I'm Ready!
+</mat-slide-toggle>

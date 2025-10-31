@@ -8,8 +8,8 @@ import { startGame } from '../state/player.actions';
 import {
   joinSuccess,
   joinError,
-  toggleReadyStatusSuccess,
-  toggleReadyStatusError,
+  setReadyStatusSuccess,
+  setReadyStatusError,
 } from '../../phases/00-lobby/state/lobby.actions';
 
 @Injectable({ providedIn: 'root' })
@@ -56,22 +56,10 @@ export class SocketService {
     this.eventSubscriptions.push(
       fromEvent(this.socket, SocketEvent.JoinRoomError)
         .pipe(map(() => this.store.dispatch(joinError())))
-        .subscribe()
-    );
-
-    this.eventSubscriptions.push(
-      fromEvent(this.socket, SocketEvent.ToggleReadyStatusSuccess)
-        .pipe(map(() => this.store.dispatch(toggleReadyStatusSuccess())))
-        .subscribe()
-    );
-
-    this.eventSubscriptions.push(
-      fromEvent(this.socket, SocketEvent.ToggleReadyStatusError)
-        .pipe(map(() => this.store.dispatch(toggleReadyStatusError())))
-        .subscribe()
-    );
-
-    this.eventSubscriptions.push(
+      fromEvent(this.socket, SocketEvent.SetReadyStatusSuccess)
+        .pipe(map(() => this.store.dispatch(setReadyStatusSuccess())))
+      fromEvent(this.socket, SocketEvent.SetReadyStatusError)
+        .pipe(map(() => this.store.dispatch(setReadyStatusError())))
       fromEvent(this.socket, 'startGame')
         .pipe(tap(() => this.store.dispatch(startGame())))
         .subscribe()

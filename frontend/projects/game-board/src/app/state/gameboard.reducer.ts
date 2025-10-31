@@ -26,17 +26,17 @@ export const gameReducer = createReducer(
   on(createRoomSuccess, (state, { roomCode }) => ({ ...state, roomCode })),
   on(receivePlayers, (state, { players }) => ({ ...state, players })),
   on(setPlayerReadyStatus, (state, { playerId, isReady }) => {
-    console.log('isready', playerId, isReady);
-    const idx = state.players.findIndex(
+    const playerIdx = state.players.findIndex(
       (player: Player) => player.id === playerId
     );
 
-    return {
-      ...state,
-      players: state.players.map((player: Player) =>
-        player.id === state.players[idx].id ? { ...player, isReady } : player
-      ),
-    };
+    const players = state.players.map((player: Player) =>
+      player.id === state.players[playerIdx].id
+        ? { ...player, isReady }
+        : player
+    );
+
+    return { ...state, players };
   }),
   on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay })),
   on(askQuestion, (state, { question }) => ({

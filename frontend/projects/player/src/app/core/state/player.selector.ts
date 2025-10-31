@@ -34,3 +34,8 @@ export const selectQuestion = createSelector(
   selectGame,
   (game: Game) => game.currentQuestion
 );
+
+export const selectIsPlayerReady = createSelector(
+  selectPlayer,
+  (player: Player) => player.isReady
+);

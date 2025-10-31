@@ -13,9 +13,7 @@ import {
   joinAttempt,
   joinSuccess,
   joinError,
-  toggleReadyStatusAttempt,
-  toggleReadyStatusSuccess,
-  toggleReadyStatusError,
+  setReadyStatusAttempt,
 } from './lobby.actions';
 
 @Injectable()
@@ -42,7 +40,7 @@ export class LobbyEffects {
       this.actions$.pipe(
         ofType(joinSuccess),
         concatLatestFrom(() => this.store.select(selectRoomCode)),
-        tap(([, roomCode]) => localStorage.setItem('roomCode', roomCode)),
+        tap(([, roomCode]) => localStorage.setItem('roomCode', roomCode))
       ),
     { dispatch: false }
   );
@@ -58,40 +56,22 @@ export class LobbyEffects {
     { dispatch: false }
   );
 
-  emitToggleReadyStatusAttempt$ = createEffect(
+  emitSetReadyStatusAttempt$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(toggleReadyStatusAttempt),
+        ofType(setReadyStatusAttempt),
         concatLatestFrom(() => [
           this.store.select(selectRoomCode),
           this.store.select(selectPlayerId),
         ]),
-        tap(([, roomCode, playerId])=> console.log(roomCode, playerId)),
-        tap(([, roomCode, playerId]) =>
+        tap(([action, roomCode, playerId]) =>
           this.socketService.socket?.emit(
-            SocketEvent.ToggleReadyStatusAttempt,
+            SocketEvent.SetReadyStatusAttempt,
             roomCode,
-            playerId
+            playerId,
+            action.isReady
           )
         )
-      ),
-    { dispatch: false }
-  );
-
-  toggleReadyStatusSuccess = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(toggleReadyStatusSuccess),
-        tap(() => console.log('toggleReadyStatusSuccess'))
-      ),
-    { dispatch: false }
-  );
-
-  toggleReadyStatusError = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(toggleReadyStatusError),
-        tap(() => console.log('toggleReadyStatusError'))
       ),
     { dispatch: false }
   );

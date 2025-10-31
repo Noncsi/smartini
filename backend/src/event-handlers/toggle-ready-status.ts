@@ -9,27 +9,28 @@ export const toggleReadyStatus = (
   socket: PlayerSocket,
   server: Server,
   roomCode: RoomCode,
-  playerId: string
+  playerId: string,
+  isReady: boolean,
 ) => {
   const room = rooms.get(roomCode);
   if (!room) {
     log.error.roomNotFound(roomCode);
-    return socket.emit(SocketEvent.ToggleReadyStatusError);
+    return socket.emit(SocketEvent.SetReadyStatusError);
   }
 
   const player = room.players.get(playerId);
   if (!player) {
     log.error.playerNotFound(playerId);
-    return socket.emit(SocketEvent.ToggleReadyStatusError);
+    return socket.emit(SocketEvent.SetReadyStatusError);
   }
 
-  player.isReady = !player.isReady;
+  player.isReady = isReady;
   server.to(room.socket.id).emit(SocketEvent.PlayerSetReady, {
     playerId: player.id,
     isReady: player.isReady,
   });
 
-  server.emit(SocketEvent.ToggleReadyStatusSuccess, player.id, player.isReady);
+  log.info.playerStatusSet(player.name, roomCode, player.isReady);
 
   if ([...room.players.values()].every((player: Player) => player.isReady)) {
     socket.nsp.to(room.roomCode).emit("startGame");

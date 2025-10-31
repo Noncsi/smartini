@@ -6,7 +6,8 @@ import {
   joinAttempt,
   joinSuccess,
   joinError,
-  toggleReadyStatusSuccess,
+  setReadyStatusAttempt,
+  setReadyStatusError,
 } from '../../phases/00-lobby/state/lobby.actions';
 
 const initialGameState: Game = {
@@ -53,8 +54,12 @@ export const playerReducer = createReducer(
     ...state,
     name: '',
   })),
-  on(toggleReadyStatusSuccess, (state) => ({
+  on(setReadyStatusAttempt, (state, { isReady }) => ({
     ...state,
-    isReady: !state.isReady,
+    isReady,
+  })),
+  on(setReadyStatusError, (state) => ({
+    ...state,
+    isReady: false,
   }))
 );

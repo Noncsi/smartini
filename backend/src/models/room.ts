@@ -1,4 +1,3 @@
-import { Socket } from "socket.io";
 import { Player } from "./player";
 import { GameBoardSocket, GameStage, PlayerSocket, RoomCode } from "../types";
 import { log } from "../log";
@@ -17,7 +16,7 @@ export class Room {
     this.socket = socket;
 
     this.socket.join(roomCode);
-    log.success.gameBoardCreated(roomCode);
+    log.info.gameBoardCreated(roomCode);
   }
 
   addNewPlayer = (socket: PlayerSocket, name: string): Player | null => {
@@ -28,7 +27,7 @@ export class Room {
     const newPlayer = new Player(socket, this.roomCode, name);
     this.players.set(newPlayer.id, newPlayer);
     this.emitPlayers();
-    log.success.playerJoined(name, this.roomCode);
+    log.info.playerJoined(name, this.roomCode);
     return newPlayer;
   };
 
