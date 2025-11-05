@@ -23,6 +23,8 @@ export const joinPlayerToRoom = (
   }
 
   socket.data.clientType = SocketType.PlayerSocket;
+  socket.data.roomCode = roomCode;
+  socket.data.playerId = player.id
 
   room.socket.emit(
     SocketEvent.Players,
