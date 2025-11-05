@@ -1,5 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 
+export const connectToSocket = createAction('[Player:Lobby] connect to socket');
+export const connectToSocketSuccess = createAction(
+  '[Player:Lobby] connect to socket success',
+  props<{ roomCode: string; name: string }>()
+);
+export const connectToSocketError = createAction(
+  '[Player:Lobby] connect to socket error'
+);
+
 export const joinAttempt = createAction(
   '[Player:Lobby] join attempt',
   props<{ roomCode: string; name: string }>()

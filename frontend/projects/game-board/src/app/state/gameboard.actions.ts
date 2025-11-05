@@ -1,5 +1,5 @@
 import { Player } from '@models/player';
-import { Question } from '@models/question';
+import { QuestionPrompt } from '@models/question';
 import { createAction, props } from '@ngrx/store';
 
 export const pause = createAction('pause');
@@ -26,5 +26,5 @@ export const getQuestion = createAction('getQuestion');
 
 export const askQuestion = createAction(
   'askQuestion',
-  props<{ question: Question }>()
+  props<{ question: QuestionPrompt }>()
 );

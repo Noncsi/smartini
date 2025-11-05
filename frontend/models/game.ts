@@ -1,5 +1,5 @@
 import { Player } from './player';
-import { Question } from './question';
+import { QuestionPrompt } from './question';
 
 export enum GamePhase {
   lobby,
@@ -12,5 +12,5 @@ export interface Game {
   roomCode: string;
   isPaused: boolean;
   players: Player[];
-  currentQuestion: Question;
+  currentQuestion: QuestionPrompt;
 }

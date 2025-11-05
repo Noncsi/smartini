@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SocketService } from '../../../../core/services/socket.service';
-import { Question } from '@models/question';
+import { QuestionPrompt } from '@models/question';
+import { GameService } from '../../game.service';
 
 @Component({
   selector: 'app-choose-answer',
@@ -12,14 +12,11 @@ import { Question } from '@models/question';
   styleUrl: './choose-answer.component.scss',
 })
 export class ChooseAnswerComponent {
-  // question$: Observable<Question>;
-
-  constructor(private socketService: SocketService) {
-    // this.question$ = this.socketService.question$;
-  }
+  gameService = inject(GameService)
+  question = this.gameService.questionPrompt;
 
   sendAnswer(text: string) {
-    this.socketService.sendAnswer(text);
+    // this.socketService.sendAnswer(text);
 
     const set = new Map(
       'abcdefghijklmnopqrstuvwxyz'

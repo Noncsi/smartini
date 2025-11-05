@@ -1,6 +1,6 @@
 @switch (currentPhase()) {
   @case (gamePhase.lobby) {
-    @if(isJoined()) {
+    @if(isJoined()) { 
       <app-ready></app-ready>
     } @else {
       <app-join></app-join>

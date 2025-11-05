@@ -1,26 +1,14 @@
-import { Injectable } from '@angular/core';
-import { GamePhase } from '@models/game';
-import { Player } from '@models/player';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import {
-  selectGamePhase,
-  selectRoomCode,
-  selectPlayers,
-} from '../state/gameboard.selector';
+import { selectQuestion } from '../state/gameboard.selector';
+import { getQuestion } from '../state/gameboard.actions';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
-  phase$: Observable<GamePhase>;
-  players$: Observable<Player[]>;
-  roomCode$: Observable<string>;
-
-  constructor(private store: Store) {
-    this.phase$ = this.store.select(selectGamePhase);
-    this.roomCode$ = this.store.select(selectRoomCode);
-    this.players$ = this.store.select(selectPlayers);
-  }
+  store = inject(Store);
+  currentQuestion = this.store.selectSignal(selectQuestion);
 
   getQuestion() {
+    this.store.dispatch(getQuestion());
   }
 }

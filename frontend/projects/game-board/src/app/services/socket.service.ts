@@ -6,11 +6,13 @@ import {
   createRoomSuccess,
   setPlayerReadyStatus,
   startGame,
+  askQuestion,
 } from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
 import SocketEvent from '../../../../../../shared/socket-event';
 import { PORT } from '../../../../../../shared/constants';
+import { QuestionPrompt } from '@models/question';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -61,10 +63,12 @@ export class SocketService {
     this.socket.on(SocketEvent.StartGame, () => {
       this.store.dispatch(startGame());
     });
-    // this.socket.on('question', (question: Question) => {
-    //   console.log('question', question);
-    //   this.store.dispatch(askQuestion({ question }));
-    // });
+    this.socket.on(
+      SocketEvent.GetQuestionSuccess,
+      (question: QuestionPrompt) => {
+        this.store.dispatch(askQuestion({ question }));
+      }
+    );
 
     // this.socket.on('roomDisconnected', () => {
     //   this.store.dispatch(pause());

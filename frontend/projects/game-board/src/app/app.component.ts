@@ -5,11 +5,12 @@ import { Store } from '@ngrx/store';
 import { selectGamePhase } from './state/gameboard.selector';
 import { LobbyComponent } from './components/lobby/lobby.component';
 import { SocketService } from './services/socket.service';
+import { GameComponent } from "./components/game/game.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LobbyComponent],
+  imports: [CommonModule, LobbyComponent, GameComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

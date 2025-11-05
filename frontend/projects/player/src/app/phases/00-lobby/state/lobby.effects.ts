@@ -1,20 +1,28 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
-import { tap } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  concatMap,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { Store } from '@ngrx/store';
-import SocketEvent from '../../../../../../../../shared/socket-event';
-import { SocketService } from '../../../core/services/socket.service';
+import { selectPlayerId } from '../../../core/state/player/player.selector';
 import {
-  selectRoomCode,
-  selectPlayerId,
-} from '../../../core/state/player.selector';
-import {
+  connectToSocket,
+  connectToSocketSuccess,
+  connectToSocketError,
   joinAttempt,
   joinSuccess,
   joinError,
   setReadyStatusAttempt,
 } from './lobby.actions';
+import { selectRoomCode } from '../../../core/state/game/game.selector';
+import { SocketService } from '../../../core/socket.service';
 
 @Injectable()
 export class LobbyEffects {
@@ -22,15 +30,29 @@ export class LobbyEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
 
+  connectSocket$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(joinAttempt),
+      switchMap(({ roomCode, name }) =>
+        this.socketService.connect().pipe(
+          tap((a) => console.log('effect', a)),
+          map(() => connectToSocketSuccess({ roomCode, name })),
+          catchError(() => {
+            console.error('Failed to connect to socket.');
+            return of(connectToSocketError());
+          })
+        )
+      )
+    )
+  );
+
   emitJoinAttempt$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(joinAttempt),
-        tap(({ roomCode, name }) => {
-          this.socketService
-            .connect()
-            .emit(SocketEvent.JoinRoomAttempt, roomCode, name);
-        })
+        ofType(connectToSocketSuccess),
+        tap(({ roomCode, name }) =>
+          this.socketService.emitJoinAttempt(roomCode, name)
+        )
       ),
     { dispatch: false }
   );
@@ -65,8 +87,7 @@ export class LobbyEffects {
           this.store.select(selectPlayerId),
         ]),
         tap(([action, roomCode, playerId]) =>
-          this.socketService.socket?.emit(
-            SocketEvent.SetReadyStatusAttempt,
+          this.socketService.emitSetReadyStatusAttempt(
             roomCode,
             playerId,
             action.isReady

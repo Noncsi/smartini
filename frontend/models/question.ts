@@ -1,5 +1,4 @@
-export interface Question {
+export interface QuestionPrompt {
   question: string;
-  answer: string;
-  wrongAnswers: string[];
+  options: string[];
 }

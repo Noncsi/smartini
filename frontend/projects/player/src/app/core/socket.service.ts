@@ -1,0 +1,102 @@
+import { inject, Injectable } from '@angular/core';
+import { io, Socket } from 'socket.io-client';
+import { PORT } from '../../../../../../shared/constants';
+import SocketEvent from '../../../../../../shared/socket-event';
+import {
+  catchError,
+  EMPTY,
+  fromEvent,
+  map,
+  Observable,
+  of,
+  Subscription,
+  throwError,
+} from 'rxjs';
+import { Store } from '@ngrx/store';
+import {
+  joinSuccess,
+  joinError,
+  setReadyStatusSuccess,
+  setReadyStatusError,
+} from '../phases/00-lobby/state/lobby.actions';
+import {
+  startGame,
+  getQuestionSuccess,
+} from '../phases/01-game/state/game.actions';
+
+@Injectable({ providedIn: 'root' })
+export class SocketService {
+  public eventSubscriptions: Subscription[] = [];
+  public socket: Socket = {} as Socket;
+  private store = inject(Store);
+
+  connect(): Observable<Socket> {
+    if (this.socket?.connected) {
+      return of(this.socket);
+    }
+    this.socket = io(`ws://192.168.0.103:${PORT}`);
+
+    return fromEvent(this.socket, SocketEvent.Connect).pipe(
+      map(() => {
+        this.listenToSocketEvents();
+        return this.socket;
+      }),
+      catchError(() => EMPTY)
+    );
+  }
+
+  disconnect() {
+    if (this.socket.connected) {
+      this.socket.disconnect();
+    }
+  }
+
+  listenToSocketEvents(): void {
+    // Lobby events
+    this.socket.on(SocketEvent.JoinRoomSuccess, (id: string) => {
+      this.store.dispatch(joinSuccess({ id }));
+    });
+
+    this.socket.on(SocketEvent.JoinRoomError, () => {
+      this.store.dispatch(joinError());
+    });
+
+    this.socket.on(SocketEvent.SetReadyStatusSuccess, () => {
+      this.store.dispatch(setReadyStatusSuccess());
+    });
+
+    this.socket.on(SocketEvent.SetReadyStatusError, () => {
+      this.store.dispatch(setReadyStatusError());
+    });
+
+    // Game events
+    this.socket.on(SocketEvent.StartGame, () => {
+      this.store.dispatch(startGame());
+    });
+
+    this.socket.on(SocketEvent.GetQuestionSuccess, (payload) => {
+      this.store.dispatch(getQuestionSuccess({ payload }));
+    });
+
+    this.socket.on('answerResult', (isCorrect: boolean) => {
+      console.log('Answer result:', isCorrect);
+    });
+  }
+
+  emitJoinAttempt(roomCode: string, name: string) {
+    this.socket.emit(SocketEvent.JoinRoomAttempt, roomCode, name);
+  }
+
+  emitSetReadyStatusAttempt(
+    roomCode: string,
+    playerId: string,
+    isReady: boolean
+  ) {
+    this.socket.emit(
+      SocketEvent.SetReadyStatusAttempt,
+      roomCode,
+      playerId,
+      isReady
+    );
+  }
+}

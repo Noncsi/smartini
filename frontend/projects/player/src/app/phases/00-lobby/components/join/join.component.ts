@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { LobbyService } from '../../service/lobby.service';
+import { LobbyService } from '../../lobby.service';
 
 @Component({
   selector: 'app-join',

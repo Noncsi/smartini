@@ -1,5 +1,16 @@
-my name: {{me().name}}<br>
-my id: {{me().id}}<br>
-<mat-slide-toggle [checked]="isReady()" (change)="setReady($event)">
-  I'm Ready!
-</mat-slide-toggle>
+<div id="text">
+  I'm
+  <div id="name">{{ me().name.toUpperCase() }}</div>
+  and I'm
+</div>
+<div>@if(!isReady()) {<span id="not">NOT </span>}READY!</div>
+
+<div id="toggle-container">
+  <div id="toggle-text">Toggle to set your ready status.</div>
+  <mat-slide-toggle
+    id="toggle"
+    [checked]="isReady()"
+    (change)="setReady($event)"
+  >
+  </mat-slide-toggle>
+</div>

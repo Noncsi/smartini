@@ -1,0 +1,34 @@
+import { createReducer, on } from '@ngrx/store';
+import { Game, GamePhase } from '@models/game';
+import {
+  joinAttempt,
+  joinError,
+} from '../../../phases/00-lobby/state/lobby.actions';
+import { getQuestionSuccess, pause, resume, startGame } from '../../../phases/01-game/state/game.actions';
+
+const initialGameState: Game = {
+  phase: GamePhase.lobby,
+  roomCode: '',
+  isPaused: false,
+  players: [],
+  currentQuestion: { question: '', options: [] },
+};
+
+export const gameReducer = createReducer(
+  initialGameState,
+  on(joinAttempt, (state, { roomCode, name }) => ({
+    ...state,
+    roomCode,
+  })),
+  on(joinError, (state) => ({
+    ...state,
+    roomCode: '',
+  })),
+  on(pause, (state) => ({ ...state, isPaused: true })),
+  on(resume, (state) => ({ ...state, isPaused: false })),
+  on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay })),
+  on(getQuestionSuccess, (state, { payload }) => ({
+    ...state,
+    currentQuestion: { question: payload.question, options: payload.options },
+  }))
+);

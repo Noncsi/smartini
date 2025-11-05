@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { joinAttempt, setReadyStatusAttempt } from '../state/lobby.actions';
-import { selectIsPlayerReady, selectPlayerObject } from '../../../core/state/player.selector';
+import { joinAttempt, setReadyStatusAttempt } from './state/lobby.actions';
+import { selectIsPlayerReady, selectPlayerObject } from '../../core/state/player/player.selector';
 
 @Injectable({ providedIn: 'root' })
 export class LobbyService {

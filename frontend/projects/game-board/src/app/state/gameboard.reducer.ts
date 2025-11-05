@@ -16,7 +16,7 @@ const initialState: Game = {
   roomCode: '',
   isPaused: false,
   players: [],
-  currentQuestion: { question: '', answer: '', wrongAnswers: [] },
+  currentQuestion: { question: '', options: [] },
 };
 
 export const gameReducer = createReducer(

@@ -1,3 +1,4 @@
+import SocketEvent from "../../../shared/socket-event";
 import { correctAnswer } from "../app";
 import { GameBoardSocket, RoomCode, QuestionResponse } from "../types";
 import { shuffle } from "../utils";
@@ -12,20 +13,7 @@ export const getQuestion = (socket: GameBoardSocket, roomCode: RoomCode) => {
           wrongAnswers: resp.results[0].incorrect_answers,
         };
 
-        // const shuffledIndexedAnswers = Object.assign(
-        //   {},
-        //   shuffle([question.correctAnswer, ...question.wrongAnswers])
-        // );
-
-        // console.log("ASD", shuffledIndexedAnswers);
-
-        // correctAnswerId = shuffledIndexedAnswers.find(
-        //   (answer: any) => answer.value === question.correctAnswer
-        // );
-
-        // correctAnswer = question.correctAnswer;
-
-        socket.nsp.to(roomCode).emit("question", {
+        socket.nsp.to(roomCode).emit(SocketEvent.GetQuestionSuccess, {
           question: question.question,
           answerOptions: shuffle([
             question.correctAnswer,

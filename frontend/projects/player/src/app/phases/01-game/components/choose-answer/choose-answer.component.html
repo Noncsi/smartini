@@ -1,7 +1,13 @@
-<ng-container>
+<!-- <ng-container>
   @if(question$ | async; as question) {
   <h1>{{ question.question }}</h1>
   @for(answer of question.answerOptions; track answer){
   <button (click)="sendAnswer(answer)">{{ answer }}</button>
   }}
-</ng-container>
+</ng-container> -->
+@if(question()) {
+  <h1>{{ question().question }}</h1>
+  @for(answer of question().options; track answer){
+    <button (click)="sendAnswer(answer)">{{ answer }}</button>
+  }
+}

@@ -1,6 +1,15 @@
-<p>Room code: {{ roomCode() }}</p>
-@for (player of players(); track player.id) {
-<li>{{ player.name }} - {{ player.isReady }}</li>
-} @empty {
-<li>It's quiet here...</li>
-}
+<div id="code-container">
+  ROOM CODE:
+  <div id="code">{{ roomCode() }}</div>
+</div>
+<div id="player-container">
+  @for (player of players(); track player.id) {
+  <div class="player">{{ player.name }}</div>
+  @if(player.isReady) {
+  <div class="ready">READY</div>
+  } @else {
+  <div class="not-ready">NOT READY</div>
+  } } @empty {
+  <div id="no-player">It's quiet here...</div>
+  }
+</div>

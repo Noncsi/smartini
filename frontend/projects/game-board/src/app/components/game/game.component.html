@@ -1,4 +1,2 @@
 <button (click)="getQuestion()">get question</button>
-<ng-container *ngIf="{ question: question$ | async } as vars">
-  {{ vars.question?.question }}
-</ng-container>
+<h1>{{currentQuestion().question}}</h1>
