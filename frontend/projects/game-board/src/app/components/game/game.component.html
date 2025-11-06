@@ -1,2 +1,5 @@
-<button (click)="getQuestion()">get question</button>
-<h1>{{currentQuestion().question}}</h1>
+@if(showQuestion) {
+<h1>{{ currentQuestion().question }}</h1>
+} @else {
+<h2>{{ secondsRemaining$ | async }}</h2>
+}

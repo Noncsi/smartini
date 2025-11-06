@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LobbyEffects } from './phases/00-lobby/state/lobby.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { gameReducer } from './core/state/game/game.reducer';
+import { GameEffects } from './phases/01-game/state/game.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     importProvidersFrom(
       StoreModule.forRoot({ game: gameReducer, player: playerReducer }),
-      EffectsModule.forRoot([LobbyEffects])
+      EffectsModule.forRoot([LobbyEffects, GameEffects])
     ),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

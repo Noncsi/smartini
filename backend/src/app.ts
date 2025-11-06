@@ -37,8 +37,8 @@ export const createServer = (
     socket.on(SocketEvent.GetQuestion, async (roomCode: RoomCode) => {
       getQuestion(socket, roomCode);
     });
-    socket.on("answer", (playerId: string, text: string) => {
-      checkAnswer(socket, playerId, text);
+    socket.on(SocketEvent.Answer, (playerId: string, answer: string) => {
+      checkAnswer(socket, playerId, answer);
     });
   });
 

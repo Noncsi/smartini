@@ -1,11 +1,12 @@
+import SocketEvent from "../../../shared/socket-event";
 import { correctAnswer } from "../app";
-import { GameBoardSocket } from "../types";
+import { PlayerSocket } from "../types";
 
 export const checkAnswer = (
-  socket: GameBoardSocket,
+  socket: PlayerSocket,
   playerId: string,
-  text: string
+  answer: string
 ) => {
-  const isCorrect = text === correctAnswer;
-  socket.emit("answerResult", isCorrect);
+  const isCorrect = answer == correctAnswer;
+  socket.emit(SocketEvent.AnswerResult, isCorrect);
 };

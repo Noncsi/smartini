@@ -6,11 +6,12 @@ import { selectIsJoined } from './core/state/player/player.selector';
 import { JoinComponent } from './phases/00-lobby/components/join/join.component';
 import { ReadyComponent } from './phases/00-lobby/components/ready/ready.component';
 import { selectGamePhase } from './core/state/game/game.selector';
+import { ChooseAnswerComponent } from "./phases/01-game/components/choose-answer/choose-answer.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, JoinComponent, ReadyComponent],
+  imports: [CommonModule, JoinComponent, ReadyComponent, ChooseAnswerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

@@ -11,3 +11,8 @@ export const getQuestionSuccess = createAction(
   '[Player:Game] get question success',
   props<{ payload: QuestionPrompt }>()
 );
+
+export const emitAnswer = createAction(
+  '[Player:Game] emit answer',
+  props<{ answer: string }>()
+);

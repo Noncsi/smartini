@@ -15,7 +15,7 @@ export const getQuestion = (socket: GameBoardSocket, roomCode: RoomCode) => {
 
         socket.nsp.to(roomCode).emit(SocketEvent.GetQuestionSuccess, {
           question: question.question,
-          answerOptions: shuffle([
+          options: shuffle([
             question.correctAnswer,
             ...question.wrongAnswers,
           ]),

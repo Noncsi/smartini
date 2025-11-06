@@ -23,6 +23,7 @@ import {
   startGame,
   getQuestionSuccess,
 } from '../phases/01-game/state/game.actions';
+import { selectPlayerId } from './state/player/player.selector';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -78,7 +79,7 @@ export class SocketService {
       this.store.dispatch(getQuestionSuccess({ payload }));
     });
 
-    this.socket.on('answerResult', (isCorrect: boolean) => {
+    this.socket.on(SocketEvent.AnswerResult, (isCorrect: boolean) => {
       console.log('Answer result:', isCorrect);
     });
   }
@@ -97,6 +98,14 @@ export class SocketService {
       roomCode,
       playerId,
       isReady
+    );
+  }
+
+  emitAnswer(answer: string) {
+    this.socket.emit(
+      SocketEvent.Answer,
+      this.store.select(selectPlayerId),
+      answer
     );
   }
 }

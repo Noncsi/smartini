@@ -16,6 +16,8 @@ enum SocketEvent {
   StartGame = 'startGame',
   GetQuestion = 'getQuestion',
   GetQuestionSuccess = 'getQuestionSuccess',
+  Answer = 'answer',
+  AnswerResult = 'answerResult',
 };
 
 export default SocketEvent;
