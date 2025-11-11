@@ -24,3 +24,9 @@ export const shuffle = (array: Array<any>): Array<any> => {
   }
   return array;
 };
+
+export const formatString = (string: string): string =>
+  string.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+
+export const formatArrayOfStrings = (array: string[]): string[] =>
+  array.map((string) => formatString(string));

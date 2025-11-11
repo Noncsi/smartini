@@ -4,6 +4,7 @@ import { rooms } from "../app";
 import { Player } from "../models/player";
 import { PlayerSocket, RoomCode } from "../types";
 import { log } from "../log";
+import { getQuestion } from "./get-question";
 
 export const toggleReadyStatus = (
   socket: PlayerSocket,
@@ -33,6 +34,7 @@ export const toggleReadyStatus = (
   log.info.playerStatusSet(player.name, roomCode, player.isReady);
 
   if ([...room.players.values()].every((player: Player) => player.isReady)) {
+    getQuestion(room.socket, roomCode).subscribe();
     socket.nsp.to(room.roomCode).emit(SocketEvent.StartGame);
   }
 };

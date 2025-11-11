@@ -16,6 +16,7 @@ enum SocketEvent {
   StartGame = 'startGame',
   GetQuestion = 'getQuestion',
   GetQuestionSuccess = 'getQuestionSuccess',
+  Countdown = 'countdown',
   Answer = 'answer',
   AnswerResult = 'answerResult',
 };
