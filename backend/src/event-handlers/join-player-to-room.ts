@@ -1,4 +1,3 @@
-import { Server } from "socket.io";
 import SocketEvent from "../../../shared/socket-event";
 import { rooms } from "../app";
 import { PlayerSocket, SocketType } from "../types";
@@ -32,6 +31,7 @@ export const joinPlayerToRoom = (
       id: player.id,
       name: player.name,
       isReady: player.isReady,
+      score: player.getScore(),
     }))
   );
   socket.emit(SocketEvent.JoinRoomSuccess, player.id);

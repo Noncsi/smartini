@@ -1,5 +1,11 @@
-@if(showQuestion) {
-<h1>{{ currentQuestion().question }}</h1>
+<div id="players-container">
+  @for (player of players(); track player) {
+  <div id="name">{{ player.name }}</div>
+  <div id="score">{{ player.score }}</div>
+  }
+</div>
+@if(secondsRemaining() > 0) {
+<h2>{{ secondsRemaining() }}</h2>
 } @else {
-<h2>{{ secondsRemaining$ | async }}</h2>
+<h1>{{ currentQuestion().question }}</h1>
 }

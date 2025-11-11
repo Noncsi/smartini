@@ -12,5 +12,6 @@ export interface Game {
   roomCode: string;
   isPaused: boolean;
   players: Player[];
+  countdown: number;
   currentQuestion: QuestionPrompt;
 }

@@ -7,6 +7,7 @@ import {
   setPlayerReadyStatus,
   startGame,
   askQuestion,
+  countdown,
 } from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
@@ -63,6 +64,11 @@ export class SocketService {
     this.socket.on(SocketEvent.StartGame, () => {
       this.store.dispatch(startGame());
     });
+
+    this.socket.on(SocketEvent.Countdown, (number: number) => {
+      this.store.dispatch(countdown({ number }));
+    });
+
     this.socket.on(
       SocketEvent.GetQuestionSuccess,
       (question: QuestionPrompt) => {

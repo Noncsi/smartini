@@ -2,13 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(58 12 163);
   border-top-left-radius: 72% 29%;
   border-top-right-radius: 28% 65%;
   border-bottom-right-radius: 64% 35%;
   border-bottom-left-radius: 36% 71%;
   padding: 8rem;
-  box-shadow: #f72567 2rem 1rem 0rem 3rem;
 }
 
 #code-container {
@@ -29,11 +27,11 @@
   }
 
   .ready {
-    background-color: green;
+    // background-color: green;
   }
 
   .not-ready {
-    background-color: red;
+    // background-color: red;
   }
 
   #no-player {

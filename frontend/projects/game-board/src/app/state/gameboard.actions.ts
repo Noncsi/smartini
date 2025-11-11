@@ -22,6 +22,11 @@ export const setPlayerReadyStatus = createAction(
 
 export const startGame = createAction('startGame');
 
+export const countdown = createAction(
+  'countdown',
+  props<{ number: number }>()
+);
+
 export const getQuestion = createAction('getQuestion');
 
 export const askQuestion = createAction(

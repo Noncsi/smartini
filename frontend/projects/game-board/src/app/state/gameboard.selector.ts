@@ -23,6 +23,11 @@ export const selectGamePhase = createSelector(
   (game: Game) => game.phase
 );
 
+export const selectCountdown = createSelector(
+  selectGame,
+  (game: Game) => game.countdown
+);
+
 export const selectQuestion = createSelector(
   selectGame,
   (game: Game) => game.currentQuestion

@@ -1,3 +1,23 @@
-<input class="input" #room type="text" placeholder="Room code" />
-<input class="input" #name type="text" placeholder="Name" />
-<button id="join" (click)="join(room.value, name.value)">JOIN</button>
+<mat-form-field>
+  <mat-label>Room code</mat-label>
+  <input matInput #room/>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Your name</mat-label>
+  <input matInput #name/>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Select your icon</mat-label>
+  <mat-select>
+    <mat-option value="0">🤖</mat-option>
+    <mat-option value="1">👽</mat-option>
+    <mat-option value="3">😺</mat-option>
+    <mat-option value="4">💩</mat-option>
+    <mat-option value="5">🤡</mat-option>
+    <mat-option value="6">🤟</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button matButton="filled" (click)="join(room.value, name.value)">JOIN</button>
