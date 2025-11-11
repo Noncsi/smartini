@@ -1,24 +1,5 @@
 :host {
   display: flex;
-  gap: 16px;
-  padding: 5rem;
-  background-color: white;
-  border-radius: 0.4rem;
   flex-direction: column;
-  align-items: center;
-  border-radius: 50rem;
-}
-
-.input {
-  height: 2rem;
-  padding: 0.5rem;
-  border-radius: 2rem;
-  text-align: center;
-  border: 0.1rem black solid;
-}
-
-#join {
-  height: 3rem;
-  width: 8rem;
-  border-radius: 4rem;
+  gap: 16px;
 }

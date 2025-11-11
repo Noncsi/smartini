@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  padding: 0 8rem 0 8rem;
+}
+
+#players-container {
+  font-size: 2rem;
+  width: 32rem;
+  padding: 0 2rem 0 2rem;
+
+  #name {
+    text-decoration: underline;
+  }
+
+  #score {
+    font-size: 4rem;
+  }
+}

@@ -1,7 +1,16 @@
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: dark;
+  @include mat.theme((
+    color: mat.$cyan-palette,
+    typography: monospace,
+    density: 0
+  ));
+}
+
 body {
   margin: unset;
   padding-top: 10rem;
   font-family: monospace;
-  color: #ffe7f2;
-  background-color: #3a0ca3;
 }
