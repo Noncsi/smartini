@@ -101,11 +101,7 @@ export class SocketService {
     );
   }
 
-  emitAnswer(answer: string) {
-    this.socket.emit(
-      SocketEvent.Answer,
-      this.store.select(selectPlayerId),
-      answer
-    );
+  emitAnswer(answerId: string) {
+    this.socket.emit(SocketEvent.Answer, answerId);
   }
 }

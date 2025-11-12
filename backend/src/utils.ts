@@ -1,14 +1,15 @@
 import ShortUniqueId from "short-unique-id";
-import { RoomCode } from "./types";
+import { IQuestionApiResponse, Question, RoomCode } from "./types";
+import { correctAnswer } from "./app";
 
-export function generateRoomCode(): RoomCode {
+export const generateRoomCode = (): RoomCode => {
   const roomCode = new ShortUniqueId({
     length: 4,
     dictionary: "alpha_upper",
   });
 
   return roomCode.rnd();
-}
+};
 
 export const shuffle = (array: Array<any>): Array<any> => {
   let currentIndex = array.length;
@@ -25,8 +26,22 @@ export const shuffle = (array: Array<any>): Array<any> => {
   return array;
 };
 
+export const mapQuestionApiResponseToQuestion = (
+  response: IQuestionApiResponse
+): Question => {
+  const uid = new ShortUniqueId({ length: 2 });
+  const question: Question = {
+    question: formatString(response.results[0].question),
+    correctAnswer: { id: uid.rnd(), text: response.results[0].correct_answer },
+    incorrectAnswers: response.results[0].incorrect_answers.map((answer) => ({
+      id: uid.rnd(),
+      text: formatString(answer),
+    })),
+  };
+
+  correctAnswer.id = question.correctAnswer.id;
+  return question;
+};
+
 export const formatString = (string: string): string =>
   string.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-
-export const formatArrayOfStrings = (array: string[]): string[] =>
-  array.map((string) => formatString(string));

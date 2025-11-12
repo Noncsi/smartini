@@ -4,9 +4,10 @@ import {
   GameBoardSocket,
   RoomCode,
   IQuestionApiResponse,
-  mapQuestionApiResponseToQuestion,
+  Question,
+  QuestionToSend,
 } from "../types";
-import { formatArrayOfStrings, formatString, shuffle } from "../utils";
+import { mapQuestionApiResponseToQuestion } from "../utils";
 
 export const getQuestion = (socket: GameBoardSocket, roomCode: RoomCode) =>
   from(fetch("https://opentdb.com/api.php?amount=1&type=multiple")).pipe(
@@ -14,19 +15,20 @@ export const getQuestion = (socket: GameBoardSocket, roomCode: RoomCode) =>
     map((response: IQuestionApiResponse) =>
       mapQuestionApiResponseToQuestion(response)
     ),
-    switchMap((q) =>
+    switchMap((question: Question) =>
       timer(0, 1000).pipe(
         map((n) => 5 - n),
         takeWhile((n) => n >= 0),
         tap((n) => socket.nsp.to(roomCode).emit(SocketEvent.Countdown, n)),
-        finalize(() =>
-          socket.nsp.to(roomCode).emit(SocketEvent.GetQuestionSuccess, {
-            question: formatString(q.question),
-            options: formatArrayOfStrings(
-              shuffle([q.correctAnswer, ...q.wrongAnswers])
-            ),
-          })
-        )
+        finalize(() => {
+          const questionToSend: QuestionToSend = {
+            question: question.question,
+            options: [question.correctAnswer, ...question.incorrectAnswers],
+          };
+          return socket.nsp
+            .to(roomCode)
+            .emit(SocketEvent.GetQuestionSuccess, questionToSend);
+        })
       )
     )
   );

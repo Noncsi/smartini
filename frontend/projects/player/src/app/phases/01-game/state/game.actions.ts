@@ -13,6 +13,6 @@ export const getQuestionSuccess = createAction(
 );
 
 export const emitAnswer = createAction(
-  '[Player:Game] emit answer',
-  props<{ answer: string }>()
+  '[Player:Game] emit answer id',
+  props<{ answerId: string }>()
 );

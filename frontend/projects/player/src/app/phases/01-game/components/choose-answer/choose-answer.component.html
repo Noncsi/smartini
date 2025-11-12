@@ -1,7 +1,7 @@
 @if(question().question) {
   <h1>{{ question().question }}</h1>
   @for(answer of question().options; track answer){
-    <button matButton="filled" (click)="sendAnswer(answer)">{{ answer }}</button>
+    <button matButton="filled" (click)="sendAnswer(answer.id)">{{ answer.text }}</button>
   }
 } @else {
   <div>Look at the game!</div>

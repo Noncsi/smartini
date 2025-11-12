@@ -8,7 +8,7 @@ export class GameService {
   store = inject(Store);
   questionPrompt = this.store.selectSignal(selectQuestion);
 
-  sendAnswer(answer: string) {
-    this.store.dispatch(emitAnswer({ answer }));
+  sendAnswer(answerId: string) {
+    this.store.dispatch(emitAnswer({ answerId }));
   }
 }

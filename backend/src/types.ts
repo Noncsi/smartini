@@ -23,18 +23,18 @@ export interface IQuestionApiResponse {
   }[];
 }
 
-export interface Question {
-  question: string;
-  correctAnswer: string;
-  wrongAnswers: string[];
+export interface Answer {
+  id: string;
+  text: string;
 }
 
-export function mapQuestionApiResponseToQuestion(
-  response: IQuestionApiResponse
-): Question {
-  return {
-    question: response.results[0].question,
-    correctAnswer: response.results[0].correct_answer,
-    wrongAnswers: response.results[0].incorrect_answers,
-  };
+export interface Question {
+  question: string;
+  correctAnswer: Answer;
+  incorrectAnswers: Answer[];
+}
+
+export interface QuestionToSend {
+  question: string;
+  options: Answer[];
 }
