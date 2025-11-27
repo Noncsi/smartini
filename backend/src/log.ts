@@ -1,6 +1,6 @@
 import winston from "winston";
 import { PORT } from "../../shared/constants";
-import { RoomCode } from "./types";
+import { RoomCode } from "./store/types/game.types";
 
 const { combine, timestamp, printf, colorize } = winston.format;
 
@@ -21,16 +21,16 @@ export const log = {
       logger.info(`New socket is connected to server. Socket id: ${socketId}.`),
     gameBoardDisconnected: (socketId: string) =>
       logger.info(`Game board has disconnected. Socket id: ${socketId}`),
-    playerDisconnected: (name: string, roomCode: string, socketId: string) =>
-      logger.info(`Player '${name}' has disconnected from room '${roomCode}'. Socket id: ${socketId}`),
+    playerDisconnected: (id: string, roomCode: string, socketId: string) =>
+      logger.info(`Player with id: ${id} has disconnected from room '${roomCode}'. Socket id: ${socketId}`),
     serverIsRunning: () => logger.info(`Server is running on port ${PORT}.`),
-    gameBoardCreated: (roomCode: RoomCode) =>
+    roomCreated: (roomCode: RoomCode) =>
       logger.info(`Room '${roomCode}' has been opened.`),
     playerJoined: (name: string, roomCode: RoomCode) =>
       logger.info(`Player '${name}' has joined room '${roomCode}'.`),
-    playerStatusSet: (name: string, roomCode: RoomCode, isReady: boolean) =>
+    playerStatusSet: (id: string, roomCode: RoomCode, isReady: boolean) =>
       logger.info(
-        `Player '${name}' in room '${roomCode}' has set its status to '${
+        `Player with id: ${id} in room '${roomCode}' has set its status to '${
           isReady ? "ready" : "not ready"
         }'.`
       ),

@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "^2.10.1",
     "@socket.io/admin-ui": "^0.5.1",
     "@types/winston": "^2.4.4",
+    "redux-observable": "^3.0.0-rc.2",
     "rxjs": "^7.8.2",
     "short-unique-id": "^5.2.0",
     "socket.io": "^4.7.5",
@@ -23,9 +24,10 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "@types/uuid": "^10.0.0",
     "@types/ws": "^8.5.12",
     "rimraf": "^6.0.1",
-    "typescript": "^5.5.4"
+    "typescript": "^5.9.3"
   }
 }

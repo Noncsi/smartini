@@ -1,5 +1,5 @@
 import { ServerOptions } from "socket.io";
-import { createServer } from "./app";
+import { createServer } from "./create-server";
 import { PORT } from "../../shared/constants";
 
 const serverOptions: Partial<ServerOptions> = {
@@ -15,4 +15,4 @@ const serverOptions: Partial<ServerOptions> = {
   },
 };
 
-createServer(PORT, serverOptions);
+export const server = createServer(PORT, serverOptions);

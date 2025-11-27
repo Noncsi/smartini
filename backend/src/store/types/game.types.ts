@@ -11,8 +11,22 @@ export enum GameStage {
   game,
 }
 
+export interface Room {
+  stage: GameStage;
+  roomCode: RoomCode;
+  players: Player[];
+  currentQuestion?: Question;
+}
+
 export type GameBoardSocket = Socket;
 export type PlayerSocket = Socket;
+
+export interface Player {
+  id: string;
+  name: string;
+  isReady: boolean;
+  score: number;
+}
 
 export interface IQuestionApiResponse {
   response_code: number;
@@ -29,9 +43,10 @@ export interface Answer {
 }
 
 export interface Question {
-  question: string;
-  correctAnswer: Answer;
-  incorrectAnswers: Answer[];
+  id: string;
+  text: string;
+  options: string[];
+  correctAnswer: string;
 }
 
 export interface QuestionToSend {

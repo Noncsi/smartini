@@ -1,11 +1,20 @@
+@if(roomCode()) {
 <div id="code-container">
   ROOM CODE:
   <div id="code">{{ roomCode() }}</div>
 </div>
 <mat-list role="list">
   @for (player of players(); track player.id) {
-  <mat-list-item matBadge="7" role="listitem">{{ player.name }}</mat-list-item>
- } @empty {
+  <mat-list-item role="listitem"
+    >{{ player.name }}
+    @if(player.isReady) {
+    <mat-icon fontIcon="check"></mat-icon>
+    } @else {
+    <mat-icon fontIcon="close"></mat-icon>
+    }
+  </mat-list-item>
+  } @empty {
   <div id="no-player">It's quiet here...</div>
   }
 </mat-list>
+} @else {<span>...</span>}
