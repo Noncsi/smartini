@@ -1,5 +1,5 @@
 import { log } from "../../log";
-import { safeFind } from "../../utils/filters";
+import { safeFind } from "../../utils/utils";
 import { Player, Room, RoomCode } from "../types/game.types";
 import { GameState } from "./game.slice";
 
