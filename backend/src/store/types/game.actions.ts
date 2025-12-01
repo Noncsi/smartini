@@ -1,4 +1,4 @@
-import { gameSlice } from "./game.slice";
+import { gameSlice } from "../game/game.slice";
 
 export const gameActions = gameSlice.actions;
 

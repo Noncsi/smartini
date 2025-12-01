@@ -7,14 +7,13 @@ import {
   GameStage,
   Question,
   Room,
-  SocketType,
+  Player,
 } from "../types/game.types";
 import {
   selectIsRoomExist,
   selectPlayerInRoomById,
   selectRoomByCode,
 } from "./game.selectors";
-import { gameBoardSocketMap } from "../../services/socket-registry";
 
 export interface GameState {
   rooms: Room[];
@@ -96,46 +95,100 @@ export const gameSlice = createSlice({
       room.stage = GameStage.game;
     },
 
-    sendQuestion: (
+    emitCountdown: (
+      state,
+      action: PayloadAction<{ socket: GameBoardSocket; number: number }>
+    ) => {},
+    fetchQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
+    fetchQuestionWithCountdown: (
+      state,
+      action: PayloadAction<{ roomCode: string }>
+    ) => {},
+    fetchQuestionSuccess: (
       state,
       action: PayloadAction<{ roomCode: string; question: Question }>
     ) => {
-      const room = state.rooms.find(
-        (r) => r.roomCode === action.payload.roomCode
-      );
-      if (room) {
-        // room.currentQuestion = action.payload.question;
-      }
+      const { roomCode, question } = action.payload;
+      const room = selectRoomByCode(state, roomCode);
+      if (!room) return;
+      room.currentQuestion = question;
+      room.players.every((player: Player) => (player.hasAnswered = false));
     },
 
-    submitAnswer: (
+    sendQuestion: (
+      state,
+      action: PayloadAction<{ roomCode: string; question: Question }>
+    ) => {},
+
+    evaluateAnswer: (
       state,
       action: PayloadAction<{
         roomCode: string;
         playerId: string;
-        answer: string;
+        answerId: number;
       }>
     ) => {
-      const room = state.rooms.find(
-        (r) => r.roomCode === action.payload.roomCode
-      );
-      const player = room?.players.find(
-        (p) => p.id === action.payload.playerId
-      );
-      // if (player) player.answer = action.payload.answer;
+      const { roomCode, playerId } = action.payload;
+      const player = selectPlayerInRoomById(state, roomCode, playerId);
+      if (!player) return;
+      player.hasAnswered = true;
     },
 
-    checkAnswers: (state, action: PayloadAction<{ roomCode: string }>) => {
-      const room = state.rooms.find(
-        (r) => r.roomCode === action.payload.roomCode
-      );
-      if (room?.currentQuestion) {
-        const correct = room.currentQuestion.correctAnswer;
-        room.players.forEach((p) => {
-          // if (p.answer === correct) p.score += 100;
-        });
-      }
+    answeredCorrectly: (
+      state,
+      action: PayloadAction<{
+        roomCode: RoomCode;
+        playerId: string;
+      }>
+    ) => {
+      // const { player } = action.payload;
+      // player.hasAnswered = true;
     },
+
+    answeredIncorrectly: (
+      state,
+      action: PayloadAction<{
+        player: Player;
+      }>
+    ) => {
+      // const { player } = action.payload;
+      // player.hasAnswered = true;
+    },
+
+    addToScore: (
+      state,
+      action: PayloadAction<{
+        roomCode: RoomCode;
+        playerId: string;
+      }>
+    ) => {
+      const { roomCode, playerId } = action.payload;
+      const player = selectPlayerInRoomById(state, roomCode, playerId);
+      player!.score += 10;
+    },
+
+    emitAnswerResults: (
+      state,
+      action: PayloadAction<{ roomCode: string }>
+    ) => {},
+
+    // add: (
+    //   state,
+    //   action: PayloadAction<{
+    //     roomCode: string;
+    //     playerId: string;
+    //     answerId: number;
+    //   }>
+    // ) => {
+    //   const { roomCode, playerId, answerId } = action.payload;
+    //   const room = selectRoomByCode(state, roomCode);
+    //   if (!room) return;
+    //   const player = selectPlayerInRoomById(state, roomCode, playerId);
+    //   if (!player) return;
+    //   if (room.currentQuestion?.correctAnswerId === answerId) {
+    //     player.score += 10;
+    //   }
+    // },
   },
 });
 
@@ -145,8 +198,16 @@ export const {
   createRoom,
   playerJoins,
   setReady,
-  // getQuestion,
-  submitAnswer,
+  startGame,
+  emitCountdown,
+  fetchQuestion,
+  fetchQuestionWithCountdown,
+  fetchQuestionSuccess,
+  evaluateAnswer,
+  answeredCorrectly,
+  answeredIncorrectly,
+  addToScore,
+  emitAnswerResults,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

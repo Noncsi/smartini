@@ -11,4 +11,5 @@ export const createPlayerObject = (id: string, name: string): Player => ({
   name,
   isReady: false,
   score: 0,
+  hasAnswered: false,
 });

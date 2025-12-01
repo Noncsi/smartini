@@ -79,7 +79,7 @@ export class SocketService {
       this.store.dispatch(getQuestionSuccess({ payload }));
     });
 
-    this.socket.on(SocketEvent.AnswerResult, (isCorrect: boolean) => {
+    this.socket.on(SocketEvent.ShowCorrectAnswer, (isCorrect: boolean) => {
       console.log('Answer result:', isCorrect);
     });
   }
@@ -101,7 +101,7 @@ export class SocketService {
     );
   }
 
-  emitAnswer(answerId: string) {
-    this.socket.emit(SocketEvent.Answer, answerId);
+  emitAnswer(roomCode: string, playerId: string, answerId: number) {
+    this.socket.emit(SocketEvent.Answer, roomCode, playerId, answerId);
   }
 }

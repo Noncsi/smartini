@@ -33,3 +33,8 @@ export const askQuestion = createAction(
   'askQuestion',
   props<{ question: QuestionPrompt }>()
 );
+
+export const showCorrectAnswer = createAction(
+  'showCorrectAnswer',
+  props<{ id: number }>()
+);

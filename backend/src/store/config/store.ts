@@ -2,7 +2,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import gameReducer from "../game/game.slice";
 import { createEpicMiddleware } from "redux-observable";
-import type { GameActions } from "../game/game.actions";
+import type { GameActions } from "../types/game.actions";
 import { rootEpic } from "./root-epic";
 
 const epicMiddleware = createEpicMiddleware<GameActions, GameActions, RootState>();

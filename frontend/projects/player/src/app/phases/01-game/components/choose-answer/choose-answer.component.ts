@@ -14,7 +14,7 @@ export class ChooseAnswerComponent {
   gameService = inject(GameService);
   question = this.gameService.questionPrompt;
 
-  sendAnswer(answerId: string) {
+  sendAnswer(answerId: number) {
     this.gameService.sendAnswer(answerId);
   }
 }

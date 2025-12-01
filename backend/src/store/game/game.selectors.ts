@@ -1,5 +1,4 @@
 import { log } from "../../log";
-import { safeFind } from "../../utils/utils";
 import { Player, Room, RoomCode } from "../types/game.types";
 import { GameState } from "./game.slice";
 
@@ -15,27 +14,34 @@ export const selectIsRoomExist = (
 export const selectRoomByCode = (
   state: GameState,
   roomCode: RoomCode
-): Room | undefined =>
-  safeFind(
-    state.rooms,
-    (room) => room.roomCode === roomCode,
-    () => log.error.roomNotFound(roomCode)
-  );
+): Room | null => {
+  const room = state.rooms.find((room) => room.roomCode === roomCode);
+  if (!room) {
+    log.error.roomNotFound(roomCode);
+    return null;
+  }
+  return room;
+};
 
 export const selectPlayersInRoom = (
   state: GameState,
   roomCode: RoomCode
-): Player[] | undefined => selectRoomByCode(state, roomCode)?.players;
+): Player[] | null => {
+  const room = selectRoomByCode(state, roomCode);
+  return !room ? null : room.players;
+};
 
 export const selectPlayerInRoomById = (
   state: GameState,
   roomCode: RoomCode,
   playerId: string
-): Player | undefined => {
+): Player | null => {
   const room = selectRoomByCode(state, roomCode);
-  return safeFind(
-    room?.players ?? [],
-    (player) => player.id === playerId,
-    () => log.error.playerNotFound(playerId)
-  );
+  if (!room) return null;
+  const player = room.players.find((player) => player.id === playerId);
+  if (!player) {
+    log.error.playerNotFound(playerId);
+    return null;
+  }
+  return player;
 };

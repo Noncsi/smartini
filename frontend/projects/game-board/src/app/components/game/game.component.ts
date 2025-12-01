@@ -14,4 +14,5 @@ export class GameComponent {
   players = this.gameService.players;
   currentQuestion = this.gameService.currentQuestion;
   secondsRemaining = this.gameService.countdown;
+  currentCorrectAnswerId = this.gameService.currentCorrectAnswerId;
 }

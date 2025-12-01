@@ -1,9 +1,3 @@
-export const safeFind = (list: any[], predicate: (item: any) => boolean, onNotFound: () => void): any | undefined => {
-  const item = list.find(predicate);
-  if (!item) onNotFound();
-  return item;
-}
-
 export const shuffle = (array: Array<any>): Array<any> => {
   let currentIndex = array.length;
 
@@ -18,7 +12,3 @@ export const shuffle = (array: Array<any>): Array<any> => {
   }
   return array;
 };
-
-
-
-

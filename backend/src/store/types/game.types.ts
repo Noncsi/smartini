@@ -24,12 +24,13 @@ export type PlayerSocket = Socket;
 export interface Player {
   id: string;
   name: string;
-  isReady: boolean;
   score: number;
+  isReady: boolean;
+  hasAnswered: boolean;
 }
 
 export interface IQuestionApiResponse {
-  response_code: number;
+  response_code: string;
   results: {
     question: string;
     correct_answer: string;
@@ -38,18 +39,13 @@ export interface IQuestionApiResponse {
 }
 
 export interface Answer {
-  id: string;
+  id: number;
   text: string;
 }
 
 export interface Question {
-  id: string;
-  text: string;
-  options: string[];
-  correctAnswer: string;
-}
-
-export interface QuestionToSend {
+  id: number;
   question: string;
-  options: Answer[];
+  answerOptions: Answer[];
+  correctAnswerId: number;
 }

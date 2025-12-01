@@ -8,6 +8,7 @@ import {
   startGame,
   askQuestion,
   countdown,
+  showCorrectAnswer,
 } from './gameboard.actions';
 import { Game, GamePhase } from '@models/game';
 import { Player } from '@models/player';
@@ -18,7 +19,8 @@ const initialState: Game = {
   isPaused: false,
   players: [],
   countdown: 0,
-  currentQuestion: { question: '', options: [] },
+  currentQuestion: { question: '', answerOptions: [] },
+  currentCorrectAnswerId: 0,
 };
 
 export const gameReducer = createReducer(
@@ -45,5 +47,9 @@ export const gameReducer = createReducer(
   on(askQuestion, (state, { question }) => ({
     ...state,
     currentQuestion: question,
+  })),
+  on(showCorrectAnswer, (state, { id }) => ({
+    ...state,
+    currentCorrectAnswerId: id,
   }))
 );

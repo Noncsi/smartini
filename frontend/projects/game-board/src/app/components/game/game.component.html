@@ -4,8 +4,13 @@
   <div id="score">{{ player.score }}</div>
   }
 </div>
-@if(secondsRemaining() > 0) {
+@if(secondsRemaining() >= 1) {
 <h2>{{ secondsRemaining() }}</h2>
 } @else {
-<h1>{{ currentQuestion().question }}</h1>
+<div id="question-container">
+  <h1>{{ currentQuestion().question }}</h1>
+  @for(answer of currentQuestion().answerOptions; track answer){
+  <span class="answer" [ngStyle]="{'background-color': answer.id === currentCorrectAnswerId() ? 'green' : ''}" >{{ answer.text }}</span>
+  }
+</div>
 }

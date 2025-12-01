@@ -35,7 +35,6 @@ export class LobbyEffects {
       ofType(joinAttempt),
       switchMap(({ roomCode, name }) =>
         this.socketService.connect().pipe(
-          tap((a) => console.log('effect', a)),
           map(() => connectToSocketSuccess({ roomCode, name })),
           catchError(() => {
             console.error('Failed to connect to socket.');

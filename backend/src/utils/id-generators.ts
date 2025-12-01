@@ -8,7 +8,7 @@ const roomCodeGenerator = new ShortUniqueId({
 
 const playerIdGenerator = new ShortUniqueId({ length: 10 });
 
-const questionIdGenerator = new ShortUniqueId({ length: 2 });
+const questionIdGenerator = new ShortUniqueId({ length: 4, dictionary: 'number' });
 
 export const generateRoomCode = (): RoomCode => {
   return roomCodeGenerator.rnd();
@@ -18,6 +18,6 @@ export const generatePlayerId = (): string => {
   return playerIdGenerator.rnd();
 };
 
-export const generateQuestionId = (): string => {
-  return questionIdGenerator.rnd();
+export const generateQuestionId = (): number => {
+  return +questionIdGenerator.rnd();
 };

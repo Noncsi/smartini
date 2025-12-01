@@ -14,5 +14,5 @@ export const getQuestionSuccess = createAction(
 
 export const emitAnswer = createAction(
   '[Player:Game] emit answer id',
-  props<{ answerId: string }>()
+  props<{ roomCode: string; playerId: string; answerId: number }>()
 );

@@ -13,8 +13,8 @@ export class GameEffects {
     () =>
       this.actions$.pipe(
         ofType(emitAnswer),
-        tap(({ answerId }) => {
-          this.socketService.emitAnswer(answerId);
+        tap(({ roomCode, playerId, answerId }) => {
+          this.socketService.emitAnswer(roomCode, playerId, answerId);
         })
       ),
     { dispatch: false }

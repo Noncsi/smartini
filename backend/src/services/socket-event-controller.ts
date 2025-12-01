@@ -4,6 +4,7 @@ import {
   createRoom,
   disconnectGameBoard,
   disconnectPlayer,
+  evaluateAnswer,
   playerJoins,
   setReady,
 } from "../store/game/game.slice";
@@ -34,22 +35,18 @@ export const SocketEventController = {
     store.dispatch(createRoom({ socket, newRoomCode }));
   },
 
-  playerJoins(
-    socket: GameBoardSocket,
-    roomCode: RoomCode,
-    newPlayerName: string
-  ) {
+  playerJoins(socket: PlayerSocket, roomCode: RoomCode, newPlayerName: string) {
     const newPlayerId = generatePlayerId();
     store.dispatch(
       playerJoins({ socket, roomCode, newPlayerId, newPlayerName })
     );
   },
 
-  setReady(
-    roomCode: RoomCode,
-    playerId: string,
-    isReady: boolean
-  ) {
+  setReady(roomCode: RoomCode, playerId: string, isReady: boolean) {
     store.dispatch(setReady({ roomCode, playerId, isReady }));
+  },
+
+  evaluateAnswer(roomCode: RoomCode, playerId: string, answerId: number) {
+    store.dispatch(evaluateAnswer({ roomCode, playerId, answerId }));
   },
 };

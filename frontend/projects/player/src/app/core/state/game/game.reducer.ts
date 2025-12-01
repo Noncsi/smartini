@@ -12,7 +12,8 @@ const initialGameState: Game = {
   isPaused: false,
   players: [],
   countdown: -1,
-  currentQuestion: { question: '', options: [] },
+  currentQuestion: { question: '', answerOptions: [] },
+  currentCorrectAnswerId: 0
 };
 
 export const gameReducer = createReducer(
@@ -30,6 +31,6 @@ export const gameReducer = createReducer(
   on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay })),
   on(getQuestionSuccess, (state, { payload }) => ({
     ...state,
-    currentQuestion: { question: payload.question, options: payload.options },
+    currentQuestion: { question: payload.question, answerOptions: payload.answerOptions },
   }))
 );

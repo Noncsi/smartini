@@ -1,9 +1,9 @@
 export interface Answer {
-  id: string;
+  id: number;
   text: string;
 }
 
 export interface QuestionPrompt {
   question: string;
-  options: Answer[];
+  answerOptions: Answer[];
 }

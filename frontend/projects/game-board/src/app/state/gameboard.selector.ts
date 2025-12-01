@@ -32,3 +32,8 @@ export const selectQuestion = createSelector(
   selectGame,
   (game: Game) => game.currentQuestion
 );
+
+export const selectCurrentCorrectAnswerId = createSelector(
+  selectGame,
+  (game: Game) => game.currentCorrectAnswerId
+);

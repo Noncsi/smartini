@@ -14,4 +14,5 @@ export interface Game {
   players: Player[];
   countdown: number;
   currentQuestion: QuestionPrompt;
+  currentCorrectAnswerId: number;
 }

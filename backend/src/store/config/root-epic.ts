@@ -1,18 +1,32 @@
 import { combineEpics, Epic } from "redux-observable";
-import { GameActions } from "../game/game.actions";
+import { GameActions } from "../types/game.actions";
 import { RootState } from "./store";
-import {
-  disconnectGameBoardEpic,
-  disconnectPlayerEpic,
-  emitNewRoomEpic,
-  playerJoinsEpic,
-  setReadyEpic,
-} from "../game/game.epics";
+import { deleteSocketOnDisconnectGameBoardEpic } from "../game/epics/delete-socket-on-disconnect-gameboard.epic";
+import { deleteSocketOnDisconnectPlayerEpic } from "../game/epics/delete-socket-on-disconnect-player.epic";
+import { setupRoomOnCreateRoomEpic } from "../game/epics/setup-room-on-create-room.epic";
+import { fetchQuestionSuccessEpic } from "../game/epics/fetch-question-success.epic";
+import { fetchQuestionEpic } from "../game/epics/fetch-question.epic";
+import { setupPlayerOnPlayerJoinsEpic } from "../game/epics/setup-player-on-player-joins.epic";
+import { setReadyEpic } from "../game/epics/set-ready.epic";
+import { startGameWhenEveryPlayerIsReadyEpic } from "../game/epics/start-game-when-every-player-is-ready.epic";
+import { fetchQuestionOnStartGameEpic } from "../game/epics/fetch-question-on-start-game";
+import { startCountdownOnStartGameEpic } from "../game/epics/start-countdown-on-start-game.epic";
+import { addToScoreOnAnsweredCorrectly, answeredCorrectlyEpic, answeredIncorrectlyEpic, emitAnswerResultsEpic, evaluateAnswerEpic } from "../game/epics/add-to-score-if-answer-is-right.epic";
 
 export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
-  disconnectGameBoardEpic,
-  disconnectPlayerEpic,
-  emitNewRoomEpic,
-  playerJoinsEpic,
-  setReadyEpic
+  deleteSocketOnDisconnectGameBoardEpic,
+  deleteSocketOnDisconnectPlayerEpic,
+  setupRoomOnCreateRoomEpic,
+  setupPlayerOnPlayerJoinsEpic,
+  setReadyEpic,
+  startGameWhenEveryPlayerIsReadyEpic,
+  fetchQuestionEpic,
+  startCountdownOnStartGameEpic,
+  fetchQuestionSuccessEpic,
+  fetchQuestionOnStartGameEpic,
+  evaluateAnswerEpic,
+  addToScoreOnAnsweredCorrectly,
+  answeredCorrectlyEpic,
+  answeredIncorrectlyEpic,
+  emitAnswerResultsEpic,
 );

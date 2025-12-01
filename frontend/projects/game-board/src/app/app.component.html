@@ -1,15 +1,9 @@
-@switch (currentPhase()) {
-  @case (gamePhase.lobby) {
-    <app-lobby></app-lobby>
-  }
-  @case (gamePhase.gamePlay) { 
-    <app-game></app-game>
-  }
-  @case (gamePhase.result) { 
-    <span>result phase</span>
-  }
-  @default {
-    <span>unexpected error</span>
-  }
-}
-
+@switch (currentPhase()) { @case (gamePhase.lobby) {
+<app-lobby></app-lobby>
+} @case (gamePhase.gamePlay) {
+<app-game></app-game>
+} @case (gamePhase.result) {
+<span>result phase</span>
+} @default {
+<span>unexpected error</span>
+} }

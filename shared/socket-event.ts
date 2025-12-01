@@ -18,7 +18,7 @@ enum SocketEvent {
   GetQuestionSuccess = 'getQuestionSuccess',
   Countdown = 'countdown',
   Answer = 'answer',
-  AnswerResult = 'answerResult',
+  ShowCorrectAnswer = 'showCorrectAnswer',
 };
 
 export default SocketEvent;

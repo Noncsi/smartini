@@ -8,6 +8,7 @@ import {
   startGame,
   askQuestion,
   countdown,
+  showCorrectAnswer,
 } from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
@@ -75,6 +76,10 @@ export class SocketService {
         this.store.dispatch(askQuestion({ question }));
       }
     );
+
+    this.socket.on(SocketEvent.ShowCorrectAnswer, (id: number) => {
+      this.store.dispatch(showCorrectAnswer({ id }));
+    });
 
     // this.socket.on('roomDisconnected', () => {
     //   this.store.dispatch(pause());
