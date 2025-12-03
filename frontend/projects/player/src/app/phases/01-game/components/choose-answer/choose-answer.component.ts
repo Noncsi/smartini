@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class ChooseAnswerComponent {
   gameService = inject(GameService);
   question = this.gameService.questionPrompt;
+  secondsRemaining = this.gameService.countdown;
 
   sendAnswer(answerId: number) {
     this.gameService.sendAnswer(answerId);

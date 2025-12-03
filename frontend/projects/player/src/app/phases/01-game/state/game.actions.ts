@@ -16,3 +16,8 @@ export const emitAnswer = createAction(
   '[Player:Game] emit answer id',
   props<{ roomCode: string; playerId: string; answerId: number }>()
 );
+
+export const countdown = createAction(
+  'countdown',
+  props<{ number: number }>()
+);

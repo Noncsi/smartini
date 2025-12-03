@@ -1,8 +1,9 @@
-@if(question().question) {
+@if(secondsRemaining() >= 1) {
+<h2>{{ secondsRemaining() }}</h2>
+} 
+@else {
   <h1>{{ question().question }}</h1>
   @for(answer of question().answerOptions; track answer){
     <button matButton="filled" (click)="sendAnswer(answer.id)">{{ answer.text }}</button>
   }
-} @else {
-  <div>Look at the game!</div>
 }

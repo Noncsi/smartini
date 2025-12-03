@@ -4,7 +4,7 @@ import {
   joinAttempt,
   joinError,
 } from '../../../phases/00-lobby/state/lobby.actions';
-import { getQuestionSuccess, pause, resume, startGame } from '../../../phases/01-game/state/game.actions';
+import { countdown, getQuestionSuccess, pause, resume, startGame } from '../../../phases/01-game/state/game.actions';
 
 const initialGameState: Game = {
   phase: GamePhase.lobby,
@@ -32,5 +32,6 @@ export const gameReducer = createReducer(
   on(getQuestionSuccess, (state, { payload }) => ({
     ...state,
     currentQuestion: { question: payload.question, answerOptions: payload.answerOptions },
-  }))
+  })),
+  on(countdown, (state, { number }) => ({ ...state, countdown: number })),
 );

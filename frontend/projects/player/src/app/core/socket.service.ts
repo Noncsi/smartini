@@ -22,6 +22,7 @@ import {
 import {
   startGame,
   getQuestionSuccess,
+  countdown,
 } from '../phases/01-game/state/game.actions';
 import { selectPlayerId } from './state/player/player.selector';
 
@@ -81,6 +82,10 @@ export class SocketService {
 
     this.socket.on(SocketEvent.ShowCorrectAnswer, (isCorrect: boolean) => {
       console.log('Answer result:', isCorrect);
+    });
+
+    this.socket.on(SocketEvent.Countdown, (number: number) => {
+      this.store.dispatch(countdown({ number }));
     });
   }
 
