@@ -1,6 +1,7 @@
 import { IQuestionApiResponse, Question } from "../store/types/game.types";
 import { formatString } from "./formatters";
 import { generateQuestionId } from "./id-generators";
+import { shuffle } from "./utils";
 
 export const mapQuestionApiResponseToQuestion = (
   response: IQuestionApiResponse
@@ -10,13 +11,13 @@ export const mapQuestionApiResponseToQuestion = (
     id: generateQuestionId(),
     question: formatString(response.results?.[0].question),
     correctAnswerId: correctAnswerId,
-    answerOptions: [
+    answerOptions: shuffle([
       { id: correctAnswerId, text: response.results?.[0].correct_answer },
       ...response.results?.[0].incorrect_answers.map((answer) => ({
         id: generateQuestionId(),
         text: answer,
       })),
-    ],
+    ]),
   };
 
   return question;

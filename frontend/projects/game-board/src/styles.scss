@@ -14,3 +14,19 @@ body {
   padding-top: 10rem;
   font-family: monospace;
 }
+
+.score-animate {
+  animation: scorePop 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes scorePop {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -112,7 +112,7 @@ export const gameSlice = createSlice({
       const room = selectRoomByCode(state, roomCode);
       if (!room) return;
       room.currentQuestion = question;
-      room.players.every((player: Player) => (player.hasAnswered = false));
+      room.players.map((player: Player) => (player.hasAnswered = false));
     },
 
     sendQuestion: (
@@ -172,23 +172,8 @@ export const gameSlice = createSlice({
       action: PayloadAction<{ roomCode: string }>
     ) => {},
 
-    // add: (
-    //   state,
-    //   action: PayloadAction<{
-    //     roomCode: string;
-    //     playerId: string;
-    //     answerId: number;
-    //   }>
-    // ) => {
-    //   const { roomCode, playerId, answerId } = action.payload;
-    //   const room = selectRoomByCode(state, roomCode);
-    //   if (!room) return;
-    //   const player = selectPlayerInRoomById(state, roomCode, playerId);
-    //   if (!player) return;
-    //   if (room.currentQuestion?.correctAnswerId === answerId) {
-    //     player.score += 10;
-    //   }
-    // },
+    emitScores: (state, action: PayloadAction<{ roomCode: string }>) => {},
+    nextQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
   },
 });
 
@@ -208,6 +193,8 @@ export const {
   answeredIncorrectly,
   addToScore,
   emitAnswerResults,
+  emitScores,
+  nextQuestion,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

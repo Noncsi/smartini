@@ -19,6 +19,7 @@ enum SocketEvent {
   Countdown = 'countdown',
   Answer = 'answer',
   ShowCorrectAnswer = 'showCorrectAnswer',
+  Scores = 'scores',
 };
 
 export default SocketEvent;

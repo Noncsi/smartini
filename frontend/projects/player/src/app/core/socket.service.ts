@@ -24,7 +24,6 @@ import {
   getQuestionSuccess,
   countdown,
 } from '../phases/01-game/state/game.actions';
-import { selectPlayerId } from './state/player/player.selector';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {

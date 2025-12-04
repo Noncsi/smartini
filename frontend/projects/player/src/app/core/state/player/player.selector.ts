@@ -22,3 +22,13 @@ export const selectIsPlayerReady = createSelector(
   selectPlayer,
   (player: Player) => player.isReady
 );
+
+export const selectDidAnswerCurrentQuestion = createSelector(
+  selectPlayer,
+  (player: Player) => player.didAnswerCurrentQuestion
+);
+
+export const selectChosenAnswerId = createSelector(
+  selectPlayer,
+  (player: Player) => player.chosenAnswerId
+);

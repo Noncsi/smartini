@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameService } from '../../game.service';
 import { MatButtonModule } from '@angular/material/button';
+import { selectPlayer } from '../../../../core/state/player/player.selector';
 
 @Component({
   selector: 'app-choose-answer',
@@ -14,8 +15,13 @@ export class ChooseAnswerComponent {
   gameService = inject(GameService);
   question = this.gameService.questionPrompt;
   secondsRemaining = this.gameService.countdown;
+  alreadyAnswered = this.gameService.didAnswer;
+  chosenAnswerId = this.gameService.chosenAnswerId;
+
+  me = this.gameService.store.selectSignal(selectPlayer)
 
   sendAnswer(answerId: number) {
+    if (this.alreadyAnswered()) return;
     this.gameService.sendAnswer(answerId);
   }
 }

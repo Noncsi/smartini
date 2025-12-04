@@ -1,11 +1,15 @@
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameService } from '../../services/game.service';
+import { ScoreAnimateDirective } from '../../directives/score-animate.directive';
 
 @Component({
-  selector: 'app-game',
+  selector: 'app-game', 
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ScoreAnimateDirective],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
 })

@@ -7,12 +7,18 @@ import {
   setReadyStatusAttempt,
   setReadyStatusError,
 } from '../../../phases/00-lobby/state/lobby.actions';
+import {
+  emitAnswer,
+  getQuestionSuccess,
+} from '../../../phases/01-game/state/game.actions';
 
 const initialPlayerState: Player = {
   id: '',
   name: '',
   score: 0,
   isReady: false,
+  didAnswerCurrentQuestion: false,
+  chosenAnswerId: 0,
 };
 
 export const playerReducer = createReducer(
@@ -36,5 +42,15 @@ export const playerReducer = createReducer(
   on(setReadyStatusError, (state) => ({
     ...state,
     isReady: false,
+  })),
+  on(getQuestionSuccess, (state, { payload }) => ({
+    ...state,
+    didAnswerCurrentQuestion: false,
+    chosenAnswerId: 0,
+  })),
+  on(emitAnswer, (state, { answerId }) => ({
+    ...state,
+    didAnswerCurrentQuestion: true,
+    chosenAnswerId: answerId,
   }))
 );

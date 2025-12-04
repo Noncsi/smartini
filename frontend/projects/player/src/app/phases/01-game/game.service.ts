@@ -6,7 +6,7 @@ import {
   selectRoomCode,
 } from '../../core/state/game/game.selector';
 import { emitAnswer } from './state/game.actions';
-import { selectPlayerId } from '../../core/state/player/player.selector';
+import { selectDidAnswerCurrentQuestion, selectPlayerId, selectChosenAnswerId } from '../../core/state/player/player.selector';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -15,6 +15,8 @@ export class GameService {
   roomCode = this.store.selectSignal(selectRoomCode);
   playerId = this.store.selectSignal(selectPlayerId);
   countdown = this.store.selectSignal(selectCountdown);
+  didAnswer = this.store.selectSignal(selectDidAnswerCurrentQuestion);
+  chosenAnswerId = this.store.selectSignal(selectChosenAnswerId);
 
   sendAnswer(answerId: number) {
     this.store.dispatch(

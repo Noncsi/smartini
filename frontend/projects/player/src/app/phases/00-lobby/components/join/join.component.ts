@@ -21,6 +21,6 @@ export class JoinComponent {
   lobbyService = inject(LobbyService);
 
   join(roomCode: string, playerName: string) {
-    this.lobbyService.join(roomCode, playerName);
+    this.lobbyService.join(roomCode.toUpperCase(), playerName);
   }
 }

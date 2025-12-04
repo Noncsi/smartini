@@ -1,7 +1,7 @@
 <div id="players-container">
-  @for (player of players(); track player) {
+  @for (player of players(); track player.id) {
   <div id="name">{{ player.name }}</div>
-  <div id="score">{{ player.score }}</div>
+  <div id="score" [scoreAnimate]="player.score">{{ player.score }}</div>
   }
 </div>
 @if(secondsRemaining() >= 1) {
@@ -9,8 +9,14 @@
 } @else {
 <div id="question-container">
   <h1>{{ currentQuestion().question }}</h1>
-  @for(answer of currentQuestion().answerOptions; track answer){
-  <span class="answer" [ngStyle]="{'background-color': answer.id === currentCorrectAnswerId() ? 'green' : ''}" >{{ answer.text }}</span>
+  @for(answer of currentQuestion().answerOptions; track answer.id){
+  <span
+    class="answer"
+    [ngStyle]="{
+      'background-color': answer.id === currentCorrectAnswerId() ? 'green' : ''
+    }"
+    >{{ answer.text }}</span
+  >
   }
 </div>
 }

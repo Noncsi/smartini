@@ -1,5 +1,5 @@
 import { Epic } from "redux-observable";
-import { filter, ignoreElements, map, tap, withLatestFrom } from "rxjs";
+import { delay, filter, ignoreElements, map, tap, withLatestFrom } from "rxjs";
 import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
 import {
@@ -7,7 +7,10 @@ import {
   answeredCorrectly,
   answeredIncorrectly,
   emitAnswerResults,
+  emitScores,
   evaluateAnswer,
+  fetchQuestion,
+  nextQuestion,
 } from "../game.slice";
 import { selectPlayerInRoomById, selectRoomByCode } from "../game.selectors";
 import { Player, Room } from "../../types/game.types";
@@ -56,7 +59,8 @@ export const answeredCorrectlyEpic: Epic<
   RootState
 > = (action$) =>
   action$.pipe(
-    filter(answeredCorrectly.match),ignoreElements()
+    filter(answeredCorrectly.match),
+    ignoreElements()
     // map(({ payload }) => addToScore({ player: payload.player! }))
   );
 
@@ -91,5 +95,32 @@ export const emitAnswerResultsEpic: Epic<
           room?.currentQuestion?.correctAnswerId
         )
     ),
+    map(({ room }) => emitScores({ roomCode: room!.roomCode }))
+  );
+
+export const emitScoresEpic: Epic<GameActions, GameActions, RootState> = (
+  action$,
+  state$
+) =>
+  action$.pipe(
+    filter(emitScores.match),
+    withLatestFrom(state$),
+    delay(2000),
+    map(([{ payload }, state]) => ({
+      room: selectRoomByCode(state.game, payload.roomCode),
+      socket: gameBoardSocketMap.get(payload.roomCode),
+    })),
+    tap(({ socket, room }) =>
+      socket?.nsp.to(room!.roomCode).emit(SocketEvent.Players, room?.players)
+    ),
     ignoreElements()
+  );
+
+export const nextQuestionEpic: Epic<GameActions, GameActions, RootState> = (
+  action$,
+) =>
+  action$.pipe(
+    filter(emitScores.match),
+    delay(4000),
+    map(({ payload }) => fetchQuestion({ roomCode: payload.roomCode }))
   );
