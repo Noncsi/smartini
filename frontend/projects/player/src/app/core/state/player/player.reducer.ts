@@ -15,6 +15,7 @@ import {
 const initialPlayerState: Player = {
   id: '',
   name: '',
+  iconId: 0,
   score: 0,
   isReady: false,
   didAnswerCurrentQuestion: false,
@@ -23,9 +24,10 @@ const initialPlayerState: Player = {
 
 export const playerReducer = createReducer(
   initialPlayerState,
-  on(joinAttempt, (state, { roomCode, name }) => ({
+  on(joinAttempt, (state, { joinForm }) => ({
     ...state,
-    name,
+    name: joinForm.name!,
+    iconId: joinForm.iconId!,
   })),
   on(joinSuccess, (state, { id }) => ({
     ...state,

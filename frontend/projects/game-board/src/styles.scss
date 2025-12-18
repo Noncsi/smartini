@@ -1,19 +1,6 @@
-@use '@angular/material' as mat;
-
-html {
-  color-scheme: dark;
-  @include mat.theme((
-    color: mat.$cyan-palette,
-    typography: monospace,
-    density: 0
-  ));
-}
-
-body {
-  margin: unset;
-  padding-top: 10rem;
-  font-family: monospace;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .score-animate {
   animation: scorePop 1s cubic-bezier(0.25, 0.1, 0.25, 1);

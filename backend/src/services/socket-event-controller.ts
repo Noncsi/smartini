@@ -35,10 +35,21 @@ export const SocketEventController = {
     store.dispatch(createRoom({ socket, newRoomCode }));
   },
 
-  playerJoins(socket: PlayerSocket, roomCode: RoomCode, newPlayerName: string) {
+  playerJoins(
+    socket: PlayerSocket,
+    roomCode: RoomCode,
+    newPlayerName: string,
+    newPlayerIconId: number
+  ) {
     const newPlayerId = generatePlayerId();
     store.dispatch(
-      playerJoins({ socket, roomCode, newPlayerId, newPlayerName })
+      playerJoins({
+        socket,
+        roomCode,
+        newPlayerId,
+        newPlayerName,
+        newPlayerIconId,
+      })
     );
   },
 

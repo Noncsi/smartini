@@ -1,9 +1,10 @@
 import { createAction, props } from '@ngrx/store';
+import { JoinForm } from '../lobby.service';
 
 export const connectToSocket = createAction('[Player:Lobby] connect to socket');
 export const connectToSocketSuccess = createAction(
   '[Player:Lobby] connect to socket success',
-  props<{ roomCode: string; name: string }>()
+  props<{ roomCode: string; name: string; iconId: number }>()
 );
 export const connectToSocketError = createAction(
   '[Player:Lobby] connect to socket error'
@@ -11,7 +12,7 @@ export const connectToSocketError = createAction(
 
 export const joinAttempt = createAction(
   '[Player:Lobby] join attempt',
-  props<{ roomCode: string; name: string }>()
+  props<{ joinForm: Partial<JoinForm> }>()
 );
 export const joinSuccess = createAction(
   '[Player:Lobby] join success',

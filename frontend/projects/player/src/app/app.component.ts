@@ -13,7 +13,6 @@ import { ChooseAnswerComponent } from "./phases/01-game/components/choose-answer
   standalone: true,
   imports: [CommonModule, JoinComponent, ReadyComponent, ChooseAnswerComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   store = inject(Store);

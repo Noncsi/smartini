@@ -1,20 +1,43 @@
-@if(roomCode()) {
-<div id="code-container">
-  ROOM CODE:
-  <div id="code">{{ roomCode() }}</div>
-</div>
-<mat-list role="list">
-  @for (player of players(); track player.id) {
-  <mat-list-item role="listitem"
-    >{{ player.name }}
-    @if(player.isReady) {
-    <mat-icon fontIcon="check"></mat-icon>
-    } @else {
-    <mat-icon fontIcon="close"></mat-icon>
+<div
+  class="h-full grid grid-cols-2 grid-rows-3 place-items-center text-white"
+>
+  <div class="row-span-2 text-[13vw]">
+    <div
+      class="font-[Ranchers] -rotate-[13deg] bg-[url(/assets/icons/lightbulb.svg)] bg-no-repeat bg-left p-[0.05em] pt-[0.5em] pl-[1em] pr-px bg-contain"
+    >
+      Bulby
+    </div>
+  </div>
+
+  @if(roomCode()) {
+  <div class="col-span-1 row-span-2">
+    <div class="text-[2vw] text-center p-6 font-semibold">Join at:</div>
+    <div
+      class="text-[6vw] font-[Ranchers] font-bold text-violet-700 bg-white p-4 px-16 rounded-xl"
+    >
+      {{ roomCode() }}
+    </div>
+  </div>
+  <div class="col-span-2 self-start justify-self-center">
+    @if(players().length > 0) {
+    <div class="text-[2vw] text-center p-8 font-semibold">{{ players().length }} players</div>
     }
-  </mat-list-item>
-  } @empty {
-  <div id="no-player">It's quiet here...</div>
-  }
-</mat-list>
-} @else {<span>...</span>}
+    <div class="flex gap-6">
+      @for (player of players(); track player.id) {
+      <div
+        role="listitem"
+        class="text-[2vw] text-violet-700 bg-white p-2 px-4 rounded-xl"
+        >{{ iconMap.get(player.iconId) }} {{ player.name }}
+        <!-- @if(player.isReady) {
+        <mat-icon fontIcon="check"></mat-icon>
+        } @else {
+        <mat-icon fontIcon="close"></mat-icon>
+        } -->
+      </div>
+      } @empty {
+      <div id="no-player">It's quiet here...</div>
+      }
+    </div>
+  </div>
+  } @else {<span>...</span>}
+</div>

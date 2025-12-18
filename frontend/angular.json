@@ -25,7 +25,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/game-board/src/favicon.ico",
-              "projects/game-board/src/assets"
+              "projects/game-board/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./libs/assets/",
+                "output": "./assets"
+              }
             ],
             "styles": ["projects/game-board/src/styles.scss"],
             "scripts": []
@@ -111,7 +116,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/player/src/favicon.ico",
-              "projects/player/src/assets"
+              "projects/player/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./libs/assets/",
+                "output": "./assets"
+              }
             ],
             "styles": ["projects/player/src/styles.scss"],
             "scripts": []

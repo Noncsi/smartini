@@ -9,11 +9,17 @@ export class LobbyService {
   me = this.store.selectSignal(selectPlayerObject);
   isReady = this.store.selectSignal(selectIsPlayerReady);
 
-  join(roomCode: string, name: string) {
-    this.store.dispatch(joinAttempt({ roomCode, name }));
+  join(joinForm: Partial<JoinForm>) {
+    this.store.dispatch(joinAttempt({ joinForm }));
   }
 
   setReady(isReady: boolean) {
     this.store.dispatch(setReadyStatusAttempt({ isReady }));
   }
+}
+
+export interface JoinForm {
+  roomCode: string;
+  name: string;
+  iconId: number;
 }

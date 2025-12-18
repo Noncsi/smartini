@@ -24,6 +24,7 @@ export type PlayerSocket = Socket;
 export interface Player {
   id: string;
   name: string;
+  iconId: number;
   score: number;
   isReady: boolean;
   hasAnswered: boolean;

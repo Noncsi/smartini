@@ -23,6 +23,7 @@ import {
 } from './lobby.actions';
 import { selectRoomCode } from '../../../core/state/game/game.selector';
 import { SocketService } from '../../../core/socket.service';
+import { JoinForm } from '../lobby.service';
 
 @Injectable()
 export class LobbyEffects {
@@ -33,9 +34,15 @@ export class LobbyEffects {
   connectSocket$ = createEffect(() =>
     this.actions$.pipe(
       ofType(joinAttempt),
-      switchMap(({ roomCode, name }) =>
+      switchMap(({ joinForm }) =>
         this.socketService.connect().pipe(
-          map(() => connectToSocketSuccess({ roomCode, name })),
+          map(() =>
+            connectToSocketSuccess({
+              roomCode: joinForm.roomCode!,
+              name: joinForm.name!,
+              iconId: joinForm.iconId!
+            })
+          ),
           catchError(() => {
             console.error('Failed to connect to socket.');
             return of(connectToSocketError());
@@ -49,8 +56,8 @@ export class LobbyEffects {
     () =>
       this.actions$.pipe(
         ofType(connectToSocketSuccess),
-        tap(({ roomCode, name }) =>
-          this.socketService.emitJoinAttempt(roomCode, name)
+        tap(({ roomCode, name, iconId }) =>
+          this.socketService.emitJoinAttempt(roomCode, name, iconId)
         )
       ),
     { dispatch: false }

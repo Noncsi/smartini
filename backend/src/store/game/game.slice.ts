@@ -65,14 +65,18 @@ export const gameSlice = createSlice({
         roomCode: RoomCode;
         newPlayerId: string;
         newPlayerName: string;
+        newPlayerIconId: number;
       }>
     ) => {
-      const { roomCode, newPlayerId, newPlayerName } = action.payload;
+      const { roomCode, newPlayerId, newPlayerName, newPlayerIconId } =
+        action.payload;
       const room = selectRoomByCode(state, roomCode);
       if (!room) return;
       if (room.players.some((player) => player.name === newPlayerName)) return;
 
-      room.players.push(createPlayerObject(newPlayerId, newPlayerName));
+      room.players.push(
+        createPlayerObject(newPlayerId, newPlayerName, newPlayerIconId)
+      );
     },
 
     setReady: (

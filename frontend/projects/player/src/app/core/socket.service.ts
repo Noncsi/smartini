@@ -88,8 +88,8 @@ export class SocketService {
     });
   }
 
-  emitJoinAttempt(roomCode: string, name: string) {
-    this.socket.emit(SocketEvent.JoinRoomAttempt, roomCode, name);
+  emitJoinAttempt(roomCode: string, name: string, iconId: number) {
+    this.socket.emit(SocketEvent.JoinRoomAttempt, roomCode, name, iconId);
   }
 
   emitSetReadyStatusAttempt(

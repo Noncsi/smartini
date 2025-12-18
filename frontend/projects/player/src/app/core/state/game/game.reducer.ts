@@ -4,7 +4,13 @@ import {
   joinAttempt,
   joinError,
 } from '../../../phases/00-lobby/state/lobby.actions';
-import { countdown, getQuestionSuccess, pause, resume, startGame } from '../../../phases/01-game/state/game.actions';
+import {
+  countdown,
+  getQuestionSuccess,
+  pause,
+  resume,
+  startGame,
+} from '../../../phases/01-game/state/game.actions';
 
 const initialGameState: Game = {
   phase: GamePhase.lobby,
@@ -13,14 +19,14 @@ const initialGameState: Game = {
   players: [],
   countdown: -1,
   currentQuestion: { question: '', answerOptions: [] },
-  currentCorrectAnswerId: 0
+  currentCorrectAnswerId: 0,
 };
 
 export const gameReducer = createReducer(
   initialGameState,
-  on(joinAttempt, (state, { roomCode, name }) => ({
+  on(joinAttempt, (state, { joinForm }) => ({
     ...state,
-    roomCode,
+    roomCode: joinForm.roomCode!,
   })),
   on(joinError, (state) => ({
     ...state,
@@ -31,7 +37,10 @@ export const gameReducer = createReducer(
   on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay })),
   on(getQuestionSuccess, (state, { payload }) => ({
     ...state,
-    currentQuestion: { question: payload.question, answerOptions: payload.answerOptions },
+    currentQuestion: {
+      question: payload.question,
+      answerOptions: payload.answerOptions,
+    },
   })),
-  on(countdown, (state, { number }) => ({ ...state, countdown: number })),
+  on(countdown, (state, { number }) => ({ ...state, countdown: number }))
 );

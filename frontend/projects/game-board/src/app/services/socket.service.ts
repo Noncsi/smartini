@@ -43,9 +43,10 @@ export class SocketService {
 
     fromEvent(this.socket, SocketEvent.Players)
       .pipe(
-        tap((players: Player[]) =>
+        tap((players: Player[]) =>{
+          console.log(players)
           this.store.dispatch(receivePlayers({ players }))
-        )
+  })
       )
       .subscribe();
 

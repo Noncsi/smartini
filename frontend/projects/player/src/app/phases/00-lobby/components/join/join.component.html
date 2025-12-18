@@ -1,23 +1,52 @@
-<mat-form-field>
-  <mat-label>Room code</mat-label>
-  <input matInput #room/>
-</mat-form-field>
+<div
+  class="text-[13vw] font-[Ranchers] -rotate-[13deg] bg-[url(/assets/icons/lightbulb.svg)] bg-no-repeat bg-left p-[0.05em] pt-[0.5em] pl-[1em] pr-px bg-contain"
+>
+  Bulby
+</div>
 
-<mat-form-field>
-  <mat-label>Your name</mat-label>
-  <input matInput #name/>
-</mat-form-field>
+<div class="h-full justify-evenly flex flex-col gap-4">
+  <form
+    [formGroup]="joinForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col gap-12"
+  >
+    <div class="flex flex-col gap-2">
+      <mat-form-field>
+        <mat-label>Room code</mat-label>
+        <input matInput formControlName="roomCode" />
+      </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Select your icon</mat-label>
-  <mat-select>
-    <mat-option value="0">🤖</mat-option>
-    <mat-option value="1">👽</mat-option>
-    <mat-option value="3">😺</mat-option>
-    <mat-option value="4">💩</mat-option>
-    <mat-option value="5">🤡</mat-option>
-    <mat-option value="6">🤟</mat-option>
-  </mat-select>
-</mat-form-field>
+      <mat-form-field>
+        <mat-label>Your name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
 
-<button matButton="filled" (click)="join(room.value, name.value)">JOIN</button>
+      <mat-label class="text-center p-2">Select your icon</mat-label>
+      <div
+        class="grid grid-cols-5 auto-cols-min gap-5 justify-items-center justify-center"
+      >
+        @for(icon of iconMap; track icon[0]) {
+        <button
+          type="button"
+          matMiniFab
+          id="{{ icon[0] }}"
+          class="text-2xl"
+          (click)="setIconId(icon[0])"
+          [class.selected]="joinForm.controls.iconId.value === icon[0]"
+        >
+          {{ icon[1] }}
+        </button>
+        }
+      </div>
+    </div>
+    <button
+      matButton="filled"
+      type="submit"
+      [disabled]="!joinForm.valid"
+      class="text-2xl"
+    >
+      <mat-icon fontIcon="celebration"></mat-icon>
+      Join
+    </button>
+  </form>
+</div>

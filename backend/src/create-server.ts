@@ -22,8 +22,8 @@ export const createServer = (
     );
     socket.on(
       SocketEvent.JoinRoomAttempt,
-      (roomCode: RoomCode, playerName: string) =>
-        SocketEventController.playerJoins(socket, roomCode, playerName)
+      (roomCode: RoomCode, playerName: string, iconId: number) =>
+        SocketEventController.playerJoins(socket, roomCode, playerName, iconId)
     );
     socket.on(
       SocketEvent.SetReadyStatusAttempt,
