@@ -1,6 +1,4 @@
-<div
-  class="h-full grid grid-cols-2 grid-rows-3 place-items-center text-white"
->
+<div class="h-full grid grid-cols-2 grid-rows-3 place-items-center text-white">
   <div class="row-span-2 text-[13vw]">
     <div
       class="font-[Ranchers] -rotate-[13deg] bg-[url(/assets/icons/lightbulb.svg)] bg-no-repeat bg-left p-[0.05em] pt-[0.5em] pl-[1em] pr-px bg-contain"
@@ -20,14 +18,20 @@
   </div>
   <div class="col-span-2 self-start justify-self-center">
     @if(players().length > 0) {
-    <div class="text-[2vw] text-center p-8 font-semibold">{{ players().length }} players</div>
+    <div class="text-[2vw] text-center p-8 font-semibold">
+      {{ players().length }} players
+    </div>
     }
     <div class="flex gap-6">
-      @for (player of players(); track player.id) {
+      @for (player of players(); track player.id) { @if(player.id ===
+      hostPlayerId()) {
+      <div>HOST</div>
+      }
       <div
         role="listitem"
         class="text-[2vw] text-violet-700 bg-white p-2 px-4 rounded-xl"
-        >{{ iconMap.get(player.iconId) }} {{ player.name }}
+      >
+        {{ iconMap.get(player.iconId) }} {{ player.name }}
         <!-- @if(player.isReady) {
         <mat-icon fontIcon="check"></mat-icon>
         } @else {

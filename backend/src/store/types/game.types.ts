@@ -15,6 +15,7 @@ export interface Room {
   stage: GameStage;
   roomCode: RoomCode;
   players: Player[];
+  hostPlayerId: string;
   currentQuestion?: Question;
 }
 

@@ -17,6 +17,7 @@ const initialGameState: Game = {
   roomCode: '',
   isPaused: false,
   players: [],
+  hostPlayerId: '',
   countdown: -1,
   currentQuestion: { question: '', answerOptions: [] },
   currentCorrectAnswerId: 0,

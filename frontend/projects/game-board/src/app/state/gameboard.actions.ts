@@ -10,6 +10,11 @@ export const receivePlayers = createAction(
   props<{ players: Player[] }>()
 );
 
+export const receiveHostPlayerId = createAction(
+  'receiveHostPlayerId',
+  props<{ hostPlayerId: string }>()
+);
+
 export const createRoomSuccess = createAction(
   'receiveRoomCode',
   props<{ roomCode: string }>()

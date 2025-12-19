@@ -9,6 +9,7 @@ import {
   askQuestion,
   countdown,
   showCorrectAnswer,
+  receiveHostPlayerId,
 } from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
@@ -43,10 +44,18 @@ export class SocketService {
 
     fromEvent(this.socket, SocketEvent.Players)
       .pipe(
-        tap((players: Player[]) =>{
-          console.log(players)
-          this.store.dispatch(receivePlayers({ players }))
-  })
+        tap((players: Player[]) => {
+          this.store.dispatch(receivePlayers({ players }));
+        })
+      )
+      .subscribe();
+
+    fromEvent(this.socket, SocketEvent.HostPlayerId)
+      .pipe(
+        tap((hostPlayerId: string) => {
+          console.log(hostPlayerId);
+          this.store.dispatch(receiveHostPlayerId({ hostPlayerId }));
+        })
       )
       .subscribe();
 

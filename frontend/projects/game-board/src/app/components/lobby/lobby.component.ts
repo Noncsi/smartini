@@ -1,8 +1,12 @@
 import { Component, inject, Signal } from '@angular/core';
 import { Player } from '@models/player';
 import { Store } from '@ngrx/store';
-import { selectPlayers, selectRoomCode } from '../../state/gameboard.selector';
-import {MatIconModule} from '@angular/material/icon';
+import {
+  selectHostPlayerId,
+  selectPlayers,
+  selectRoomCode,
+} from '../../state/gameboard.selector';
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ICON_MAP } from '../../../../../../libs/constants/icon-map';
 
@@ -16,5 +20,6 @@ export class LobbyComponent {
   store = inject(Store);
   players: Signal<Player[]> = this.store.selectSignal(selectPlayers);
   roomCode: Signal<string> = this.store.selectSignal(selectRoomCode);
-  iconMap = ICON_MAP
+  hostPlayerId: Signal<string> = this.store.selectSignal(selectHostPlayerId);
+  iconMap = ICON_MAP;
 }

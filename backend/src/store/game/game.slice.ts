@@ -74,6 +74,7 @@ export const gameSlice = createSlice({
       if (!room) return;
       if (room.players.some((player) => player.name === newPlayerName)) return;
 
+      if (!room.players.length) room.hostPlayerId = newPlayerId;
       room.players.push(
         createPlayerObject(newPlayerId, newPlayerName, newPlayerIconId)
       );
@@ -144,20 +145,14 @@ export const gameSlice = createSlice({
         roomCode: RoomCode;
         playerId: string;
       }>
-    ) => {
-      // const { player } = action.payload;
-      // player.hasAnswered = true;
-    },
+    ) => {},
 
     answeredIncorrectly: (
       state,
       action: PayloadAction<{
         player: Player;
       }>
-    ) => {
-      // const { player } = action.payload;
-      // player.hasAnswered = true;
-    },
+    ) => {},
 
     addToScore: (
       state,

@@ -4,6 +4,7 @@ export const createRoomObject = (roomCode: RoomCode): Room => ({
   stage: GameStage.lobby,
   roomCode,
   players: [],
+  hostPlayerId: "",
 });
 
 export const createPlayerObject = (

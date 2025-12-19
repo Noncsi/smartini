@@ -9,6 +9,7 @@ enum SocketEvent {
   JoinRoomSuccess = 'joinRoomSuccess',
   JoinRoomError = 'joinRoomError',
   Players = 'players',
+  HostPlayerId = 'hostPlayerId',
   SetReadyStatusAttempt = 'setReadyStatusAttempt',
   SetReadyStatusSuccess = 'setReadyStatusSuccess',
   SetReadyStatusError = 'setReadyStatusError',

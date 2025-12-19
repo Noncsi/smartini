@@ -9,6 +9,7 @@ import {
   askQuestion,
   countdown,
   showCorrectAnswer,
+  receiveHostPlayerId,
 } from './gameboard.actions';
 import { Game, GamePhase } from '@models/game';
 import { Player } from '@models/player';
@@ -43,6 +44,7 @@ const initialState: Game = {
       didAnswerCurrentQuestion: false,
     },
   ],
+  hostPlayerId: '',
   countdown: 0,
   currentQuestion: { question: '', answerOptions: [] },
   currentCorrectAnswerId: 0,
@@ -54,6 +56,10 @@ export const gameReducer = createReducer(
   on(resume, (state) => ({ ...state, isPaused: false })),
   on(createRoomSuccess, (state, { roomCode }) => ({ ...state, roomCode })),
   on(receivePlayers, (state, { players }) => ({ ...state, players })),
+  on(receiveHostPlayerId, (state, { hostPlayerId }) => ({
+    ...state,
+    hostPlayerId,
+  })),
   on(setPlayerReadyStatus, (state, { playerId, isReady }) => {
     const playerIdx = state.players.findIndex(
       (player: Player) => player.id === playerId
