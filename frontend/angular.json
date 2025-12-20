@@ -82,7 +82,7 @@
           "builder": "@angular/build:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "projects/game-board/tsconfig.spec.json",
+            "tsConfig": "projects/game-board/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/game-board/src/favicon.ico",
@@ -176,7 +176,7 @@
           "builder": "@angular/build:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "projects/player/tsconfig.spec.json",
+            "tsConfig": "projects/player/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/player/src/favicon.ico",
