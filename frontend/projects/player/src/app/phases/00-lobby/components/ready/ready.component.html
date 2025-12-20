@@ -1,16 +1,23 @@
-<div id="text">
-  I'm
-  <div id="name">{{ me().name.toUpperCase() }}</div>
-  and I'm
+<div class="text-xl text-center p-12">
+  <div class="font-bold p-4">Ready up!</div>
+  <div>Once everyone’s set, the host can start the game.</div>
+  @if(isHost()) {<div>(Which is you!)</div>}
 </div>
-<div>@if(!isReady()) {<span id="not">not </span>}ready to start!</div>
 
-<div id="toggle-container">
-  <div id="toggle-text">Game starts when everyone in the room is ready. Wait for your friends to join.</div>
+<div class="text-center">
   <mat-slide-toggle
-    id="toggle"
     [checked]="isReady()"
     (change)="setReady($event)"
+    class="text-white"
   >
   </mat-slide-toggle>
+  <div>
+    I'm @if(!isReady()) {<span class="font-bold">not</span>}
+    <span class="font-bold"> ready </span>
+    to start!
+  </div>
 </div>
+
+@if(isHost()) {
+<button matButton="filled">START</button>
+}
