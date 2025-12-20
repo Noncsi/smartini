@@ -1,12 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  selectCountdown,
-  selectQuestion,
-  selectRoomCode,
-} from '../../core/state/game/game.selector';
 import { emitAnswer } from '../state/actions/game.actions';
-import { selectDidAnswerCurrentQuestion, selectPlayerId, selectChosenAnswerId } from '../../core/state/player/player.selector';
+import { selectPlayerId, selectDidAnswerCurrentQuestion, selectChosenAnswerId } from '../state/selectors/player.selector';
+import { selectQuestion, selectRoomCode, selectCountdown } from '../state/selectors/game.selector';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {

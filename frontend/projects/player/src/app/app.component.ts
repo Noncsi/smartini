@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GamePhase } from '@models/game';
-import { selectIsJoined } from './core/state/player/player.selector';
-import { JoinComponent } from './phases/00-lobby/components/join/join.component';
-import { ReadyComponent } from './phases/00-lobby/components/ready/ready.component';
-import { selectGamePhase } from './core/state/game/game.selector';
-import { ChooseAnswerComponent } from "./phases/01-game/components/choose-answer/choose-answer.component";
+import { JoinComponent } from './components/join/join.component';
+import { ChooseAnswerComponent } from './components/choose-answer/choose-answer.component';
+import { ReadyComponent } from './components/ready/ready.component';
+import { selectGamePhase } from './state/selectors/game.selector';
+import { selectIsJoined } from './state/selectors/player.selector';
 
 @Component({
   selector: 'app-root',

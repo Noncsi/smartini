@@ -12,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
-import { ICON_MAP } from '../../../../../../../../libs/constants/icon-map';
+import { ICON_MAP } from '../../../../../../libs/constants/icon-map';
 
 @Component({
   selector: 'app-join',

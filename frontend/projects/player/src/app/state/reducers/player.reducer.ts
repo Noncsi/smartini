@@ -1,16 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { Player } from '@models/player';
-import {
-  joinAttempt,
-  joinSuccess,
-  joinError,
-  setReadyStatusAttempt,
-  setReadyStatusError,
-} from '../../../phases/00-lobby/state/lobby.actions';
-import {
-  emitAnswer,
-  getQuestionSuccess,
-} from '../../../phases/01-game/state/game.actions';
+import { getQuestionSuccess, emitAnswer } from '../actions/game.actions';
+import { joinAttempt, joinSuccess, joinError, setReadyStatusAttempt, setReadyStatusError } from '../actions/lobby.actions';
 
 const initialPlayerState: Player = {
   id: '',

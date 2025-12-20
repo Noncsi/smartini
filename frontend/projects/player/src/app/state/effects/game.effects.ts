@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { emitAnswer } from '../../state/actions/game.actions';
 import { tap } from 'rxjs';
-import { SocketService } from '../../../core/socket.service';
+import { SocketService } from '../../services/socket.service';
 
 @Injectable()
 export class GameEffects {

@@ -1,10 +1,10 @@
 import { Component, computed, inject, Signal } from '@angular/core';
-import { LobbyService } from '../../lobby.service';
 import {
   MatSlideToggleChange,
   MatSlideToggleModule,
 } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
+import { LobbyService } from '../../services/lobby.service';
 
 @Component({
   selector: 'app-ready',

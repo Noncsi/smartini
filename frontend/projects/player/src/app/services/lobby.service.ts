@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { joinAttempt, setReadyStatusAttempt } from '../state/actions/lobby.actions';
-import { selectIsPlayerReady, selectPlayerObject } from '../../core/state/player/player.selector';
-import { selectHostPlayerId } from '../../../../../game-board/src/app/state/gameboard.selector';
+import { selectHostPlayerId } from '../../../../game-board/src/app/state/gameboard.selector';
+import { selectPlayerObject, selectIsPlayerReady } from '../state/selectors/player.selector';
 
 @Injectable({ providedIn: 'root' })
 export class LobbyService {

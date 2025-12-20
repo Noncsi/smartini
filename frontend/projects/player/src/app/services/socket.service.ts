@@ -10,20 +10,10 @@ import {
   Observable,
   of,
   Subscription,
-  throwError,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import {
-  joinSuccess,
-  joinError,
-  setReadyStatusSuccess,
-  setReadyStatusError,
-} from '../phases/00-lobby/state/lobby.actions';
-import {
-  startGame,
-  getQuestionSuccess,
-  countdown,
-} from '../phases/01-game/state/game.actions';
+import { startGame, getQuestionSuccess, countdown } from '../state/actions/game.actions';
+import { joinSuccess, joinError, setReadyStatusSuccess, setReadyStatusError } from '../state/actions/lobby.actions';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {

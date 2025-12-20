@@ -1,19 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
-import {
-  Observable,
-  catchError,
-  concatMap,
-  map,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectPlayerId } from '../../../core/state/player/player.selector';
 import {
-  connectToSocket,
   connectToSocketSuccess,
   connectToSocketError,
   joinAttempt,
@@ -21,9 +11,9 @@ import {
   joinError,
   setReadyStatusAttempt,
 } from '../../state/actions/lobby.actions';
-import { selectRoomCode } from '../../../core/state/game/game.selector';
-import { SocketService } from '../../../core/socket.service';
-import { JoinForm } from '../lobby.service';
+import { SocketService } from '../../services/socket.service';
+import { selectRoomCode } from '../selectors/game.selector';
+import { selectPlayerId } from '../selectors/player.selector';
 
 @Injectable()
 export class LobbyEffects {
@@ -40,7 +30,7 @@ export class LobbyEffects {
             connectToSocketSuccess({
               roomCode: joinForm.roomCode!,
               name: joinForm.name!,
-              iconId: joinForm.iconId!
+              iconId: joinForm.iconId!,
             })
           ),
           catchError(() => {

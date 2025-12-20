@@ -2,12 +2,12 @@ import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideStore, StoreModule } from '@ngrx/store';
-import { playerReducer } from './core/state/player/player.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { LobbyEffects } from './phases/00-lobby/state/lobby.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { gameReducer } from './core/state/game/game.reducer';
-import { GameEffects } from './phases/01-game/state/game.effects';
+import { GameEffects } from './state/effects/game.effects';
+import { LobbyEffects } from './state/effects/lobby.effects';
+import { gameReducer } from './state/reducers/game.reducer';
+import { playerReducer } from './state/reducers/player.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
