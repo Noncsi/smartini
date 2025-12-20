@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { JoinForm } from '../lobby.service';
+import { JoinForm } from '../../services/lobby.service';
 
 export const connectToSocket = createAction('[Player:Lobby] connect to socket');
 export const connectToSocketSuccess = createAction(

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { joinAttempt, setReadyStatusAttempt } from './state/lobby.actions';
+import { joinAttempt, setReadyStatusAttempt } from '../state/actions/lobby.actions';
 import { selectIsPlayerReady, selectPlayerObject } from '../../core/state/player/player.selector';
 import { selectHostPlayerId } from '../../../../../game-board/src/app/state/gameboard.selector';
 

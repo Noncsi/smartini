@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { LobbyService } from '../../lobby.service';
+import { LobbyService } from '../../services/lobby.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';

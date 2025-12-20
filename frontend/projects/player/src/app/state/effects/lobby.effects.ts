@@ -20,7 +20,7 @@ import {
   joinSuccess,
   joinError,
   setReadyStatusAttempt,
-} from './lobby.actions';
+} from '../../state/actions/lobby.actions';
 import { selectRoomCode } from '../../../core/state/game/game.selector';
 import { SocketService } from '../../../core/socket.service';
 import { JoinForm } from '../lobby.service';

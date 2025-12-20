@@ -5,7 +5,7 @@ import {
   selectQuestion,
   selectRoomCode,
 } from '../../core/state/game/game.selector';
-import { emitAnswer } from './state/game.actions';
+import { emitAnswer } from '../state/actions/game.actions';
 import { selectDidAnswerCurrentQuestion, selectPlayerId, selectChosenAnswerId } from '../../core/state/player/player.selector';
 
 @Injectable({ providedIn: 'root' })

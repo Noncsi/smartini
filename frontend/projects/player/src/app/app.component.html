@@ -1,6 +1,6 @@
-@switch (currentPhase()) { @case (gamePhase.lobby) { @if(isJoined()) {
-<app-ready></app-ready>
-} @else {
+<!-- @switch (currentPhase()) { @case (gamePhase.lobby) { @if(isJoined()) { -->
+<app-ready class="flex flex-col items-center justify-evenly"></app-ready>
+<!-- } @else {
 <app-join class="flex flex-col items-center"></app-join>
 } } @case (gamePhase.gamePlay) {
 <app-choose-answer>game phase</app-choose-answer>
@@ -8,4 +8,4 @@
 <span>result phase</span>
 } @default {
 <span>unexpected error</span>
-} }
+} } -->

@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameService } from '../../game.service';
+import { GameService } from '../../services/game.service';
 import { MatButtonModule } from '@angular/material/button';
-import { selectPlayer } from '../../../../core/state/player/player.selector';
+import { selectPlayer } from '../../state/selectors/player.selector';
 
 @Component({
   selector: 'app-choose-answer',

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { emitAnswer } from './game.actions';
+import { emitAnswer } from '../../state/actions/game.actions';
 import { tap } from 'rxjs';
 import { SocketService } from '../../../core/socket.service';
 
