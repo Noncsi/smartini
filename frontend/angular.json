@@ -24,7 +24,6 @@
             "tsConfig": "projects/game-board/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/game-board/src/favicon.ico",
               "projects/game-board/src/assets",
               {
                 "glob": "**/*",
@@ -115,7 +114,6 @@
             "tsConfig": "projects/player/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/player/src/favicon.ico",
               "projects/player/src/assets",
               {
                 "glob": "**/*",
