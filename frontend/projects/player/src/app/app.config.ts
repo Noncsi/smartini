@@ -1,6 +1,4 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { routes } from './app.routes';
 import { provideStore, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
@@ -11,7 +9,6 @@ import { playerReducer } from './state/reducers/player.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
     provideStore(),
     importProvidersFrom(
       StoreModule.forRoot({ game: gameReducer, player: playerReducer }),
