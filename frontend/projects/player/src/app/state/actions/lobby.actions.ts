@@ -20,6 +20,11 @@ export const joinSuccess = createAction(
 );
 export const joinError = createAction('[Player:Lobby] join error');
 
+export const getHostPlayerId = createAction(
+  '[Player:Lobby] get host player id',
+  props<{ id: string }>()
+);
+
 export const setReadyStatusAttempt = createAction(
   '[Player:Lobby] set ready status attempt',
   props<{ isReady: boolean }>()

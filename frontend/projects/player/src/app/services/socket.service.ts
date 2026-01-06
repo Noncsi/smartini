@@ -12,8 +12,18 @@ import {
   Subscription,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { startGame, getQuestionSuccess, countdown } from '../state/actions/game.actions';
-import { joinSuccess, joinError, setReadyStatusSuccess, setReadyStatusError } from '../state/actions/lobby.actions';
+import {
+  startGame,
+  getQuestionSuccess,
+  countdown,
+} from '../state/actions/game.actions';
+import {
+  joinSuccess,
+  joinError,
+  setReadyStatusSuccess,
+  setReadyStatusError,
+  getHostPlayerId,
+} from '../state/actions/lobby.actions';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -50,6 +60,10 @@ export class SocketService {
 
     this.socket.on(SocketEvent.JoinRoomError, () => {
       this.store.dispatch(joinError());
+    });
+
+    this.socket.on(SocketEvent.HostPlayerId, (id: string) => {
+      this.store.dispatch(getHostPlayerId({ id }));
     });
 
     this.socket.on(SocketEvent.SetReadyStatusSuccess, () => {

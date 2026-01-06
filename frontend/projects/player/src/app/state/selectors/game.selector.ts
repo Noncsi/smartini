@@ -18,6 +18,11 @@ export const selectGamePhase = createSelector(
   (game: Game) => game.phase
 );
 
+export const selectHostPlayerId = createSelector(
+  selectGame,
+  (game: Game) => game.hostPlayerId
+);
+
 export const selectQuestion = createSelector(
   selectGame,
   (game: Game) => game.currentQuestion

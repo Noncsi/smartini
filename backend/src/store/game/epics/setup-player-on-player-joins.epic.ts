@@ -54,7 +54,7 @@ export const setupPlayerOnPlayerJoinsEpic: Epic<
       );
       socket.emit(SocketEvent.JoinRoomSuccess, newPlayer.id);
 
-      log.info.playerJoined(newPlayerName, roomCode);
+      log.info.playerJoined(newPlayerName, roomCode, room.hostPlayerId === newPlayerId);
     }),
     ignoreElements()
   );

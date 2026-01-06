@@ -66,6 +66,19 @@
     background-color: #290055;
   }
 
+  .animate-wiggle {
+    animation: wiggle 4s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: scale3d(1.05, 1.05, 1);
+    }
+    50% {
+      transform: rotate(2deg);
+    }
+  }
+
   .score-animate {
     animation: scorePop 1s cubic-bezier(0.25, 0.1, 0.25, 1);
   }

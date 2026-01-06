@@ -22,12 +22,16 @@ export const log = {
     gameBoardDisconnected: (socketId: string) =>
       logger.info(`Game board has disconnected. Socket id: ${socketId}`),
     playerDisconnected: (id: string, roomCode: string, socketId: string) =>
-      logger.info(`Player with id: ${id} has disconnected from room '${roomCode}'. Socket id: ${socketId}`),
+      logger.info(
+        `Player with id: ${id} has disconnected from room '${roomCode}'. Socket id: ${socketId}`
+      ),
     serverIsRunning: () => logger.info(`Server is running on port ${PORT}.`),
     roomCreated: (roomCode: RoomCode) =>
       logger.info(`Room '${roomCode}' has been opened.`),
-    playerJoined: (name: string, roomCode: RoomCode) =>
-      logger.info(`Player '${name}' has joined room '${roomCode}'.`),
+    playerJoined: (name: string, roomCode: RoomCode, isHost: boolean) =>
+      logger.info(
+        `Player '${name}' has joined room '${roomCode}'. Is host: ${isHost}`
+      ),
     playerStatusSet: (id: string, roomCode: RoomCode, isReady: boolean) =>
       logger.info(
         `Player with id: ${id} in room '${roomCode}' has set its status to '${

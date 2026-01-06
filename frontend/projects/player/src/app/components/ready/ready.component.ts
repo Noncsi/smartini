@@ -15,10 +15,10 @@ import { LobbyService } from '../../services/lobby.service';
 export class ReadyComponent {
   lobbyService = inject(LobbyService);
   isReady = this.lobbyService.isReady;
-  me = this.lobbyService.me;
+  self = this.lobbyService.self;
   hostPlayerId = this.lobbyService.hostPlayerId;
   isHost: Signal<boolean> = computed(
-    () => this.me().id === this.hostPlayerId()
+    () => this.self().id === this.hostPlayerId()
   );
 
   setReady(event: MatSlideToggleChange) {

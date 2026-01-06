@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Game, GamePhase } from '@models/game';
-import { joinAttempt, joinError } from '../actions/lobby.actions';
+import { getHostPlayerId, joinAttempt, joinError } from '../actions/lobby.actions';
 import { pause, resume, startGame, getQuestionSuccess, countdown } from '../actions/game.actions';
 
 const initialGameState: Game = {
@@ -24,6 +24,7 @@ export const gameReducer = createReducer(
     ...state,
     roomCode: '',
   })),
+  on(getHostPlayerId, (state, { id }) => ({ ...state, hostPlayerId: id })),
   on(pause, (state) => ({ ...state, isPaused: true })),
   on(resume, (state) => ({ ...state, isPaused: false })),
   on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay })),
