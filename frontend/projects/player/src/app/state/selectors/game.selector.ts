@@ -1,40 +1,39 @@
-import { Game } from '@models/game';
-import { Player } from '@models/player';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { PlayerGameState } from '../reducers/game.reducer';
 
-export const selectGame = createFeatureSelector<Game>('game');
+export const selectGame = createFeatureSelector<PlayerGameState>('game');
 
 export const selectIsPaused = createSelector(
   selectGame,
-  (game: Game) => game.isPaused
+  (game: PlayerGameState) => game.isPaused
 );
 
 export const selectRoomCode = createSelector(
   selectGame,
-  (game: Game) => game.roomCode
+  (game: PlayerGameState) => game.roomCode
 );
 
 export const selectGamePhase = createSelector(
   selectGame,
-  (game: Game) => game.phase
+  (game: PlayerGameState) => game.phase
 );
 
 export const selectHostPlayerId = createSelector(
   selectGame,
-  (game: Game) => game.hostPlayerId
+  (game: PlayerGameState) => game.hostPlayerId
 );
 
-export const selectIsEveryPlayerReady = createSelector(
+export const selectArePlayersReady = createSelector(
   selectGame,
-  (game: Game) => game.players.length && game.players.every((player: Player) => player.isReady)
+  (game: PlayerGameState) => game.arePlayersReady
 );
 
 export const selectQuestion = createSelector(
   selectGame,
-  (game: Game) => game.currentQuestion
+  (game: PlayerGameState) => game.currentQuestion
 );
 
 export const selectCountdown = createSelector(
   selectGame,
-  (game: Game) => game.countdown
+  (game: PlayerGameState) => game.countdown
 );

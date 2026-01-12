@@ -1,14 +1,29 @@
 import { createReducer, on } from '@ngrx/store';
-import { Game, GamePhase } from '@models/game';
-import { getHostPlayerId, joinAttempt, joinError, startGameSuccess } from '../actions/lobby.actions';
-import { pause, resume, getQuestionSuccess, countdown } from '../actions/game.actions';
+import { GameState, GamePhase } from '@models/game';
+import {
+  arePlayersReady,
+  getHostPlayerId,
+  joinAttempt,
+  joinError,
+  startGameSuccess,
+} from '../actions/lobby.actions';
+import {
+  pause,
+  resume,
+  getQuestionSuccess,
+  countdown,
+} from '../actions/game.actions';
 
-const initialGameState: Game = {
+export interface PlayerGameState extends GameState {
+  arePlayersReady: boolean;
+}
+
+const initialGameState: PlayerGameState = {
   phase: GamePhase.lobby,
   roomCode: '',
   isPaused: false,
-  players: [],
   hostPlayerId: '',
+  arePlayersReady: false,
   countdown: -1,
   currentQuestion: { question: '', answerOptions: [] },
   currentCorrectAnswerId: 0,
@@ -27,6 +42,10 @@ export const gameReducer = createReducer(
   on(getHostPlayerId, (state, { id }) => ({ ...state, hostPlayerId: id })),
   on(pause, (state) => ({ ...state, isPaused: true })),
   on(resume, (state) => ({ ...state, isPaused: false })),
+  on(arePlayersReady, (state, { areReady }) => ({
+    ...state,
+    arePlayersReady: areReady,
+  })),
   on(startGameSuccess, (state) => ({ ...state, phase: GamePhase.gamePlay })),
   on(getQuestionSuccess, (state, { payload }) => ({
     ...state,

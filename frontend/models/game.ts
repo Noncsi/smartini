@@ -7,11 +7,10 @@ export enum GamePhase {
   result,
 }
 
-export interface Game {
+export interface GameState {
   phase: GamePhase;
   roomCode: string;
   isPaused: boolean;
-  players: Player[];
   hostPlayerId: string;
   countdown: number;
   currentQuestion: QuestionPrompt;

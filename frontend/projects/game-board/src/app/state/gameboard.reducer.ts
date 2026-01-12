@@ -11,10 +11,14 @@ import {
   receiveHostPlayerId,
   startGameSuccess,
 } from './gameboard.actions';
-import { Game, GamePhase } from '@models/game';
+import { GameState, GamePhase } from '@models/game';
 import { Player } from '@models/player';
 
-const initialState: Game = {
+export interface GameBoardGameState extends GameState {
+  players: Player[];
+}
+
+const initialState: GameBoardGameState = {
   phase: GamePhase.lobby,
   roomCode: '',
   isPaused: false,

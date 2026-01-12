@@ -16,5 +16,5 @@
 </div>
 
 @if(isHost()) {
-<p-button [disabled]="!isEveryPlayerReady()">START</p-button>
+<p-button [disabled]="!arePlayersReady()">START</p-button>
 }

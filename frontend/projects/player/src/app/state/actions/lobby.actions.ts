@@ -36,6 +36,10 @@ export const setReadyStatusError = createAction(
   '[Player:Lobby] set ready status error'
 );
 
+export const arePlayersReady = createAction(
+  '[Player:Lobby] arePlayersReady', props<{ areReady: boolean }>()
+);
+
 export const startGame = createAction(
   '[Player:Lobby] start game'
 );

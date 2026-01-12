@@ -18,7 +18,7 @@ export class ReadyComponent {
   isHost: Signal<boolean> = computed(
     () => this.self().id === this.hostPlayerId()
   );
-  isEveryPlayerReady = this.lobbyService.isEveryPlayerReady;
+  arePlayersReady = this.lobbyService.arePlayersReady;
 
   setReady(event: any) {
     this.lobbyService.setReady(event.checked);

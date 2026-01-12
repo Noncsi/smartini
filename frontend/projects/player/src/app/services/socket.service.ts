@@ -12,16 +12,14 @@ import {
   Subscription,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import {
-  getQuestionSuccess,
-  countdown,
-} from '../state/actions/game.actions';
+import { getQuestionSuccess, countdown } from '../state/actions/game.actions';
 import {
   joinSuccess,
   joinError,
   setReadyStatusSuccess,
   setReadyStatusError,
   getHostPlayerId,
+  arePlayersReady,
 } from '../state/actions/lobby.actions';
 import { selectRoomCode } from '../state/selectors/game.selector';
 
@@ -52,8 +50,9 @@ export class SocketService {
     }
   }
 
+  // LISTENERS
+
   listenToSocketEvents(): void {
-    // Lobby events
     this.socket.on(SocketEvent.JoinRoomSuccess, (id: string) => {
       this.store.dispatch(joinSuccess({ id }));
     });
@@ -74,10 +73,9 @@ export class SocketService {
       this.store.dispatch(setReadyStatusError());
     });
 
-    // Game events
-    // this.socket.on(SocketEvent.StartGame, () => {
-    //   this.store.dispatch(startGame());
-    // });
+    this.socket.on(SocketEvent.ArePlayersReady, (areReady: boolean) => {
+      this.store.dispatch(arePlayersReady({ areReady }));
+    });
 
     this.socket.on(SocketEvent.GetQuestionSuccess, (payload) => {
       this.store.dispatch(getQuestionSuccess({ payload }));
@@ -91,6 +89,8 @@ export class SocketService {
       this.store.dispatch(countdown({ number }));
     });
   }
+
+  // EMITTERS
 
   emitJoinAttempt(roomCode: string, name: string, iconId: number) {
     this.socket.emit(SocketEvent.JoinRoomAttempt, roomCode, name, iconId);
@@ -110,7 +110,10 @@ export class SocketService {
   }
 
   emitStartGame() {
-    this.socket.emit(SocketEvent.StartGame, this.store.selectSignal(selectRoomCode));
+    this.socket.emit(
+      SocketEvent.StartGame,
+      this.store.selectSignal(selectRoomCode)
+    );
   }
 
   emitAnswer(roomCode: string, playerId: string, answerId: number) {

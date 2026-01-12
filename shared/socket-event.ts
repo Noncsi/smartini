@@ -14,6 +14,7 @@ enum SocketEvent {
   SetReadyStatusSuccess = 'setReadyStatusSuccess',
   SetReadyStatusError = 'setReadyStatusError',
   PlayerSetReady = 'playerSetReady',
+  ArePlayersReady = 'playersAreReady',
   StartGame = 'startGame',
   StartGameSuccess = 'startGameSuccess',
   GetQuestion = 'getQuestion',

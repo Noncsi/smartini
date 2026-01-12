@@ -27,7 +27,7 @@ export const startCountdownOnStartGameEpic: Epic<
     })),
     filter(({ socket }) => Boolean(socket)),
     concatMap(({ socket, roomCode }) => {
-      tap((n) => socket?.nsp.to(roomCode).emit(SocketEvent.StartGameSuccess));
+      tap(() => socket?.nsp.to(roomCode).emit(SocketEvent.StartGameSuccess));
       return timer(0, 1000).pipe(
         map((n) => 2 - n),
         takeWhile((n) => n >= 0),
