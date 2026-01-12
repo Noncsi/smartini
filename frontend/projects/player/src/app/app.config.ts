@@ -6,6 +6,9 @@ import { GameEffects } from './state/effects/game.effects';
 import { LobbyEffects } from './state/effects/lobby.effects';
 import { gameReducer } from './state/reducers/game.reducer';
 import { playerReducer } from './state/reducers/player.reducer';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import { BulbyTheme } from '@styles/theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +17,12 @@ export const appConfig: ApplicationConfig = {
       StoreModule.forRoot({ game: gameReducer, player: playerReducer }),
       EffectsModule.forRoot([LobbyEffects, GameEffects])
     ),
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: BulbyTheme,
+      },
+    }),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open

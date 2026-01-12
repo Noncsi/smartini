@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import PrimeUI from 'tailwindcss-primeui';
 module.exports = {
   content: [
     "./projects/**/*.{html,ts}",
@@ -7,5 +8,5 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [PrimeUI],
 };
