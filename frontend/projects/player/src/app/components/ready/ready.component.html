@@ -1,16 +1,13 @@
 <div class="text-xl text-center p-12">
   <div class="font-bold p-4">Ready up!</div>
-  <div>Once everyone’s set, the host can start the game.</div>
-  @if(isHost()) {<div>(Which is you!)</div>}
+  <div>Once everyone’s ready, the host can start the game.</div>
+  @if(isHost()) {
+  <div>(Which is you!)</div>
+  }
 </div>
 
 <div class="text-center">
-  <mat-slide-toggle
-    [checked]="isReady()"
-    (change)="setReady($event)"
-    class="text-white"
-  >
-  </mat-slide-toggle>
+  <p-toggleswitch (onChange)="setReady($event)" />
   <div>
     I'm @if(!isReady()) {<span class="font-bold">not</span>}
     <span class="font-bold"> ready </span>
@@ -19,5 +16,5 @@
 </div>
 
 @if(isHost()) {
-<button matButton="filled">START</button>
+<p-button [disabled]="!isEveryPlayerReady()">START</p-button>
 }

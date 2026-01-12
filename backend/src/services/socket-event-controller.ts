@@ -7,6 +7,7 @@ import {
   evaluateAnswer,
   playerJoins,
   setReady,
+  startGame,
 } from "../store/game/game.slice";
 import {
   GameBoardSocket,
@@ -55,6 +56,10 @@ export const SocketEventController = {
 
   setReady(roomCode: RoomCode, playerId: string, isReady: boolean) {
     store.dispatch(setReady({ roomCode, playerId, isReady }));
+  },
+
+  startGame(roomCode: RoomCode) {
+    store.dispatch(startGame({ roomCode }));
   },
 
   evaluateAnswer(roomCode: RoomCode, playerId: string, answerId: number) {

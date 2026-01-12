@@ -1,15 +1,28 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { joinAttempt, setReadyStatusAttempt } from '../state/actions/lobby.actions';
-import { selectPlayerObject, selectIsPlayerReady } from '../state/selectors/player.selector';
-import { selectHostPlayerId } from '../state/selectors/game.selector';
+import {
+  joinAttempt,
+  setReadyStatusAttempt,
+  startGame,
+} from '../state/actions/lobby.actions';
+import {
+  selectPlayerObject,
+  selectIsPlayerReady,
+} from '../state/selectors/player.selector';
+import {
+  selectHostPlayerId,
+  selectIsEveryPlayerReady,
+  selectRoomCode,
+} from '../state/selectors/game.selector';
 
 @Injectable({ providedIn: 'root' })
 export class LobbyService {
   store = inject(Store);
+  roomCode = this.store.selectSignal(selectRoomCode);
   self = this.store.selectSignal(selectPlayerObject);
   isReady = this.store.selectSignal(selectIsPlayerReady);
   hostPlayerId = this.store.selectSignal(selectHostPlayerId);
+  isEveryPlayerReady = this.store.selectSignal(selectIsEveryPlayerReady)
 
   join(joinForm: Partial<JoinForm>) {
     this.store.dispatch(joinAttempt({ joinForm }));
@@ -17,6 +30,10 @@ export class LobbyService {
 
   setReady(isReady: boolean) {
     this.store.dispatch(setReadyStatusAttempt({ isReady }));
+  }
+
+  startGame() {
+    this.store.dispatch(startGame());
   }
 }
 

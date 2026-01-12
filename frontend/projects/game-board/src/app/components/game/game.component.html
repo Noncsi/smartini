@@ -1,22 +1,15 @@
-<div id="players-container">
+<div class="flex gap-4">
   @for (player of players(); track player.id) {
-  <div id="name">{{ player.name }}</div>
-  <div id="score" [scoreAnimate]="player.score">{{ player.score }}</div>
+  <p-card class="p-4 max-h-[20vh]">
+    <ng-template #header>
+      <div>{{ iconMap.get(player.iconId) }} {{ player.name }}</div>
+    </ng-template>
+    <ng-template #title>{{ player.score }}</ng-template>
+  </p-card>
   }
 </div>
 @if(secondsRemaining() >= 1) {
 <h2>{{ secondsRemaining() }}</h2>
 } @else {
-<div id="question-container">
-  <h1>{{ currentQuestion().question }}</h1>
-  @for(answer of currentQuestion().answerOptions; track answer.id){
-  <span
-    class="answer"
-    [ngStyle]="{
-      'background-color': answer.id === currentCorrectAnswerId() ? 'green' : ''
-    }"
-    >{{ answer.text }}</span
-  >
-  }
-</div>
+<app-question [question]="currentQuestion()"></app-question>
 }

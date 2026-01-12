@@ -10,6 +10,7 @@ import {
   joinSuccess,
   joinError,
   setReadyStatusAttempt,
+  startGame,
 } from '../../state/actions/lobby.actions';
 import { SocketService } from '../../services/socket.service';
 import { selectRoomCode } from '../selectors/game.selector';
@@ -89,6 +90,15 @@ export class LobbyEffects {
             action.isReady
           )
         )
+      ),
+    { dispatch: false }
+  );
+
+  emitStartGame$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(startGame),
+        tap(() => this.socketService.emitStartGame())
       ),
     { dispatch: false }
   );

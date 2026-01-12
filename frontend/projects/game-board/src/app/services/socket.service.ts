@@ -5,11 +5,11 @@ import {
   receivePlayers,
   createRoomSuccess,
   setPlayerReadyStatus,
-  startGame,
   askQuestion,
   countdown,
   showCorrectAnswer,
   receiveHostPlayerId,
+  startGameSuccess,
 } from '../state/gameboard.actions';
 import { Player } from '@models/player';
 import { fromEvent, take, tap } from 'rxjs';
@@ -72,8 +72,8 @@ export class SocketService {
       )
       .subscribe();
 
-    this.socket.on(SocketEvent.StartGame, () => {
-      this.store.dispatch(startGame());
+    this.socket.on(SocketEvent.StartGameSuccess, () => {
+      this.store.dispatch(startGameSuccess());
     });
 
     this.socket.on(SocketEvent.Countdown, (number: number) => {

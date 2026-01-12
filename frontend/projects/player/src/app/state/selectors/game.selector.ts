@@ -1,4 +1,5 @@
 import { Game } from '@models/game';
+import { Player } from '@models/player';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const selectGame = createFeatureSelector<Game>('game');
@@ -21,6 +22,11 @@ export const selectGamePhase = createSelector(
 export const selectHostPlayerId = createSelector(
   selectGame,
   (game: Game) => game.hostPlayerId
+);
+
+export const selectIsEveryPlayerReady = createSelector(
+  selectGame,
+  (game: Game) => game.players.length && game.players.every((player: Player) => player.isReady)
 );
 
 export const selectQuestion = createSelector(

@@ -15,7 +15,7 @@ export const setReadyEpic: Epic<GameActions, GameActions, RootState> = (
     tap(({ payload }) => {
       const { roomCode, playerId, isReady } = payload;
       const gameBoardSocket = gameBoardSocketMap.get(roomCode);
-      gameBoardSocket?.emit(SocketEvent.PlayerSetReady, {
+      gameBoardSocket?.nsp.emit(SocketEvent.PlayerSetReady, {
         playerId,
         isReady,
       });

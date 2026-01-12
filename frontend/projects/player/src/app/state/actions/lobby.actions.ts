@@ -35,3 +35,11 @@ export const setReadyStatusSuccess = createAction(
 export const setReadyStatusError = createAction(
   '[Player:Lobby] set ready status error'
 );
+
+export const startGame = createAction(
+  '[Player:Lobby] start game'
+);
+
+export const startGameSuccess = createAction(
+  '[Player:Lobby] start game success'
+);

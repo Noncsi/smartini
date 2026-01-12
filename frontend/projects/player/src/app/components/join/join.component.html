@@ -1,52 +1,59 @@
 <div
-  class="text-[13vw] font-[Ranchers] -rotate-[13deg] bg-[url(/assets/icons/lightbulb.svg)] bg-no-repeat bg-left p-[0.05em] pt-[0.5em] pl-[1em] pr-px bg-contain"
+  class="text-[13vw] font-[Ranchers] -rotate-[13deg] bg-[url(/assets/icons/lightbulb.svg)] bg-no-repeat bg-left p-[0.08em] pt-[0.8em] pl-[1em] pr-px bg-contain"
 >
   Bulby
 </div>
 
-<div class="h-full justify-evenly flex flex-col gap-4">
+<div class="h-full justify-evenly flex flex-col">
   <form
     [formGroup]="joinForm"
     (ngSubmit)="onSubmit()"
     class="flex flex-col gap-12"
   >
-    <div class="flex flex-col gap-2">
-      <mat-form-field>
-        <mat-label>Room code</mat-label>
-        <input matInput formControlName="roomCode" />
-      </mat-form-field>
+    <div class="flex flex-col gap-4">
+      <p-floatlabel variant="in" class="self-center">
+        <input
+          pInputText
+          id="in_label"
+          autocomplete="off"
+          formControlName="roomCode"
+        />
+        <label for="in_label">Room code</label>
+      </p-floatlabel>
 
-      <mat-form-field>
-        <mat-label>Your name</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
+      <p-floatlabel variant="in" class="self-center">
+        <input
+          pInputText
+          id="in_label"
+          formControlName="name"
+          autocomplete="off"
+        />
+        <label for="in_label">Your name</label>
+      </p-floatlabel>
 
-      <mat-label class="text-center p-2">Select your icon</mat-label>
+      <label class="self-center">Select your icon</label>
       <div
-        class="grid grid-cols-5 auto-cols-min gap-5 justify-items-center justify-center"
+        class="grid grid-cols-5 auto-cols-min gap-1 justify-items-center justify-center"
       >
         @for(icon of iconMap; track icon[0]) {
-        <button
-          type="button"
-          matMiniFab
+        <p-button
           id="{{ icon[0] }}"
+          type="button"
+          label="{{ icon[1] }}"
+          variant="text"
+          [raised]="true"
           class="text-2xl"
           (click)="setIconId(icon[0])"
           [class.selected]="joinForm.controls.iconId.value === icon[0]"
-        >
-          {{ icon[1] }}
-        </button>
+        />
         }
       </div>
     </div>
-    <button
-      matButton="filled"
+    <p-button
+      label="Join room"
       type="submit"
       [disabled]="!joinForm.valid"
-      class="text-2xl"
-    >
-      <mat-icon fontIcon="celebration"></mat-icon>
-      Join
-    </button>
+      class="self-center"
+    />
   </form>
 </div>

@@ -6,14 +6,14 @@ import {
   selectPlayers,
   selectRoomCode,
 } from '../../state/gameboard.selector';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ICON_MAP } from '../../../../../../libs/constants/icon-map';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-lobby',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, ButtonModule],
   templateUrl: './lobby.component.html',
 })
 export class LobbyComponent {

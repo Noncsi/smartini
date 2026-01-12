@@ -1,0 +1,15 @@
+<div
+  class="text-white font-[Ranchers] tracking-wider flex flex-col justify-center gap-12"
+>
+  <div class="text-[6vw] text-center p-6">{{ question().question }}</div>
+  <div class="grid grid-cols-2 grid-rows-2 gap-4 p-4">
+    @for(answer of question().answerOptions; track answer.id) {
+    <div
+      id="{{ answer.id }}"
+      class="text-[2vw] flex justify-center"
+    >
+      {{ answer.text }}
+    </div>
+    }
+  </div>
+</div>

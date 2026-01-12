@@ -29,6 +29,12 @@
       ],
       "@styles/*": [
         "./libs/styles/*"
+      ],
+      "@libs/components/*": [
+        "./libs/components/*"
+      ],
+      "@libs/components": [
+        "./libs/components/index.ts"
       ]
     }
   },

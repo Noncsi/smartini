@@ -13,7 +13,6 @@ import {
 } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
-  startGame,
   getQuestionSuccess,
   countdown,
 } from '../state/actions/game.actions';
@@ -24,6 +23,7 @@ import {
   setReadyStatusError,
   getHostPlayerId,
 } from '../state/actions/lobby.actions';
+import { selectRoomCode } from '../state/selectors/game.selector';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -75,9 +75,9 @@ export class SocketService {
     });
 
     // Game events
-    this.socket.on(SocketEvent.StartGame, () => {
-      this.store.dispatch(startGame());
-    });
+    // this.socket.on(SocketEvent.StartGame, () => {
+    //   this.store.dispatch(startGame());
+    // });
 
     this.socket.on(SocketEvent.GetQuestionSuccess, (payload) => {
       this.store.dispatch(getQuestionSuccess({ payload }));
@@ -107,6 +107,10 @@ export class SocketService {
       playerId,
       isReady
     );
+  }
+
+  emitStartGame() {
+    this.socket.emit(SocketEvent.StartGame, this.store.selectSignal(selectRoomCode));
   }
 
   emitAnswer(roomCode: string, playerId: string, answerId: number) {

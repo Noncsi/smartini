@@ -25,7 +25,7 @@ export const setPlayerReadyStatus = createAction(
   props<{ playerId: string; isReady: boolean }>()
 );
 
-export const startGame = createAction('startGame');
+export const startGameSuccess = createAction('startGame');
 
 export const countdown = createAction(
   'countdown',

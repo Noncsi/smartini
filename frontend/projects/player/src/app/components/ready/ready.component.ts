@@ -1,16 +1,14 @@
 import { Component, computed, inject, Signal } from '@angular/core';
-import {
-  MatSlideToggleChange,
-  MatSlideToggleModule,
-} from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
 import { LobbyService } from '../../services/lobby.service';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { FormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-ready',
   standalone: true,
   templateUrl: './ready.component.html',
-  imports: [MatSlideToggleModule, MatButtonModule],
+  imports: [FormsModule, ToggleSwitchModule, Button],
 })
 export class ReadyComponent {
   lobbyService = inject(LobbyService);
@@ -20,8 +18,13 @@ export class ReadyComponent {
   isHost: Signal<boolean> = computed(
     () => this.self().id === this.hostPlayerId()
   );
+  isEveryPlayerReady = this.lobbyService.isEveryPlayerReady;
 
-  setReady(event: MatSlideToggleChange) {
+  setReady(event: any) {
     this.lobbyService.setReady(event.checked);
+  }
+
+  startGame() {
+    this.lobbyService.startGame();
   }
 }

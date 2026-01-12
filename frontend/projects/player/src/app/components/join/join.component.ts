@@ -1,10 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { LobbyService } from '../../services/lobby.service';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +8,9 @@ import {
 } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
 import { ICON_MAP } from '../../../../../../libs/constants/icon-map';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-join',
@@ -20,11 +18,9 @@ import { ICON_MAP } from '../../../../../../libs/constants/icon-map';
   templateUrl: './join.component.html',
   imports: [
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatIconModule,
+    InputTextModule,
+    FloatLabelModule,
+    ButtonModule,
   ],
 })
 export class JoinComponent {

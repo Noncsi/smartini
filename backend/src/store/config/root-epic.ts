@@ -8,7 +8,6 @@ import { fetchQuestionSuccessEpic } from "../game/epics/fetch-question-success.e
 import { fetchQuestionEpic } from "../game/epics/fetch-question.epic";
 import { setupPlayerOnPlayerJoinsEpic } from "../game/epics/setup-player-on-player-joins.epic";
 import { setReadyEpic } from "../game/epics/set-ready.epic";
-import { startGameWhenEveryPlayerIsReadyEpic } from "../game/epics/start-game-when-every-player-is-ready.epic";
 import { fetchQuestionOnStartGameEpic } from "../game/epics/fetch-question-on-start-game";
 import { startCountdownOnStartGameEpic } from "../game/epics/start-countdown-on-start-game.epic";
 import { addToScoreOnAnsweredCorrectly, answeredCorrectlyEpic, answeredIncorrectlyEpic, emitAnswerResultsEpic, emitScoresEpic, evaluateAnswerEpic, nextQuestionEpic } from "../game/epics/add-to-score-if-answer-is-right.epic";
@@ -19,7 +18,6 @@ export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
   setupRoomOnCreateRoomEpic,
   setupPlayerOnPlayerJoinsEpic,
   setReadyEpic,
-  startGameWhenEveryPlayerIsReadyEpic,
   fetchQuestionEpic,
   startCountdownOnStartGameEpic,
   fetchQuestionSuccessEpic,

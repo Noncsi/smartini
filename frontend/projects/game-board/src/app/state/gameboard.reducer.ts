@@ -5,11 +5,11 @@ import {
   pause,
   resume,
   setPlayerReadyStatus,
-  startGame,
   askQuestion,
   countdown,
   showCorrectAnswer,
   receiveHostPlayerId,
+  startGameSuccess,
 } from './gameboard.actions';
 import { Game, GamePhase } from '@models/game';
 import { Player } from '@models/player';
@@ -74,7 +74,7 @@ export const gameReducer = createReducer(
     return { ...state, players };
   }),
   on(countdown, (state, { number }) => ({ ...state, countdown: number })),
-  on(startGame, (state) => ({ ...state, phase: GamePhase.gamePlay })),
+  on(startGameSuccess, (state) => ({ ...state, phase: GamePhase.gamePlay })),
   on(askQuestion, (state, { question }) => ({
     ...state,
     currentQuestion: question,

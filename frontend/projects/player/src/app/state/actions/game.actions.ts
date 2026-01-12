@@ -5,8 +5,6 @@ export const pause = createAction('pause');
 
 export const resume = createAction('resume');
 
-export const startGame = createAction('startGame');
-
 export const getQuestionSuccess = createAction(
   '[Player:Game] get question success',
   props<{ payload: QuestionPrompt }>()
