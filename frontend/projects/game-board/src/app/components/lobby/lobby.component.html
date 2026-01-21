@@ -1,19 +1,31 @@
-<div class="h-full grid grid-cols-2 grid-rows-3 place-items-center text-white">
+<div
+  class="font-[Afacad] h-full grid grid-cols-[repeat(14,_1fr_[col-start])] grid-rows-[repeat(14,_1fr_[col-start])] text-white"
+>
   <img
-    class="row-span-2 object-contain p-[2em] pl-[6em] drop-shadow-[-1em_1em_#4b4eaf] animate-wiggle"
+    class="col-span-5 row-span-5 col-start-2 row-start-2 object-contain drop-shadow-[-1em_1em_#4b4eaf] animate-wiggle"
     src="/assets/images/bulby_logo.png"
   />
 
   @if(roomCode()) {
-  <div class="row-span-2">
-    <div class="text-[2vw] text-center p-6 font-semibold  ">Join at:</div>
-    <div
-      class="text-[6vw] font-[Ranchers] font-bold text-violet-700 bg-white p-4 px-16 rounded-xl shadow-[0.2em_0.2em_#4b4eaf]"
-    >
-      {{ roomCode() }}
-    </div>
+  <div
+    class="flex justify-center items-center col-start-9 col-span-4 row-start-3 rounded-full bg-white text-center text-2xl"
+  >
+    <div class="text-gray-500 font-semibold">Join at&nbsp;</div>
+    <div class="underline bg-gradient-to-br from-cyan-400 to-fuchsia-600 bg-clip-text text-violet-500/50 font-bold">bulby.app</div>
   </div>
-  <div class="col-span-2 self-start justify-self-center">
+  <div
+    class="col-start-9 col-span-4 row-start-5 text-2xl text-center font-semibold"
+  >
+    Room code
+  </div>
+  <div
+    class="col-start-9 col-span-4 row-start-6 text-[6vw] row-span-4 font-[Ranchers] font-bold text-violet-700 bg-white rounded-xl shadow-[0.2em_0.2em_#4b4eaf]"
+  >
+    {{ roomCode() }}
+  </div>
+  <div
+    class="col-span-12 col-start-2 row-start-11 self-start justify-self-center"
+  >
     @if(players().length > 0) {
     <div class="text-[2vw] text-center p-8 font-semibold">
       {{ players().length }} players
