@@ -1,8 +1,7 @@
-<div
-  class="text-[13vw] font-[Ranchers] -rotate-[13deg] bg-[url(/assets/icons/lightbulb.svg)] bg-no-repeat bg-left p-[0.08em] pt-[0.8em] pl-[1em] pr-px bg-contain"
->
-  Bulby
-</div>
+<img
+  class="w-64 p-4 object-contain drop-shadow-[-1em_1em_#4b4eaf] animate-wiggle"
+  src="/assets/images/bulby_logo.png"
+/>
 
 <div class="h-full justify-evenly flex flex-col">
   <form
@@ -10,8 +9,8 @@
     (ngSubmit)="onSubmit()"
     class="flex flex-col gap-12"
   >
-    <div class="flex flex-col gap-4">
-      <p-floatlabel variant="in" class="self-center">
+    <div class="flex flex-col gap-4 items-center">
+      <p-floatlabel variant="in">
         <input
           pInputText
           id="in_label"
@@ -21,7 +20,7 @@
         <label for="in_label">Room code</label>
       </p-floatlabel>
 
-      <p-floatlabel variant="in" class="self-center">
+      <p-floatlabel variant="in">
         <input
           pInputText
           id="in_label"
@@ -31,27 +30,17 @@
         <label for="in_label">Your name</label>
       </p-floatlabel>
 
-      <label class="self-center">Select your icon</label>
-      <div
-        class="grid grid-cols-5 auto-cols-min gap-1 justify-items-center justify-center"
-      >
-        @for(icon of iconMap; track icon[0]) {
-        <p-button
-          id="{{ icon[0] }}"
-          type="button"
-          label="{{ icon[1] }}"
-          variant="text"
-          [raised]="true"
-          class="text-2xl"
-          (click)="setIconId(icon[0])"
-          [class.selected]="joinForm.controls.iconId.value === icon[0]"
-        />
-        }
-      </div>
+      <label>Select your icon</label>
+      <app-grid-button
+        [items]="icons"
+        [required]="true"
+        class="w-fit"
+      ></app-grid-button>
     </div>
     <p-button
       label="Join room"
       type="submit"
+      [raised]="true"
       [disabled]="!joinForm.valid"
       class="self-center"
     />

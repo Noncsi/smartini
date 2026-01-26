@@ -20,11 +20,6 @@ export const BulbyTheme = definePreset(Aura, {
       light: {
         primary: { color: '{primary.800}' },
       },
-      dark: {
-        primary: {
-          color: '{primary.50}',
-        },
-      },
     },
   },
 });

@@ -7,10 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
-import { ICON_MAP } from '../../../../../../libs/constants/icon-map';
+import { ICON_MAP, ICONS } from '../../../../../../libs/constants/icon-map';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { GridButtonComponent } from "@libs/components/grid-button/grid-button.component";
 
 @Component({
   selector: 'app-join',
@@ -21,11 +23,13 @@ import { ButtonModule } from 'primeng/button';
     InputTextModule,
     FloatLabelModule,
     ButtonModule,
-  ],
+    SelectButtonModule,
+    GridButtonComponent
+],
 })
 export class JoinComponent {
   lobbyService = inject(LobbyService);
-  iconMap = ICON_MAP;
+  icons = ICONS;
   joinForm = new FormGroup({
     roomCode: new FormControl('', {
       nonNullable: true,
@@ -37,7 +41,7 @@ export class JoinComponent {
       nonNullable: true,
     }),
   });
-
+  
   constructor() {
     const roomCodeControl = this.joinForm.controls.roomCode;
     roomCodeControl.valueChanges
