@@ -24,40 +24,55 @@ export class GridButtonComponent {
 
   constructor() {
     effect(() => {
-      if (
-        this.required() &&
-        this.items().length > 0
-      ) {
+      if (this.required() && this.items().length > 0) {
         this.selected = [this.items()[0]];
         this.selectedValue.emit(this.selected[0]);
       }
     });
   }
 
-  onSelect(item: string) {
+  onClick(item: string) {
     if (this.multiple()) {
-      if (this.selected.includes(item)) {
-        this.selected = this.selected.filter((s) => s !== item);
-      } else {
-        this.selected.push(item);
-      }
-      this.selectedValue.emit([...this.selected]);
-    } else {
-      if (this.required()) {
-        if (!this.selected.includes(item)) {
-          this.selected = [item];
-          this.selectedValue.emit(item);
-        }
-      } else {
-        if (this.selected.includes(item)) {
-          this.selected = [];
-          this.selectedValue.emit('');
-        } else {
-          this.selected = [item];
-          this.selectedValue.emit(item);
-        }
-      }
+      this.toggleMultiple(item);
+      return;
     }
+
+    this.handleSingle(item);
+  }
+
+  private toggleMultiple(item: string) {
+    this.isSelected(item)
+      ? (this.selected = this.selected.filter((s) => s !== item))
+      : this.selected.push(item);
+
+    this.selectedValue.emit([...this.selected]);
+  }
+
+  private handleSingle(item: string) {
+    this.required() ? this.selectRequired(item) : this.toggleOptional(item);
+  }
+
+  private selectRequired(item: string) {
+    if (this.isSelected(item)) {
+      return;
+    }
+
+    this.selected = [item];
+    this.selectedValue.emit(item);
+  }
+
+  private toggleOptional(item: string) {
+    this.isSelected(item) ? this.clearSelection() : this.selectSingle(item);
+  }
+
+  private clearSelection() {
+    this.selected = [];
+    this.selectedValue.emit('');
+  }
+
+  private selectSingle(item: string) {
+    this.selected = [item];
+    this.selectedValue.emit(item);
   }
 
   isSelected(item: string): boolean {
