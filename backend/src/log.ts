@@ -9,7 +9,7 @@ const logger = winston.createLogger({
     colorize(),
     timestamp({ format: "HH:mm:ss" }),
     printf(
-      ({ level, message, timestamp }) => `${timestamp} [${level}] ${message}`
+      ({ level, message, timestamp }) => `${timestamp} [${level}] ${message}`,
     )
   ),
   transports: [new winston.transports.Console()],
@@ -38,6 +38,10 @@ export const log = {
           isReady ? "ready" : "not ready"
         }'.`
       ),
+    gameStarted: (roomCode: RoomCode) =>
+      logger.info(
+        `Game in room '${roomCode}' has started.`
+      )
   },
   error: {
     unspecifiedSocketDisconnected: (socketId: string) =>

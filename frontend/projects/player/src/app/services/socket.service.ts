@@ -77,6 +77,10 @@ export class SocketService {
       this.store.dispatch(arePlayersReady({ areReady }));
     });
 
+    this.socket.on(SocketEvent.StartGameSuccess, () => {
+      
+    });
+
     this.socket.on(SocketEvent.GetQuestionSuccess, (payload) => {
       this.store.dispatch(getQuestionSuccess({ payload }));
     });
@@ -109,11 +113,8 @@ export class SocketService {
     );
   }
 
-  emitStartGame() {
-    this.socket.emit(
-      SocketEvent.StartGame,
-      this.store.selectSignal(selectRoomCode)
-    );
+  emitStartGame(roomCode: string) {
+    this.socket.emit(SocketEvent.StartGame, roomCode);
   }
 
   emitAnswer(roomCode: string, playerId: string, answerId: number) {

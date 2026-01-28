@@ -29,6 +29,12 @@ export const createServer = (
       SocketEvent.SetReadyStatusAttempt,
       (roomCode: RoomCode, playerId: string, isReady: boolean) => {
         SocketEventController.setReady(roomCode, playerId, isReady);
+      },
+    );
+    socket.on(
+      SocketEvent.StartGame,
+      (roomCode: RoomCode) => {
+        SocketEventController.startGame(roomCode);
       }
     );
     socket.on(

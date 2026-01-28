@@ -13,6 +13,7 @@ import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
 import { startGame } from "../game.slice";
 import { gameBoardSocketMap } from "../../../services/socket-registry";
+import { log } from "../../../log";
 
 export const startCountdownOnStartGameEpic: Epic<
   GameActions,
@@ -27,7 +28,10 @@ export const startCountdownOnStartGameEpic: Epic<
     })),
     filter(({ socket }) => Boolean(socket)),
     concatMap(({ socket, roomCode }) => {
-      tap(() => socket?.nsp.to(roomCode).emit(SocketEvent.StartGameSuccess));
+      tap(() => {
+        socket?.nsp.to(roomCode).emit(SocketEvent.StartGameSuccess);
+        log.info.gameStarted(roomCode);
+      });
       return timer(0, 1000).pipe(
         map((n) => 2 - n),
         takeWhile((n) => n >= 0),

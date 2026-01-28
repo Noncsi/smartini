@@ -1,20 +1,25 @@
 <div class="text-xl text-center p-12">
   <div class="font-bold p-4">Ready up!</div>
   <div>Once everyone’s ready, the host can start the game.</div>
-  @if(isHost()) {
-  <div>(Which is you!)</div>
+  @if (isHost()) {
+    <div>(Which is you!)</div>
   }
 </div>
 
 <div class="text-center">
   <p-toggleswitch (onChange)="setReady($event)" />
   <div>
-    I'm @if(!isReady()) {<span class="font-bold">not</span>}
+    I'm
+    @if (!isReady()) {
+      <span class="font-bold">not</span>
+    }
     <span class="font-bold"> ready </span>
     to start!
   </div>
 </div>
 
-@if(isHost()) {
-<p-button [disabled]="!arePlayersReady()">START</p-button>
+@if (isHost()) {
+  <p-button [disabled]="!arePlayersReady()" (onClick)="startGame()"
+    >START</p-button
+  >
 }

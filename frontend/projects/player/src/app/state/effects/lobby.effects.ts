@@ -98,7 +98,8 @@ export class LobbyEffects {
     () =>
       this.actions$.pipe(
         ofType(startGame),
-        tap(() => this.socketService.emitStartGame())
+        concatLatestFrom(() => this.store.select(selectRoomCode)),
+        tap(([, roomCode]) => this.socketService.emitStartGame(roomCode)),
       ),
     { dispatch: false }
   );
