@@ -1,9 +1,9 @@
 <div class="grid gap-4" [ngStyle]="gridCols()">
-  @for (item of items(); track item) {
+  @for (item of items(); track item.value) {
     <p-button
-      [label]="item"
-      [severity]="isSelected(item) ? 'primary' : 'secondary'"
-      (click)="onClick(item)"
+      [label]="item.text"
+      [severity]="isSelected(item.value) ? 'primary' : 'secondary'"
+      (click)="onClick(item.value)"
       class="w-full h-full"
     ></p-button>
   }

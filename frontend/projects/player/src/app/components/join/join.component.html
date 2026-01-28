@@ -34,6 +34,7 @@
       <app-grid-button
         [items]="icons"
         [required]="true"
+        (selectedValue)="setIconId($event)"
         class="w-fit"
       ></app-grid-button>
     </div>

@@ -2,7 +2,7 @@ import { Component, input, output, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-
+import { GridButtonItem } from '@models/grid-button-item';
 @Component({
   selector: 'app-grid-button',
   standalone: true,
@@ -10,13 +10,14 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './grid-button.component.html',
 })
 export class GridButtonComponent {
-  items = input.required<string[]>();
+  items = input.required<GridButtonItem[]>();
   required = input(false);
   multiple = input(false);
 
-  selectedValue = output<string | string[]>();
+  selectedValue = output<number>();
+  selectedValues = output<number[]>();
 
-  private selected: string[] = [];
+  private selected: number[] = [];
 
   gridCols = computed(() => ({
     'grid-template-columns': `repeat(${Math.ceil(Math.sqrt(this.items().length))}, 1fr)`,
@@ -25,57 +26,57 @@ export class GridButtonComponent {
   constructor() {
     effect(() => {
       if (this.required() && this.items().length > 0) {
-        this.selected = [this.items()[0]];
+        this.selected = [this.items()[0].value];
         this.selectedValue.emit(this.selected[0]);
       }
     });
   }
 
-  onClick(item: string) {
+  onClick(value: number) {
     if (this.multiple()) {
-      this.toggleMultiple(item);
+      this.toggleMultiple(value);
       return;
     }
 
-    this.handleSingle(item);
+    this.handleSingle(value);
   }
 
-  private toggleMultiple(item: string) {
-    this.isSelected(item)
-      ? (this.selected = this.selected.filter((s) => s !== item))
-      : this.selected.push(item);
-
-    this.selectedValue.emit([...this.selected]);
+  isSelected(value: number): boolean {
+    return this.selected.includes(value);
   }
 
-  private handleSingle(item: string) {
-    this.required() ? this.selectRequired(item) : this.toggleOptional(item);
+  private toggleMultiple(value: number) {
+    this.selected.includes(value)
+      ? (this.selected = this.selected.filter((s) => s !== value))
+      : this.selected.push(value);
+
+    this.selectedValues.emit([...this.selected]);
   }
 
-  private selectRequired(item: string) {
-    if (this.isSelected(item)) {
+  private handleSingle(value: number) {
+    this.required() ? this.selectRequired(value) : this.toggleOptional(value);
+  }
+
+  private selectRequired(value: number) {
+    if (this.selected.includes(value)) {
       return;
     }
 
-    this.selected = [item];
-    this.selectedValue.emit(item);
+    this.selected = [value];
+    this.selectedValue.emit(value);
   }
 
-  private toggleOptional(item: string) {
-    this.isSelected(item) ? this.clearSelection() : this.selectSingle(item);
+  private toggleOptional(value: number) {
+    this.selected.includes(value) ? this.clearSelection() : this.selectSingle(value);
   }
 
   private clearSelection() {
     this.selected = [];
-    this.selectedValue.emit('');
+    this.selectedValue.emit(0);
   }
 
-  private selectSingle(item: string) {
-    this.selected = [item];
-    this.selectedValue.emit(item);
-  }
-
-  isSelected(item: string): boolean {
-    return this.selected.includes(item);
+  private selectSingle(value: number) {
+    this.selected = [value];
+    this.selectedValue.emit(value);
   }
 }
