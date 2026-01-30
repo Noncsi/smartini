@@ -29,29 +29,29 @@ export const gameSlice = createSlice({
   reducers: {
     disconnectGameBoard: (
       state,
-      action: PayloadAction<{ socket: GameBoardSocket }>
+      action: PayloadAction<{ socket: GameBoardSocket }>,
     ) => {
       const { socket } = action.payload;
       state.rooms.splice(
-        state.rooms.findIndex((room) => room.roomCode === socket.data.roomCode)
+        state.rooms.findIndex((room) => room.roomCode === socket.data.roomCode),
       );
     },
     disconnectPlayer: (
       state,
-      action: PayloadAction<{ socket: PlayerSocket }>
+      action: PayloadAction<{ socket: PlayerSocket }>,
     ) => {
       const { socket } = action.payload;
       const room = selectRoomByCode(state, socket.data.roomCode);
       if (!room) return;
 
       const idx = room.players.findIndex(
-        (player) => player.id === socket.data.playerId
+        (player) => player.id === socket.data.playerId,
       );
       room.players.splice(idx, 1);
     },
     createRoom: (
       state,
-      action: PayloadAction<{ socket: GameBoardSocket; newRoomCode: RoomCode }>
+      action: PayloadAction<{ socket: GameBoardSocket; newRoomCode: RoomCode }>,
     ) => {
       const { newRoomCode } = action.payload;
       if (selectIsRoomExist(state, newRoomCode)) return;
@@ -66,7 +66,7 @@ export const gameSlice = createSlice({
         newPlayerId: string;
         newPlayerName: string;
         newPlayerIconId: number;
-      }>
+      }>,
     ) => {
       const { roomCode, newPlayerId, newPlayerName, newPlayerIconId } =
         action.payload;
@@ -76,7 +76,7 @@ export const gameSlice = createSlice({
 
       if (!room.players.length) room.hostPlayerId = newPlayerId;
       room.players.push(
-        createPlayerObject(newPlayerId, newPlayerName, newPlayerIconId)
+        createPlayerObject(newPlayerId, newPlayerName, newPlayerIconId),
       );
     },
 
@@ -86,7 +86,7 @@ export const gameSlice = createSlice({
         roomCode: RoomCode;
         playerId: string;
         isReady: boolean;
-      }>
+      }>,
     ) => {
       const { roomCode, playerId, isReady } = action.payload;
       const player = selectPlayerInRoomById(state, roomCode, playerId);
@@ -100,18 +100,16 @@ export const gameSlice = createSlice({
       room.stage = GameStage.game;
     },
 
-    emitCountdown: (
+    startCountdown: (
       state,
-      action: PayloadAction<{ socket: GameBoardSocket; number: number }>
+      action: PayloadAction<{ roomCode: string; countFrom: number }>,
     ) => {},
+
     fetchQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
-    fetchQuestionWithCountdown: (
-      state,
-      action: PayloadAction<{ roomCode: string }>
-    ) => {},
+
     fetchQuestionSuccess: (
       state,
-      action: PayloadAction<{ roomCode: string; question: Question }>
+      action: PayloadAction<{ roomCode: string; question: Question }>,
     ) => {
       const { roomCode, question } = action.payload;
       const room = selectRoomByCode(state, roomCode);
@@ -122,7 +120,7 @@ export const gameSlice = createSlice({
 
     sendQuestion: (
       state,
-      action: PayloadAction<{ roomCode: string; question: Question }>
+      action: PayloadAction<{ roomCode: string; question: Question }>,
     ) => {},
 
     evaluateAnswer: (
@@ -131,7 +129,7 @@ export const gameSlice = createSlice({
         roomCode: string;
         playerId: string;
         answerId: number;
-      }>
+      }>,
     ) => {
       const { roomCode, playerId } = action.payload;
       const player = selectPlayerInRoomById(state, roomCode, playerId);
@@ -144,14 +142,14 @@ export const gameSlice = createSlice({
       action: PayloadAction<{
         roomCode: RoomCode;
         playerId: string;
-      }>
+      }>,
     ) => {},
 
     answeredIncorrectly: (
       state,
       action: PayloadAction<{
         player: Player;
-      }>
+      }>,
     ) => {},
 
     addToScore: (
@@ -159,7 +157,7 @@ export const gameSlice = createSlice({
       action: PayloadAction<{
         roomCode: RoomCode;
         playerId: string;
-      }>
+      }>,
     ) => {
       const { roomCode, playerId } = action.payload;
       const player = selectPlayerInRoomById(state, roomCode, playerId);
@@ -168,7 +166,7 @@ export const gameSlice = createSlice({
 
     emitAnswerResults: (
       state,
-      action: PayloadAction<{ roomCode: string }>
+      action: PayloadAction<{ roomCode: string }>,
     ) => {},
 
     emitScores: (state, action: PayloadAction<{ roomCode: string }>) => {},
@@ -183,9 +181,8 @@ export const {
   playerJoins,
   setReady,
   startGame,
-  emitCountdown,
+  startCountdown,
   fetchQuestion,
-  fetchQuestionWithCountdown,
   fetchQuestionSuccess,
   evaluateAnswer,
   answeredCorrectly,

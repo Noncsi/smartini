@@ -1,15 +1,19 @@
-<div class="flex gap-4">
+<div class="flex flex-col gap-2">
   @for (player of players(); track player.id) {
-  <p-card class="p-4 max-h-[20vh]">
-    <ng-template #header>
-      <div>{{ iconMap.get(player.iconId) }} {{ player.name }}</div>
-    </ng-template>
-    <ng-template #title>{{ player.score }}</ng-template>
-  </p-card>
+    <p-card class="p-4 max-h-[20vh]">
+      <ng-template #header>
+        <div>{{ iconMap.get(player.iconId) }} {{ player.name }}</div>
+      </ng-template>
+      <ng-template #title>{{ player.score }}</ng-template>
+    </p-card>
   }
 </div>
-@if(secondsRemaining() >= 1) {
-<h2>{{ secondsRemaining() }}</h2>
+@if (secondsRemaining() >= 1) {
+  <div
+    class="w-full text-center font-[Afacad] text-[20vw] h-full drop-shadow-[-0.04em_0.04em_#4b4eaf] text-white"
+  >
+    {{ secondsRemaining() }}
+  </div>
 } @else {
-<app-question [question]="currentQuestion()"></app-question>
+  <app-question class="w-full" [question]="currentQuestion()"></app-question>
 }

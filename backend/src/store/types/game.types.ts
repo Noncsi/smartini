@@ -32,7 +32,7 @@ export interface Player {
 }
 
 export interface IQuestionApiResponse {
-  response_code: string;
+  response_code: number;
   results: {
     question: string;
     correct_answer: string;

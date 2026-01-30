@@ -1,9 +1,14 @@
-@switch (currentPhase()) { @case (gamePhase.lobby) {
-<app-lobby class="h-full"></app-lobby>
-} @case (gamePhase.gamePlay) {
-<app-game class="h-full flex flex-col p-12"></app-game>
-} @case (gamePhase.result) {
-<span>result phase</span>
-} @default {
-<span>unexpected error</span>
-} }
+@switch (currentPhase()) {
+  @case (gamePhase.lobby) {
+    <app-lobby class="h-full"></app-lobby>
+  }
+  @case (gamePhase.gamePlay) {
+    <app-game class="w-full h-full flex p-4"></app-game>
+  }
+  @case (gamePhase.result) {
+    <span>result phase</span>
+  }
+  @default {
+    <span>unexpected error</span>
+  }
+}

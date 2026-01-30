@@ -8,9 +8,9 @@ import { fetchQuestionSuccessEpic } from "../game/epics/fetch-question-success.e
 import { fetchQuestionEpic } from "../game/epics/fetch-question.epic";
 import { setupPlayerOnPlayerJoinsEpic } from "../game/epics/setup-player-on-player-joins.epic";
 import { setReadyEpic } from "../game/epics/set-ready.epic";
-import { fetchQuestionOnStartGameEpic } from "../game/epics/fetch-question-on-start-game";
 import { startCountdownOnStartGameEpic } from "../game/epics/start-countdown-on-start-game.epic";
 import { addToScoreOnAnsweredCorrectly, answeredCorrectlyEpic, answeredIncorrectlyEpic, emitAnswerResultsEpic, emitScoresEpic, evaluateAnswerEpic, nextQuestionEpic } from "../game/epics/add-to-score-if-answer-is-right.epic";
+import { startCountdownEpic } from "../game/epics/startCountdown.epic";
 
 export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
   deleteSocketOnDisconnectGameBoardEpic,
@@ -21,7 +21,7 @@ export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
   fetchQuestionEpic,
   startCountdownOnStartGameEpic,
   fetchQuestionSuccessEpic,
-  fetchQuestionOnStartGameEpic,
+  startCountdownEpic,
   evaluateAnswerEpic,
   addToScoreOnAnsweredCorrectly,
   answeredCorrectlyEpic,
