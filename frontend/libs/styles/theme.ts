@@ -4,21 +4,38 @@ import Aura from '@primeuix/themes/aura';
 export const BulbyTheme = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '{violet.50}',
-      100: '{violet.100}',
-      200: '{violet.200}',
-      300: '{violet.300}',
       400: '{violet.400}',
-      500: '{violet.500}',
-      600: '{violet.600}',
-      700: '{violet.700}',
       800: '{violet.800}',
-      900: '{violet.900}',
-      950: '{violet.950}',
+    },
+    error: {
+      900: '{pink.900}',
     },
     colorScheme: {
       light: {
-        primary: { color: '{primary.800}' },
+        primary: {
+          color: '{primary.800}',
+          inverseColor: '{primary.800}',
+          hoverColor: '{primary.800}',
+          activeColor: '{primary.800}',
+        },
+      },
+    },
+  },
+  components: {
+    message: {
+      colorScheme: {
+        light: {
+          error: {
+            simple: {
+              color: '{error.900}',
+            },
+          },
+        },
+      },
+    },
+    floatlabel: {
+      root: {
+        focusColor: '{primary.800}',
       },
     },
   },
