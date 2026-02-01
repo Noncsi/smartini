@@ -16,7 +16,7 @@ import {
   SocketType,
 } from "../store/types/game.types";
 import { generatePlayerId, generateRoomCode } from "../utils/id-generators";
-import { log } from "../log";
+import { message, logger } from "../log";
 
 export const SocketEventController = {
   disconnect(socket: Socket) {
@@ -28,7 +28,7 @@ export const SocketEventController = {
         store.dispatch(disconnectPlayer({ socket }));
         break;
       default:
-        log.error.unspecifiedSocketDisconnected(socket.id);
+        logger.error(message.error.unspecifiedSocketDisconnected(socket.id));
     }
   },
   createRoom(socket: GameBoardSocket) {

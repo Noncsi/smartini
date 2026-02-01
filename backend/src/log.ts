@@ -4,55 +4,42 @@ import { RoomCode } from "./store/types/game.types";
 
 const { combine, timestamp, printf, colorize } = winston.format;
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   format: combine(
     colorize(),
     timestamp({ format: "HH:mm:ss" }),
     printf(
       ({ level, message, timestamp }) => `${timestamp} [${level}] ${message}`,
-    )
+    ),
   ),
   transports: [new winston.transports.Console()],
 });
 
-export const log = {
+export const message = {
   info: {
     newSocketConnected: (socketId: string) =>
-      logger.info(`New socket is connected to server. Socket id: ${socketId}.`),
+      `New socket is connected to server. Socket id: ${socketId}.`,
     gameBoardDisconnected: (socketId: string) =>
-      logger.info(`Game board has disconnected. Socket id: ${socketId}`),
+      `Game board has disconnected. Socket id: ${socketId}`,
     playerDisconnected: (id: string, roomCode: string, socketId: string) =>
-      logger.info(
-        `Player with id: ${id} has disconnected from room '${roomCode}'. Socket id: ${socketId}`
-      ),
-    serverIsRunning: () => logger.info(`Server is running on port ${PORT}.`),
-    roomCreated: (roomCode: RoomCode) =>
-      logger.info(`Room '${roomCode}' has been opened.`),
+      `Player with id: ${id} has disconnected from room '${roomCode}'. Socket id: ${socketId}`,
+    serverIsRunning: () => `Server is running on port ${PORT}.`,
+    roomCreated: (roomCode: RoomCode) => `Room '${roomCode}' has been opened.`,
     playerJoined: (name: string, roomCode: RoomCode, isHost: boolean) =>
-      logger.info(
-        `Player '${name}' has joined room '${roomCode}'. Is host: ${isHost}`
-      ),
+      `Player '${name}' has joined room '${roomCode}'. Is host: ${isHost}`,
     playerStatusSet: (id: string, roomCode: RoomCode, isReady: boolean) =>
-      logger.info(
-        `Player with id: ${id} in room '${roomCode}' has set its status to '${
-          isReady ? "ready" : "not ready"
-        }'.`
-      ),
+      `Player with id: ${id} in room '${roomCode}' has set its status to '${
+        isReady ? "ready" : "not ready"
+      }'.`,
     gameStarted: (roomCode: RoomCode) =>
-      logger.info(
-        `Game in room '${roomCode}' has started.`
-      )
+      `Game in room '${roomCode}' has started.`,
   },
   error: {
     unspecifiedSocketDisconnected: (socketId: string) =>
-      logger.error(
-        `Unspecified socket disconnected. (Should be specified at connection) Socket id: ${socketId}.`
-      ),
-    roomNotFound: (roomCode: RoomCode) =>
-      logger.error(`Room '${roomCode}' was not found.`),
-    nameAlreadyTaken: (name: string) =>
-      logger.error(`Name '${name}' is already taken.`),
-    playerNotFound: (id: string) =>
-      logger.error(`Player with id: ${id} was not found.`),
+      `Unspecified socket disconnected. (Should be specified at connection) Socket id: ${socketId}.`,
+
+    roomNotFound: (roomCode: RoomCode) => `Room '${roomCode}' was not found.`,
+    nameAlreadyTaken: (name: string) => `Name '${name}' is already taken.`,
+    playerNotFound: (id: string) => `Player with id: ${id} was not found.`,
   },
 };

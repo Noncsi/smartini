@@ -4,7 +4,7 @@ import { gameBoardSocketMap } from "../../../services/socket-registry";
 import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
 import { disconnectGameBoard } from "../game.slice";
-import { log } from "../../../log";
+import { message, logger } from "../../../log";
 
 export const deleteSocketOnDisconnectGameBoardEpic: Epic<
   GameActions,
@@ -16,7 +16,7 @@ export const deleteSocketOnDisconnectGameBoardEpic: Epic<
     tap(({ payload }) => {
       const { socket } = payload;
       gameBoardSocketMap.delete(socket.data.roomCode);
-      log.info.gameBoardDisconnected(socket.id);
+      logger.info(message.info.gameBoardDisconnected(socket.id));
     }),
     ignoreElements()
   );

@@ -6,7 +6,7 @@ import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
 import { SocketType } from "../../types/game.types";
 import { createRoom } from "../game.slice";
-import { log } from "../../../log";
+import { message, logger } from "../../../log";
 
 export const setupRoomOnCreateRoomEpic: Epic<GameActions, GameActions, RootState> = (
   action$
@@ -20,7 +20,7 @@ export const setupRoomOnCreateRoomEpic: Epic<GameActions, GameActions, RootState
       socket.data.clientType = SocketType.GameboardSocket;
       socket.data.roomCode = newRoomCode;
       socket.emit(SocketEvent.CreateRoomSuccess, newRoomCode);
-      log.info.roomCreated(newRoomCode);
+      logger.info(message.info.roomCreated(newRoomCode));
     }),
     ignoreElements()
   );

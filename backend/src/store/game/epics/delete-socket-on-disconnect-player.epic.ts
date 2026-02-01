@@ -9,7 +9,7 @@ import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
 import { selectPlayersInRoom } from "../game.selectors";
 import { disconnectPlayer } from "../game.slice";
-import { log } from "../../../log";
+import { message, logger } from "../../../log";
 
 export const deleteSocketOnDisconnectPlayerEpic: Epic<GameActions, GameActions, RootState> = (
   action$,
@@ -27,7 +27,7 @@ export const deleteSocketOnDisconnectPlayerEpic: Epic<GameActions, GameActions, 
         .get(roomCode)
         ?.emit(SocketEvent.Players, selectPlayersInRoom(state.game, roomCode));
 
-      log.info.playerDisconnected(playerId, roomCode, socket.id);
+      logger.info(message.info.playerDisconnected(playerId, roomCode, socket.id));
     }),
     ignoreElements()
   );

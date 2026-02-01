@@ -1,4 +1,4 @@
-import { log } from "../../log";
+import { message, logger } from "../../log";
 import { Player, Room, RoomCode } from "../types/game.types";
 import { GameState } from "./game.slice";
 
@@ -17,7 +17,7 @@ export const selectRoomByCode = (
 ): Room | null => {
   const room = state.rooms.find((room) => room.roomCode === roomCode);
   if (!room) {
-    log.error.roomNotFound(roomCode);
+    logger.error(message.error.roomNotFound(roomCode));
     return null;
   }
   return room;
@@ -40,7 +40,7 @@ export const selectPlayerInRoomById = (
   if (!room) return null;
   const player = room.players.find((player) => player.id === playerId);
   if (!player) {
-    log.error.playerNotFound(playerId);
+    logger.error(message.error.playerNotFound(playerId));
     return null;
   }
   return player;

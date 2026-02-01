@@ -1,6 +1,6 @@
 import { Server, ServerOptions, Socket } from "socket.io";
 import SocketEvent from "../../shared/socket-event";
-import { log } from "./log";
+import { logger, message } from "./log";
 import { instrument } from "@socket.io/admin-ui";
 import { Room, RoomCode } from "./store/types/game.types";
 import { SocketEventController } from "./services/socket-event-controller";
@@ -13,7 +13,7 @@ export const createServer = (
 ) => {
   const server = new Server(port, serverOptions);
   server.on(SocketEvent.Connection, (socket: Socket) => {
-    log.info.newSocketConnected(socket.id);
+    logger.info(logger.info(message.info.newSocketConnected(socket.id)));
     socket.on(SocketEvent.Disconnect, () =>
       SocketEventController.disconnect(socket)
     );
@@ -45,7 +45,7 @@ export const createServer = (
     );
   });
 
-  log.info.serverIsRunning();
+  logger.info(logger.info(message.info.serverIsRunning()));
   instrument(server, { auth: false });
 
   return server;

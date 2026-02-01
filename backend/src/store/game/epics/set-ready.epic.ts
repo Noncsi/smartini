@@ -5,7 +5,7 @@ import { gameBoardSocketMap } from "../../../services/socket-registry";
 import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
 import { setReady } from "../game.slice";
-import { log } from "../../../log";
+import { message, logger } from "../../../log";
 import { selectRoomByCode } from "../game.selectors";
 import { Player } from "../../types/game.types";
 
@@ -24,7 +24,7 @@ export const setReadyEpic: Epic<GameActions, GameActions, RootState> = (
         isReady,
       });
 
-      log.info.playerStatusSet(playerId, roomCode, isReady);
+      logger.info(message.info.playerStatusSet(playerId, roomCode, isReady));
 
       const isAllReady = selectRoomByCode(state.game, roomCode)?.players.every(
         (player: Player) => player.isReady

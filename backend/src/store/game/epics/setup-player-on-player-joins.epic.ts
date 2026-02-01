@@ -14,7 +14,7 @@ import {
   selectRoomByCode,
 } from "../game.selectors";
 import { playerJoins } from "../game.slice";
-import { log } from "../../../log";
+import { message, logger } from "../../../log";
 
 export const setupPlayerOnPlayerJoinsEpic: Epic<
   GameActions,
@@ -54,7 +54,7 @@ export const setupPlayerOnPlayerJoinsEpic: Epic<
       );
       socket.emit(SocketEvent.JoinRoomSuccess, newPlayer.id);
 
-      log.info.playerJoined(newPlayerName, roomCode, room.hostPlayerId === newPlayerId);
+      logger.info(message.info.playerJoined(newPlayerName, roomCode, room.hostPlayerId === newPlayerId));
     }),
     ignoreElements()
   );
