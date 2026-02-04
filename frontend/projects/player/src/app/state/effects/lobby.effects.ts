@@ -13,6 +13,7 @@ import {
   startGame,
 } from '../../state/actions/lobby.actions';
 import { SocketService } from '../../services/socket.service';
+import { ErrorHandlerService } from '../../services/error-handler.service';
 import { selectRoomCode } from '../selectors/game.selector';
 import { selectPlayerId } from '../selectors/player.selector';
 
@@ -20,6 +21,7 @@ import { selectPlayerId } from '../selectors/player.selector';
 export class LobbyEffects {
   private socketService = inject(SocketService);
   private store = inject(Store);
+  private errorHandler = inject(ErrorHandlerService);
   private actions$ = inject(Actions);
 
   connectSocket$ = createEffect(() =>
@@ -32,15 +34,15 @@ export class LobbyEffects {
               roomCode: joinForm.roomCode!,
               name: joinForm.name!,
               iconId: joinForm.iconId!,
-            })
+            }),
           ),
           catchError(() => {
             console.error('Failed to connect to socket.');
             return of(connectToSocketError());
-          })
-        )
-      )
-    )
+          }),
+        ),
+      ),
+    ),
   );
 
   emitJoinAttempt$ = createEffect(
@@ -48,10 +50,10 @@ export class LobbyEffects {
       this.actions$.pipe(
         ofType(connectToSocketSuccess),
         tap(({ roomCode, name, iconId }) =>
-          this.socketService.emitJoinAttempt(roomCode, name, iconId)
-        )
+          this.socketService.emitJoinAttempt(roomCode, name, iconId),
+        ),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   joinSuccess$ = createEffect(
@@ -59,20 +61,18 @@ export class LobbyEffects {
       this.actions$.pipe(
         ofType(joinSuccess),
         concatLatestFrom(() => this.store.select(selectRoomCode)),
-        tap(([, roomCode]) => localStorage.setItem('roomCode', roomCode))
+        tap(([, roomCode]) => localStorage.setItem('roomCode', roomCode)),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   joinError$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(joinError),
-        tap(() =>
-          console.log('Join failed (Room not found or name is already taken)')
-        )
+        tap(({ errorMessage }) => this.errorHandler.showError(errorMessage)),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   emitSetReadyStatusAttempt$ = createEffect(
@@ -84,14 +84,10 @@ export class LobbyEffects {
           this.store.select(selectPlayerId),
         ]),
         tap(([action, roomCode, playerId]) =>
-          this.socketService.emitSetReadyStatusAttempt(
-            roomCode,
-            playerId,
-            action.isReady
-          )
-        )
+          this.socketService.emitSetReadyStatusAttempt(roomCode, playerId, action.isReady),
+        ),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   emitStartGame$ = createEffect(
@@ -101,6 +97,6 @@ export class LobbyEffects {
         concatLatestFrom(() => this.store.select(selectRoomCode)),
         tap(([, roomCode]) => this.socketService.emitStartGame(roomCode)),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 }

@@ -7,19 +7,21 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { GameBoardEffects } from './state/gameboard.effects';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 import { BulbyTheme } from '@styles/theme';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideStore({ game: gameReducer }),
-        provideAnimationsAsync(),
+    provideAnimationsAsync(),
+    MessageService,
     providePrimeNG({
       theme: {
         preset: BulbyTheme,
         options: {
-            darkModeSelector: false || 'none'
-        }
+          darkModeSelector: false || 'none',
+        },
       },
     }),
     provideEffects(GameBoardEffects),

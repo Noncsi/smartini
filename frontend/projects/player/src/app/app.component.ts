@@ -7,11 +7,12 @@ import { ChooseAnswerComponent } from './components/choose-answer/choose-answer.
 import { ReadyComponent } from './components/ready/ready.component';
 import { selectGamePhase } from './state/selectors/game.selector';
 import { selectIsJoined } from './state/selectors/player.selector';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, JoinComponent, ReadyComponent, ChooseAnswerComponent],
+  imports: [CommonModule, JoinComponent, ReadyComponent, ChooseAnswerComponent, ToastModule],
   templateUrl: './app.component.html',
 })
 export class AppComponent {

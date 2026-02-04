@@ -8,6 +8,7 @@ import { gameReducer } from './state/reducers/game.reducer';
 import { playerReducer } from './state/reducers/player.reducer';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 import { BulbyTheme } from '@styles/theme';
 
 export const appConfig: ApplicationConfig = {
@@ -15,15 +16,16 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     importProvidersFrom(
       StoreModule.forRoot({ game: gameReducer, player: playerReducer }),
-      EffectsModule.forRoot([LobbyEffects, GameEffects])
+      EffectsModule.forRoot([LobbyEffects, GameEffects]),
     ),
     provideAnimationsAsync(),
+    MessageService,
     providePrimeNG({
       theme: {
         preset: BulbyTheme,
         options: {
-            darkModeSelector: false || 'none'
-        }
+          darkModeSelector: false || 'none',
+        },
       },
     }),
     provideStoreDevtools({

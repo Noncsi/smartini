@@ -7,12 +7,7 @@ import {
   joinError,
   startGameSuccess,
 } from '../actions/lobby.actions';
-import {
-  pause,
-  resume,
-  getQuestionSuccess,
-  countdown,
-} from '../actions/game.actions';
+import { pause, resume, getQuestionSuccess, countdown } from '../actions/game.actions';
 
 export interface PlayerGameState extends GameState {
   arePlayersReady: boolean;
@@ -35,18 +30,19 @@ export const gameReducer = createReducer(
     ...state,
     roomCode: joinForm.roomCode!,
   })),
-  on(joinError, (state) => ({
+  on(joinError, (state, { errorMessage }) => ({
     ...state,
     roomCode: '',
+    errorMessage,
   })),
   on(getHostPlayerId, (state, { id }) => ({ ...state, hostPlayerId: id })),
-  on(pause, (state) => ({ ...state, isPaused: true })),
-  on(resume, (state) => ({ ...state, isPaused: false })),
+  on(pause, state => ({ ...state, isPaused: true })),
+  on(resume, state => ({ ...state, isPaused: false })),
   on(arePlayersReady, (state, { areReady }) => ({
     ...state,
     arePlayersReady: areReady,
   })),
-  on(startGameSuccess, (state) => ({ ...state, phase: GamePhase.gamePlay })),
+  on(startGameSuccess, state => ({ ...state, phase: GamePhase.gamePlay })),
   on(getQuestionSuccess, (state, { payload }) => ({
     ...state,
     currentQuestion: {
@@ -54,5 +50,5 @@ export const gameReducer = createReducer(
       answerOptions: payload.answerOptions,
     },
   })),
-  on(countdown, (state, { number }) => ({ ...state, countdown: number }))
+  on(countdown, (state, { number }) => ({ ...state, countdown: number })),
 );

@@ -2,15 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { PORT } from '../../../../../../shared/constants';
 import SocketEvent from '../../../../../../shared/socket-event';
-import {
-  catchError,
-  EMPTY,
-  fromEvent,
-  map,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
+import { catchError, EMPTY, fromEvent, map, Observable, of, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { getQuestionSuccess, countdown } from '../state/actions/game.actions';
 import {
@@ -40,7 +32,7 @@ export class SocketService {
         this.listenToSocketEvents();
         return this.socket;
       }),
-      catchError(() => EMPTY)
+      catchError(() => EMPTY),
     );
   }
 
@@ -57,8 +49,8 @@ export class SocketService {
       this.store.dispatch(joinSuccess({ id }));
     });
 
-    this.socket.on(SocketEvent.JoinRoomError, () => {
-      this.store.dispatch(joinError());
+    this.socket.on(SocketEvent.JoinRoomError, (errorMessage: string) => {
+      this.store.dispatch(joinError({ errorMessage }));
     });
 
     this.socket.on(SocketEvent.HostPlayerId, (id: string) => {
@@ -77,11 +69,9 @@ export class SocketService {
       this.store.dispatch(arePlayersReady({ areReady }));
     });
 
-    this.socket.on(SocketEvent.StartGameSuccess, () => {
-      
-    });
+    this.socket.on(SocketEvent.StartGameSuccess, () => {});
 
-    this.socket.on(SocketEvent.GetQuestionSuccess, (payload) => {
+    this.socket.on(SocketEvent.GetQuestionSuccess, payload => {
       this.store.dispatch(getQuestionSuccess({ payload }));
     });
 
@@ -100,17 +90,8 @@ export class SocketService {
     this.socket.emit(SocketEvent.JoinRoomAttempt, roomCode, name, iconId);
   }
 
-  emitSetReadyStatusAttempt(
-    roomCode: string,
-    playerId: string,
-    isReady: boolean
-  ) {
-    this.socket.emit(
-      SocketEvent.SetReadyStatusAttempt,
-      roomCode,
-      playerId,
-      isReady
-    );
+  emitSetReadyStatusAttempt(roomCode: string, playerId: string, isReady: boolean) {
+    this.socket.emit(SocketEvent.SetReadyStatusAttempt, roomCode, playerId, isReady);
   }
 
   emitStartGame(roomCode: string) {

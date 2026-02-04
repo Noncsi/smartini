@@ -1,7 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { Player } from '@models/player';
 import { getQuestionSuccess, emitAnswer } from '../actions/game.actions';
-import { joinAttempt, joinSuccess, joinError, setReadyStatusAttempt, setReadyStatusError } from '../actions/lobby.actions';
+import {
+  joinAttempt,
+  joinSuccess,
+  setReadyStatusAttempt,
+  setReadyStatusError,
+} from '../actions/lobby.actions';
 
 const initialPlayerState: Player = {
   id: '',
@@ -24,15 +29,11 @@ export const playerReducer = createReducer(
     ...state,
     id,
   })),
-  on(joinError, (state) => ({
-    ...state,
-    name: '',
-  })),
   on(setReadyStatusAttempt, (state, { isReady }) => ({
     ...state,
     isReady,
   })),
-  on(setReadyStatusError, (state) => ({
+  on(setReadyStatusError, state => ({
     ...state,
     isReady: false,
   })),
@@ -45,5 +46,5 @@ export const playerReducer = createReducer(
     ...state,
     didAnswerCurrentQuestion: true,
     chosenAnswerId: answerId,
-  }))
+  })),
 );

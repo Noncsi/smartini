@@ -1,49 +1,40 @@
-<img
-  class="w-64 p-4 object-contain drop-shadow-[-1em_1em_#4b4eaf] animate-wiggle"
-  src="/assets/images/bulby_logo.png"
-/>
+<img class="w-64 p-4 object-contain drop-shadow-[-1em_1em_#4b4eaf] animate-wiggle"
+  src="/assets/images/bulby_logo.png" />
 
 <div class="h-full justify-evenly flex flex-col">
-  <form
-    [formGroup]="joinForm"
-    (ngSubmit)="onSubmit()"
-    class="flex flex-col gap-12"
-  >
+  <form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-12">
     <div class="flex flex-col gap-4 items-center">
       <p-floatlabel variant="in">
-        <input
-          pInputText
-          id="in_label"
-          autocomplete="off"
-          formControlName="roomCode"
-        />
         <label for="in_label">Room code</label>
+        <input pInputText id="in_label" autocomplete="off" formControlName="roomCode" />
+        @if (joinForm.controls.roomCode.touched) {
+        @if (
+        joinForm.controls.roomCode.hasError("minlength") ||
+        joinForm.controls.roomCode.hasError("maxlength")
+        ) {
+        <p-message severity="error" size="small" variant="simple">Room code is 4 letters.</p-message>
+        }
+        @if (joinForm.controls.roomCode.hasError("required")) {
+        <p-message severity="error" size="small" variant="simple">Room code is required.</p-message>
+        }
+        }
       </p-floatlabel>
 
       <p-floatlabel variant="in">
-        <input
-          pInputText
-          id="in_label"
-          formControlName="name"
-          autocomplete="off"
-        />
+        <input pInputText id="in_label" formControlName="name" />
         <label for="in_label">Your name</label>
+        @if (
+        joinForm.controls.name.touched &&
+        joinForm.controls.name.hasError("required")
+        ) {
+        <p-message severity="error" size="small" variant="simple">Name is required.</p-message>
+        }
       </p-floatlabel>
 
       <label>Select your icon</label>
-      <app-grid-button
-        [items]="icons"
-        [required]="true"
-        (selectedValue)="setIconId($event)"
-        class="w-fit"
-      ></app-grid-button>
+      <app-grid-button [items]="icons" [required]="true" (selectedValue)="setIconId($event)"
+        class="w-fit"></app-grid-button>
     </div>
-    <p-button
-      label="Join room"
-      type="submit"
-      [raised]="true"
-      [disabled]="!joinForm.valid"
-      class="self-center"
-    />
+    <p-button label="Join room" type="submit" [raised]="true" [disabled]="!joinForm.valid" class="self-center" />
   </form>
 </div>
