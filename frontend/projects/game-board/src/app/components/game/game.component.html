@@ -1,19 +1,21 @@
-<div class="flex flex-col gap-2">
+<div class="flex gap-2 justify-center">
   @for (player of players(); track player.id) {
-    <p-card class="p-4 max-h-[20vh]">
-      <ng-template #header>
-        <div>{{ iconMap.get(player.iconId) }} {{ player.name }}</div>
-      </ng-template>
-      <ng-template #title>{{ player.score }}</ng-template>
-    </p-card>
+  <p-card class="p-4 max-h-[20vh]">
+    <ng-template #header>
+      <div>{{ iconMap.get(player.iconId) }} {{ player.name }}</div>
+    </ng-template>
+    <ng-template #title>{{ player.score }}</ng-template>
+  </p-card>
   }
 </div>
 @if (secondsRemaining() >= 1) {
-  <div
-    class="w-full text-center font-[Afacad] text-[20vw] h-full drop-shadow-[-0.04em_0.04em_#4b4eaf] text-white"
-  >
-    {{ secondsRemaining() }}
-  </div>
+<div class="w-full text-center font-[Afacad] text-[20vw] h-full drop-shadow-[-0.04em_0.04em_#4b4eaf] text-white">
+  {{ secondsRemaining() }}
+</div>
 } @else {
-  <app-question class="w-full" [question]="currentQuestion()"></app-question>
+@if(isQuestionRevealed()) {
+<app-question class="w-full h-full flex p-4 justify-center" [question]="question()"
+  [correctAnswerId]="currentCorrectAnswerId()">
+</app-question>
+}
 }

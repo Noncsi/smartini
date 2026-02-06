@@ -30,6 +30,7 @@ const initialState: GameBoardGameState = {
       score: 0,
       isReady: false,
       didAnswerCurrentQuestion: false,
+      chosenAnswerId: 0
     },
     {
       id: 'b',
@@ -38,6 +39,7 @@ const initialState: GameBoardGameState = {
       score: 0,
       isReady: true,
       didAnswerCurrentQuestion: false,
+      chosenAnswerId: 0
     },
     {
       id: 'c',
@@ -46,6 +48,7 @@ const initialState: GameBoardGameState = {
       score: 0,
       isReady: true,
       didAnswerCurrentQuestion: false,
+      chosenAnswerId: 0
     },
   ],
   hostPlayerId: '',

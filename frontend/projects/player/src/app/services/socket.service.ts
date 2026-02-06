@@ -12,6 +12,7 @@ import {
   setReadyStatusError,
   getHostPlayerId,
   arePlayersReady,
+  startGameSuccess,
 } from '../state/actions/lobby.actions';
 import { selectRoomCode } from '../state/selectors/game.selector';
 
@@ -69,7 +70,9 @@ export class SocketService {
       this.store.dispatch(arePlayersReady({ areReady }));
     });
 
-    this.socket.on(SocketEvent.StartGameSuccess, () => {});
+    this.socket.on(SocketEvent.StartGameSuccess, () => {
+      this.store.dispatch(startGameSuccess())
+    });
 
     this.socket.on(SocketEvent.GetQuestionSuccess, payload => {
       this.store.dispatch(getQuestionSuccess({ payload }));

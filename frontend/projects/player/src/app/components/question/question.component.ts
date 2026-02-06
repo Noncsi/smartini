@@ -6,11 +6,12 @@ import { GameService } from '../../services/game.service';
 @Component({
   selector: 'app-question',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BaseQuestionComponent],
   templateUrl: '../../../../../../libs/components/question/question.component.html'
 })
 export class QuestionComponent extends BaseQuestionComponent {
   gameService = inject(GameService);
+  chosenAnswerId = this.gameService.chosenAnswerId;
 
   override lock(answerId: number) {
     if (this.gameService.didAnswer()) return;

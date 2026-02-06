@@ -8,8 +8,10 @@ import { QuestionPrompt } from '@models/question';
   imports: [CommonModule],
   templateUrl: './question.component.html',
 })
-export abstract class QuestionComponent {
+export class QuestionComponent {
   question = input.required<QuestionPrompt>();
+  correctAnswerId = input<number>(0);
+  lockedAnswerId = input<number>(0);
 
-  abstract lock(answerId: number): void;
+  lock(answerId: number): void {}
 }

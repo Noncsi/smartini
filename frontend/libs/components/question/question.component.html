@@ -1,15 +1,14 @@
-<div
-  class="text-white font-[Ranchers] tracking-wider flex flex-col justify-center gap-12"
->
-  <div class="text-[6vw] text-center p-6">{{ question().question }}</div>
-  <div class="grid grid-cols-2 grid-rows-2 gap-4 p-4">
-    @for(answer of question().answerOptions; track answer.id) {
-    <div
-      id="{{ answer.id }}"
-      class="text-[2vw] flex justify-center"
-    >
-      {{ answer.text }}
+<div animate.enter="animate-scaleUp" animate.leave="animate-scaleDown" class="text-white tracking-wider flex flex-col justify-center gap-12">
+  <div class="flex flex-col justify-center gap-12">
+    <p class="text-2xl text-center">{{ question().question }}</p>
+    <div class="grid grid-cols-2 grid-rows-2 gap-4 p-4">
+      @for(answer of question().answerOptions; track answer.id) {
+      <p (click)="lock(answer.id)" [class.bg-green-500]="correctAnswerId() === answer.id"
+        [class.bg-purple-700]="lockedAnswerId() === answer.id"
+        class="h-full items-center text-center rounded-lg border-white border-solid border-2 p-2 text-xl flex justify-center transition-colors duration-500 cursor-pointer hover:opacity-80">
+        {{ answer.text }}
+      </p>
+      }
     </div>
-    }
   </div>
 </div>

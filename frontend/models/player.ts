@@ -5,5 +5,5 @@ export interface Player {
   score: number;
   isReady: boolean;
   didAnswerCurrentQuestion: boolean;
-  chosenAnswerId?: number;
+  chosenAnswerId: number;
 }
