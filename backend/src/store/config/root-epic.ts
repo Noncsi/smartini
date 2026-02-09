@@ -1,12 +1,12 @@
 import { combineEpics, Epic } from "redux-observable";
 import { GameActions } from "../types/game.actions";
 import { RootState } from "./store";
-import { cleanupGameBoardDisconnectionEpic } from "../game/epics/cleanup-gameboard-disconnection.epic";
-import { cleanupPlayerDisconnectionEpic } from "../game/epics/cleanup-player-disconnection.epic";
-import { setupRoomOnCreateRoomEpic } from "../game/epics/setup-room-on-create-room.epic";
+import { cleanupGameBoardDisconnectionEpic } from "../game/epics/cleanups/cleanup-gameboard-disconnection.epic";
+import { cleanupPlayerDisconnectionEpic } from "../game/epics/cleanups/cleanup-player-disconnection.epic";
+import { setupRoomOnCreateRoomEpic } from "../game/epics/setups/setup-room-on-create-room.epic";
 import { broadcastQuestionToGameBoardEpic } from "../game/epics/broadcast-question-to-gameboard.epic";
 import { fetchQuestionEpic } from "../game/epics/fetch-question.epic";
-import { setupPlayerOnPlayerJoinsEpic } from "../game/epics/setup-player-on-player-joins.epic";
+import { setupPlayerOnPlayerJoinsEpic } from "../game/epics/setups/setup-player-on-player-joins.epic";
 import { broadcastReadyStatusEpic } from "../game/epics/broadcast-ready-status.epic";
 import { triggerPreQuestionCountdownOnGameStartEpic } from "../game/epics/trigger-pre-question-countdown-on-gamestart.epic";
 import { startPreQuestionCountdownEpic } from "../game/epics/start-pre-question-countdown.epic";

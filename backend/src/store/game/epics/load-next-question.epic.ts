@@ -9,6 +9,6 @@ export const loadNextQuestionEpic: Epic<GameActions, GameActions, RootState> = (
 ) =>
   action$.pipe(
     filter(emitScores.match),
-    delay(4000),
+    delay(3000),
     map(({ payload }) => fetchQuestion({ roomCode: payload.roomCode }))
   );

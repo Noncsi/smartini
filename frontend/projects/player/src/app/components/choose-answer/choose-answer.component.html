@@ -1,6 +1,6 @@
 <div class="tracking-wider h-full flex flex-col justify-center gap-12">
   @if(secondsRemaining() >= 1) {
-  <h2>{{ secondsRemaining() }}</h2>
+  <!-- <h2>{{ secondsRemaining() }}</h2> -->
   } @else {
   @if(isQuestionRevealed()){
   <app-question [question]="question()" [lockedAnswerId]="chosenAnswerId()"></app-question>

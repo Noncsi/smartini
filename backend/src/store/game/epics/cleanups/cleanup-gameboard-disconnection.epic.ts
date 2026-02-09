@@ -1,10 +1,10 @@
 import { Epic } from "redux-observable";
 import { filter, tap, ignoreElements } from "rxjs";
-import { gameBoardSocketMap } from "../../../services/socket-registry";
-import { RootState } from "../../config/store";
-import { GameActions } from "../../types/game.actions";
-import { disconnectGameBoard } from "../game.slice";
-import { message, logger } from "../../../log";
+import { gameBoardSocketMap } from "../../../../services/socket-registry";
+import { RootState } from "../../../config/store";
+import { GameActions } from "../../../types/game.actions";
+import { disconnectGameBoard } from "../../game.slice";
+import { message, logger } from "../../../../log";
 
 export const cleanupGameBoardDisconnectionEpic: Epic<
   GameActions,
