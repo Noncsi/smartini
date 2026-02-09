@@ -3,11 +3,11 @@ import { filter, map, tap } from "rxjs";
 import SocketEvent from "../../../../../shared/socket-event";
 import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
-import { startCountdown, startGame } from "../game.slice";
+import { countdownBeforeQuestion, startGame } from "../game.slice";
 import { gameBoardSocketMap } from "../../../services/socket-registry";
 import { logger, message } from "../../../log";
 
-export const startCountdownOnStartGameEpic: Epic<
+export const triggerPreQuestionCountdownOnGameStartEpic: Epic<
   GameActions,
   GameActions,
   RootState
@@ -23,5 +23,5 @@ export const startCountdownOnStartGameEpic: Epic<
       socket?.nsp.to(roomCode).emit(SocketEvent.StartGameSuccess);
       logger.info(message.info.gameStarted(roomCode));
     }),
-    map(({ roomCode }) => startCountdown({ roomCode, countFrom: 5 })),
+    map(({ roomCode }) => countdownBeforeQuestion({ roomCode })),
   );

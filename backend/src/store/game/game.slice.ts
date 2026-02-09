@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createPlayerObject, createRoomObject } from "../../utils/factories";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createPlayerObject, createRoomObject } from '../../utils/factories';
 import {
   GameBoardSocket,
   RoomCode,
@@ -8,12 +8,8 @@ import {
   Question,
   Room,
   Player,
-} from "../types/game.types";
-import {
-  selectIsRoomExist,
-  selectPlayerInRoomById,
-  selectRoomByCode,
-} from "./game.selectors";
+} from '../types/game.types';
+import { selectIsRoomExist, selectPlayerInRoomById, selectRoomByCode } from './game.selectors';
 
 export interface GameState {
   rooms: Room[];
@@ -24,29 +20,19 @@ const initialState: GameState = {
 };
 
 export const gameSlice = createSlice({
-  name: "game",
+  name: 'game',
   initialState,
   reducers: {
-    disconnectGameBoard: (
-      state,
-      action: PayloadAction<{ socket: GameBoardSocket }>,
-    ) => {
+    disconnectGameBoard: (state, action: PayloadAction<{ socket: GameBoardSocket }>) => {
       const { socket } = action.payload;
-      state.rooms.splice(
-        state.rooms.findIndex((room) => room.roomCode === socket.data.roomCode),
-      );
+      state.rooms.splice(state.rooms.findIndex(room => room.roomCode === socket.data.roomCode));
     },
-    disconnectPlayer: (
-      state,
-      action: PayloadAction<{ socket: PlayerSocket }>,
-    ) => {
+    disconnectPlayer: (state, action: PayloadAction<{ socket: PlayerSocket }>) => {
       const { socket } = action.payload;
       const room = selectRoomByCode(state, socket.data.roomCode);
       if (!room) return;
 
-      const idx = room.players.findIndex(
-        (player) => player.id === socket.data.playerId,
-      );
+      const idx = room.players.findIndex(player => player.id === socket.data.playerId);
       room.players.splice(idx, 1);
     },
     createRoom: (
@@ -68,16 +54,13 @@ export const gameSlice = createSlice({
         newPlayerIconId: number;
       }>,
     ) => {
-      const { roomCode, newPlayerId, newPlayerName, newPlayerIconId } =
-        action.payload;
+      const { roomCode, newPlayerId, newPlayerName, newPlayerIconId } = action.payload;
       const room = selectRoomByCode(state, roomCode);
       if (!room) return;
-      if (room.players.some((player) => player.name === newPlayerName)) return;
+      if (room.players.some(player => player.name === newPlayerName)) return;
 
       if (!room.players.length) room.hostPlayerId = newPlayerId;
-      room.players.push(
-        createPlayerObject(newPlayerId, newPlayerName, newPlayerIconId),
-      );
+      room.players.push(createPlayerObject(newPlayerId, newPlayerName, newPlayerIconId));
     },
 
     setReady: (
@@ -100,10 +83,7 @@ export const gameSlice = createSlice({
       room.stage = GameStage.game;
     },
 
-    startCountdown: (
-      state,
-      action: PayloadAction<{ roomCode: string; countFrom: number }>,
-    ) => {},
+    countdownBeforeQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
 
     fetchQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
 
@@ -118,10 +98,7 @@ export const gameSlice = createSlice({
       room.players.map((player: Player) => (player.hasAnswered = false));
     },
 
-    sendQuestion: (
-      state,
-      action: PayloadAction<{ roomCode: string; question: Question }>,
-    ) => {},
+    sendQuestion: (state, action: PayloadAction<{ roomCode: string; question: Question }>) => {},
 
     evaluateAnswer: (
       state,
@@ -164,10 +141,7 @@ export const gameSlice = createSlice({
       player!.score += 10;
     },
 
-    emitAnswerResults: (
-      state,
-      action: PayloadAction<{ roomCode: string }>,
-    ) => {},
+    emitAnswerResults: (state, action: PayloadAction<{ roomCode: string }>) => {},
 
     emitScores: (state, action: PayloadAction<{ roomCode: string }>) => {},
     nextQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
@@ -181,7 +155,7 @@ export const {
   playerJoins,
   setReady,
   startGame,
-  startCountdown,
+  countdownBeforeQuestion,
   fetchQuestion,
   fetchQuestionSuccess,
   evaluateAnswer,

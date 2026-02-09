@@ -11,7 +11,7 @@ import { selectPlayersInRoom } from "../game.selectors";
 import { disconnectPlayer } from "../game.slice";
 import { message, logger } from "../../../log";
 
-export const deleteSocketOnDisconnectPlayerEpic: Epic<GameActions, GameActions, RootState> = (
+export const cleanupPlayerDisconnectionEpic: Epic<GameActions, GameActions, RootState> = (
   action$,
   state$
 ) =>

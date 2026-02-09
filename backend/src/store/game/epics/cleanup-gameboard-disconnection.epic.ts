@@ -6,7 +6,7 @@ import { GameActions } from "../../types/game.actions";
 import { disconnectGameBoard } from "../game.slice";
 import { message, logger } from "../../../log";
 
-export const deleteSocketOnDisconnectGameBoardEpic: Epic<
+export const cleanupGameBoardDisconnectionEpic: Epic<
   GameActions,
   GameActions,
   RootState

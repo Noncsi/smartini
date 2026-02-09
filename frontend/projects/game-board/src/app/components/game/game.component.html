@@ -14,8 +14,15 @@
 </div>
 } @else {
 @if(isQuestionRevealed()) {
-<app-question class="w-full h-full flex p-4 justify-center" [question]="question()"
-  [correctAnswerId]="currentCorrectAnswerId()">
-</app-question>
+<div class="w-full h-full flex flex-col p-4 justify-center relative">
+  <app-question class="w-full flex justify-center" [question]="question()"
+    [correctAnswerId]="currentCorrectAnswerId()">
+  </app-question>
+  @if(answerRevealCountdown() > 0) {
+  <div class="absolute bottom-4 right-4 text-4xl font-bold text-white drop-shadow-[-0.04em_0.04em_#4b4eaf]">
+    {{ answerRevealCountdown() }}
+  </div>
+  }
+</div>
 }
 }

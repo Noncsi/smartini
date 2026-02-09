@@ -20,6 +20,7 @@ enum SocketEvent {
   GetQuestion = 'getQuestion',
   GetQuestionSuccess = 'getQuestionSuccess',
   Countdown = 'countdown',
+  AnswerRevealCountdown = 'answerRevealCountdown',
   Answer = 'answer',
   ShowCorrectAnswer = 'showCorrectAnswer',
   Scores = 'scores',

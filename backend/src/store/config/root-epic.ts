@@ -1,32 +1,38 @@
 import { combineEpics, Epic } from "redux-observable";
 import { GameActions } from "../types/game.actions";
 import { RootState } from "./store";
-import { deleteSocketOnDisconnectGameBoardEpic } from "../game/epics/delete-socket-on-disconnect-gameboard.epic";
-import { deleteSocketOnDisconnectPlayerEpic } from "../game/epics/delete-socket-on-disconnect-player.epic";
+import { cleanupGameBoardDisconnectionEpic } from "../game/epics/cleanup-gameboard-disconnection.epic";
+import { cleanupPlayerDisconnectionEpic } from "../game/epics/cleanup-player-disconnection.epic";
 import { setupRoomOnCreateRoomEpic } from "../game/epics/setup-room-on-create-room.epic";
-import { fetchQuestionSuccessEpic } from "../game/epics/fetch-question-success.epic";
+import { broadcastQuestionToGameBoardEpic } from "../game/epics/broadcast-question-to-gameboard.epic";
 import { fetchQuestionEpic } from "../game/epics/fetch-question.epic";
 import { setupPlayerOnPlayerJoinsEpic } from "../game/epics/setup-player-on-player-joins.epic";
-import { setReadyEpic } from "../game/epics/set-ready.epic";
-import { startCountdownOnStartGameEpic } from "../game/epics/start-countdown-on-start-game.epic";
-import { addToScoreOnAnsweredCorrectly, answeredCorrectlyEpic, answeredIncorrectlyEpic, emitAnswerResultsEpic, emitScoresEpic, evaluateAnswerEpic, nextQuestionEpic } from "../game/epics/add-to-score-if-answer-is-right.epic";
-import { startCountdownEpic } from "../game/epics/startCountdown.epic";
+import { broadcastReadyStatusEpic } from "../game/epics/broadcast-ready-status.epic";
+import { triggerPreQuestionCountdownOnGameStartEpic } from "../game/epics/trigger-pre-question-countdown-on-gamestart.epic";
+import { startPreQuestionCountdownEpic } from "../game/epics/start-pre-question-countdown.epic";
+import { evaluateAnswerEpic } from "../game/epics/evaluate-answer.epic";
+import { addToScoreOnAnsweredCorrectly } from "../game/epics/add-to-score-on-answered-correctly.epic";
+import { handleCorrectAnswerEpic } from "../game/epics/handle-correct-answer.epic";
+import { handleIncorrectAnswerEpic } from "../game/epics/handle-incorrect-answer.epic";
+import { broadcastAnswerRevealEpic } from "../game/epics/broadcast-answer-reveal.epic";
+import { broadcastScoresEpic } from "../game/epics/broadcast-scores.epic";
+import { loadNextQuestionEpic } from "../game/epics/load-next-question.epic";
 
 export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
-  deleteSocketOnDisconnectGameBoardEpic,
-  deleteSocketOnDisconnectPlayerEpic,
+  cleanupGameBoardDisconnectionEpic,
+  cleanupPlayerDisconnectionEpic,
   setupRoomOnCreateRoomEpic,
   setupPlayerOnPlayerJoinsEpic,
-  setReadyEpic,
+  broadcastReadyStatusEpic,
   fetchQuestionEpic,
-  startCountdownOnStartGameEpic,
-  fetchQuestionSuccessEpic,
-  startCountdownEpic,
+  triggerPreQuestionCountdownOnGameStartEpic,
+  broadcastQuestionToGameBoardEpic,
+  startPreQuestionCountdownEpic,
   evaluateAnswerEpic,
   addToScoreOnAnsweredCorrectly,
-  answeredCorrectlyEpic,
-  answeredIncorrectlyEpic,
-  emitAnswerResultsEpic,
-  emitScoresEpic,
-  nextQuestionEpic
+  handleCorrectAnswerEpic,
+  handleIncorrectAnswerEpic,
+  broadcastAnswerRevealEpic,
+  broadcastScoresEpic,
+  loadNextQuestionEpic
 );

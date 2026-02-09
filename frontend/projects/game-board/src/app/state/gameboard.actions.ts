@@ -32,6 +32,11 @@ export const countdown = createAction(
   props<{ number: number }>()
 );
 
+export const answerRevealCountdown = createAction(
+  'answerRevealCountdown',
+  props<{ number: number }>()
+);
+
 export const getQuestion = createAction('getQuestion');
 
 export const askQuestion = createAction(

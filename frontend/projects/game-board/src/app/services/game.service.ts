@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   selectCountdown,
+  selectAnswerRevealCountdown,
   selectCurrentCorrectAnswerId,
   selectHostPlayerId,
   selectPlayers,
@@ -15,6 +16,7 @@ export class GameService {
   players = this.store.selectSignal(selectPlayers);
   hostPlayerId = this.store.selectSignal(selectHostPlayerId);
   countdown = this.store.selectSignal(selectCountdown);
+  answerRevealCountdown = this.store.selectSignal(selectAnswerRevealCountdown);
   currentQuestion = this.store.selectSignal(selectQuestion);
   currentCorrectAnswerId = this.store.selectSignal(selectCurrentCorrectAnswerId);
 

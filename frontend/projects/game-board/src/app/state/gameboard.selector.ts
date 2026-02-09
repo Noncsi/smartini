@@ -33,6 +33,11 @@ export const selectCountdown = createSelector(
   (game: GameBoardGameState) => game.countdown
 );
 
+export const selectAnswerRevealCountdown = createSelector(
+  selectGame,
+  (game: GameBoardGameState) => game.answerRevealCountdown
+);
+
 export const selectQuestion = createSelector(
   selectGame,
   (game: GameBoardGameState) => game.currentQuestion

@@ -7,6 +7,7 @@ import {
   setPlayerReadyStatus,
   askQuestion,
   countdown,
+  answerRevealCountdown,
   showCorrectAnswer,
   receiveHostPlayerId,
   startGameSuccess,
@@ -16,6 +17,7 @@ import { Player } from '@models/player';
 
 export interface GameBoardGameState extends GameState {
   players: Player[];
+  answerRevealCountdown: number;
 }
 
 const initialState: GameBoardGameState = {
@@ -53,6 +55,7 @@ const initialState: GameBoardGameState = {
   ],
   hostPlayerId: '',
   countdown: 0,
+  answerRevealCountdown: 0,
   currentQuestion: { question: '', answerOptions: [] },
   currentCorrectAnswerId: 0,
 };
@@ -81,6 +84,7 @@ export const gameReducer = createReducer(
     return { ...state, players };
   }),
   on(countdown, (state, { number }) => ({ ...state, countdown: number })),
+  on(answerRevealCountdown, (state, { number }) => ({ ...state, answerRevealCountdown: number })),
   on(startGameSuccess, (state) => ({ ...state, phase: GamePhase.gamePlay })),
   on(askQuestion, (state, { question }) => ({
     ...state,

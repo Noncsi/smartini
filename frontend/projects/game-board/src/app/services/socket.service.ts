@@ -7,6 +7,7 @@ import {
   setPlayerReadyStatus,
   askQuestion,
   countdown,
+  answerRevealCountdown,
   showCorrectAnswer,
   receiveHostPlayerId,
   startGameSuccess,
@@ -78,6 +79,10 @@ export class SocketService {
 
     this.socket.on(SocketEvent.Countdown, (number: number) => {
       this.store.dispatch(countdown({ number }));
+    });
+
+    this.socket.on(SocketEvent.AnswerRevealCountdown, (number: number) => {
+      this.store.dispatch(answerRevealCountdown({ number }));
     });
 
     this.socket.on(

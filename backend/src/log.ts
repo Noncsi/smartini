@@ -33,6 +33,10 @@ export const message = {
       }'.`,
     gameStarted: (roomCode: RoomCode) =>
       `Game in room '${roomCode}' has started.`,
+    allPlayersAnswered: (roomCode: RoomCode) =>
+      `All players in room '${roomCode}' have answered.`,
+    answerTimedOut: (roomCode: RoomCode) =>
+      `Answer timeout reached for room '${roomCode}' (10 seconds).`,
   },
   error: {
     unspecifiedSocketDisconnected: (socketId: string) =>

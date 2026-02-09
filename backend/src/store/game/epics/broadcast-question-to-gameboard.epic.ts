@@ -6,7 +6,7 @@ import { RootState } from "../../config/store";
 import { GameActions } from "../../types/game.actions";
 import { fetchQuestionSuccess } from "../game.slice";
 
-export const fetchQuestionSuccessEpic: Epic<
+export const broadcastQuestionToGameBoardEpic: Epic<
   GameActions,
   GameActions,
   RootState

@@ -9,7 +9,7 @@ import { message, logger } from "../../../log";
 import { selectRoomByCode } from "../game.selectors";
 import { Player } from "../../types/game.types";
 
-export const setReadyEpic: Epic<GameActions, GameActions, RootState> = (
+export const broadcastReadyStatusEpic: Epic<GameActions, GameActions, RootState> = (
   action$,
   state$
 ) =>

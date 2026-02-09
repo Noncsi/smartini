@@ -18,6 +18,7 @@ export class GameComponent {
   question = this.gameService.currentQuestion;
   secondsRemaining = this.gameService.countdown;
   currentCorrectAnswerId = this.gameService.currentCorrectAnswerId;
+  answerRevealCountdown = this.gameService.answerRevealCountdown;
 
   isQuestionRevealed = signal(false);
 
