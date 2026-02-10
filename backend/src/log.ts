@@ -1,16 +1,14 @@
-import winston from "winston";
-import { PORT } from "../../shared/constants";
-import { RoomCode } from "./store/types/game.types";
+import winston from 'winston';
+import { PORT } from '../../shared/constants';
+import { RoomCode } from './store/types/game.types';
 
 const { combine, timestamp, printf, colorize } = winston.format;
 
 export const logger = winston.createLogger({
   format: combine(
     colorize(),
-    timestamp({ format: "HH:mm:ss" }),
-    printf(
-      ({ level, message, timestamp }) => `${timestamp} [${level}] ${message}`,
-    ),
+    timestamp({ format: 'HH:mm:ss' }),
+    printf(({ level, message, timestamp }) => `${timestamp} [${level}] ${message}`),
   ),
   transports: [new winston.transports.Console()],
 });
@@ -29,14 +27,9 @@ export const message = {
       `Player '${name}' has joined room '${roomCode}'. Is host: ${isHost}`,
     playerStatusSet: (id: string, roomCode: RoomCode, isReady: boolean) =>
       `Player with id: ${id} in room '${roomCode}' has set its status to '${
-        isReady ? "ready" : "not ready"
+        isReady ? 'ready' : 'not ready'
       }'.`,
-    gameStarted: (roomCode: RoomCode) =>
-      `Game in room '${roomCode}' has started.`,
-    allPlayersAnswered: (roomCode: RoomCode) =>
-      `All players in room '${roomCode}' have answered.`,
-    answerTimedOut: (roomCode: RoomCode) =>
-      `Answer timeout reached for room '${roomCode}' (10 seconds).`,
+    gameStarted: (roomCode: RoomCode) => `Game in room '${roomCode}' has started.`,
   },
   error: {
     unspecifiedSocketDisconnected: (socketId: string) =>

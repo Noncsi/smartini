@@ -98,7 +98,10 @@ export const gameSlice = createSlice({
       room.players.map((player: Player) => (player.hasAnswered = false));
     },
 
-    sendQuestion: (state, action: PayloadAction<{ roomCode: string; question: Question }>) => {},
+    sendQuestionSuccess: (
+      state,
+      action: PayloadAction<{ roomCode: string }>,
+    ) => {},
 
     evaluateAnswer: (
       state,
@@ -158,6 +161,7 @@ export const {
   countdownBeforeQuestion,
   fetchQuestion,
   fetchQuestionSuccess,
+  sendQuestionSuccess,
   evaluateAnswer,
   answeredCorrectly,
   answeredIncorrectly,

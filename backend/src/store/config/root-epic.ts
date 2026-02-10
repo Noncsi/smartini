@@ -14,7 +14,7 @@ import { evaluateAnswerEpic } from "../game/epics/evaluate-answer.epic";
 import { addToScoreOnAnsweredCorrectly } from "../game/epics/add-to-score-on-answered-correctly.epic";
 import { handleCorrectAnswerEpic } from "../game/epics/handle-correct-answer.epic";
 import { handleIncorrectAnswerEpic } from "../game/epics/handle-incorrect-answer.epic";
-import { broadcastAnswerRevealEpic } from "../game/epics/broadcast-answer-reveal.epic";
+import { showCorrectAnswerAfterRaceConditionEpic } from "../game/epics/show-correct-answer-after-race-condition.epic";
 import { broadcastScoresEpic } from "../game/epics/broadcast-scores.epic";
 import { loadNextQuestionEpic } from "../game/epics/load-next-question.epic";
 
@@ -32,7 +32,7 @@ export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
   addToScoreOnAnsweredCorrectly,
   handleCorrectAnswerEpic,
   handleIncorrectAnswerEpic,
-  broadcastAnswerRevealEpic,
+  showCorrectAnswerAfterRaceConditionEpic,
   broadcastScoresEpic,
   loadNextQuestionEpic
 );
