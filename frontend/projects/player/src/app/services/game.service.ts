@@ -1,7 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { emitAnswer } from '../state/actions/game.actions';
-import { selectPlayerId, selectDidAnswerCurrentQuestion, selectChosenAnswerId } from '../state/selectors/player.selector';
+import {
+  selectPlayerId,
+  selectDidAnswerCurrentQuestion,
+  selectChosenAnswerId,
+} from '../state/selectors/player.selector';
 import { selectQuestion, selectRoomCode, selectCountdown } from '../state/selectors/game.selector';
 
 @Injectable({ providedIn: 'root' })
@@ -19,8 +23,8 @@ export class GameService {
       emitAnswer({
         roomCode: this.roomCode(),
         playerId: this.playerId(),
-        answerId: +answerId,
-      })
+        answerId,
+      }),
     );
   }
 }

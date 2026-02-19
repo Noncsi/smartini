@@ -1,17 +1,15 @@
-import { GameStage, Player, Room, RoomCode } from "../store/types/game.types";
+import { GameStage, Player, Room, RoomCode } from '../store/types/game.types';
 
 export const createRoomObject = (roomCode: RoomCode): Room => ({
   stage: GameStage.lobby,
   roomCode,
   players: [],
-  hostPlayerId: "",
+  hostPlayerId: '',
+  allQuestions: [],
+  currentRound: 0,
 });
 
-export const createPlayerObject = (
-  id: string,
-  name: string,
-  iconId: number
-): Player => ({
+export const createPlayerObject = (id: string, name: string, iconId: number): Player => ({
   id,
   name,
   iconId,

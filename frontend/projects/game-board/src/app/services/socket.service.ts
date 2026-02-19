@@ -54,7 +54,6 @@ export class SocketService {
     fromEvent(this.socket, SocketEvent.HostPlayerId)
       .pipe(
         tap((hostPlayerId: string) => {
-          console.log(hostPlayerId);
           this.store.dispatch(receiveHostPlayerId({ hostPlayerId }));
         })
       )

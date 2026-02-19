@@ -78,10 +78,6 @@ export class SocketService {
       this.store.dispatch(getQuestionSuccess({ payload }));
     });
 
-    this.socket.on(SocketEvent.ShowCorrectAnswer, (isCorrect: boolean) => {
-      console.log('Answer result:', isCorrect);
-    });
-
     this.socket.on(SocketEvent.Countdown, (number: number) => {
       this.store.dispatch(countdown({ number }));
     });

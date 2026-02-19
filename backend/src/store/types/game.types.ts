@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { Socket } from 'socket.io';
 
 export type RoomCode = string;
 export enum SocketType {
@@ -16,6 +16,8 @@ export interface Room {
   roomCode: RoomCode;
   players: Player[];
   hostPlayerId: string;
+  allQuestions: Question[];
+  currentRound: number;
   currentQuestion?: Question;
 }
 
@@ -50,4 +52,9 @@ export interface Question {
   question: string;
   answerOptions: Answer[];
   correctAnswerId: number;
+}
+
+export interface QuestionToSend {
+  question: string;
+  answerOptions: Answer[];
 }

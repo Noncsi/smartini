@@ -6,7 +6,7 @@
     <div class="flex flex-col gap-4 items-center">
       <p-floatlabel variant="in">
         <label for="in_label">Room code</label>
-        <input pInputText id="in_label" autocomplete="off" formControlName="roomCode" />
+        <input pInputText id="in_label" autocomplete="off" formControlName="roomCode"/>
         @if (joinForm.controls.roomCode.touched) {
         @if (
         joinForm.controls.roomCode.hasError("minlength") ||
@@ -21,7 +21,7 @@
       </p-floatlabel>
 
       <p-floatlabel variant="in">
-        <input pInputText id="in_label" formControlName="name" />
+        <input pInputText id="in_label" formControlName="name"/>
         <label for="in_label">Your name</label>
         @if (
         joinForm.controls.name.touched &&

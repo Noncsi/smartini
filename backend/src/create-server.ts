@@ -13,7 +13,7 @@ export const createServer = (
 ) => {
   const server = new Server(port, serverOptions);
   server.on(SocketEvent.Connection, (socket: Socket) => {
-    logger.info(logger.info(message.info.newSocketConnected(socket.id)));
+    logger.info(message.info.newSocketConnected(socket.id));
     socket.on(SocketEvent.Disconnect, () =>
       SocketEventController.disconnect(socket)
     );
@@ -45,7 +45,7 @@ export const createServer = (
     );
   });
 
-  logger.info(logger.info(message.info.serverIsRunning()));
+  logger.info(message.info.serverIsRunning());
   instrument(server, { auth: false });
 
   return server;

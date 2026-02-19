@@ -85,23 +85,25 @@ export const gameSlice = createSlice({
 
     countdownBeforeQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
 
-    fetchQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
-
-    fetchQuestionSuccess: (
+    fetchQuestions: (state, action: PayloadAction<{ roomCode: string }>) => {},
+    fetchQuestionsSuccess: (
       state,
-      action: PayloadAction<{ roomCode: string; question: Question }>,
+      action: PayloadAction<{ roomCode: string; questions: Question[] }>,
     ) => {
-      const { roomCode, question } = action.payload;
+      const { roomCode, questions } = action.payload;
       const room = selectRoomByCode(state, roomCode);
       if (!room) return;
-      room.currentQuestion = question;
-      room.players.map((player: Player) => (player.hasAnswered = false));
+      room.allQuestions = questions;
+      room.currentQuestion = questions[0];
     },
 
-    sendQuestionSuccess: (
-      state,
-      action: PayloadAction<{ roomCode: string }>,
-    ) => {},
+    emitCurrentQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {
+      const { roomCode } = action.payload;
+      const room = selectRoomByCode(state, roomCode);
+      if (!room) return;
+      room.players.map((player: Player) => (player.hasAnswered = false));
+    },
+    emitCurrentQuestionSuccess: (state, action: PayloadAction<{ roomCode: string }>) => {},
 
     evaluateAnswer: (
       state,
@@ -111,43 +113,25 @@ export const gameSlice = createSlice({
         answerId: number;
       }>,
     ) => {
-      const { roomCode, playerId } = action.payload;
+      const { roomCode, playerId, answerId } = action.payload;
+      const room = selectRoomByCode(state, roomCode);
       const player = selectPlayerInRoomById(state, roomCode, playerId);
-      if (!player) return;
+      if (!room || !player) return;
+      if (room.currentQuestion?.correctAnswerId === answerId) {
+        player.score += 10;
+      }
       player.hasAnswered = true;
-    },
-
-    answeredCorrectly: (
-      state,
-      action: PayloadAction<{
-        roomCode: RoomCode;
-        playerId: string;
-      }>,
-    ) => {},
-
-    answeredIncorrectly: (
-      state,
-      action: PayloadAction<{
-        player: Player;
-      }>,
-    ) => {},
-
-    addToScore: (
-      state,
-      action: PayloadAction<{
-        roomCode: RoomCode;
-        playerId: string;
-      }>,
-    ) => {
-      const { roomCode, playerId } = action.payload;
-      const player = selectPlayerInRoomById(state, roomCode, playerId);
-      player!.score += 10;
     },
 
     emitAnswerResults: (state, action: PayloadAction<{ roomCode: string }>) => {},
 
-    emitScores: (state, action: PayloadAction<{ roomCode: string }>) => {},
-    nextQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
+    emitScores: (state, action: PayloadAction<{ roomCode: string }>) => {
+      const { roomCode } = action.payload;
+      const room = selectRoomByCode(state, roomCode);
+      if (!room) return;
+      room.currentRound++;
+      room.currentQuestion = room.allQuestions[room.currentRound];
+    },
   },
 });
 
@@ -159,16 +143,13 @@ export const {
   setReady,
   startGame,
   countdownBeforeQuestion,
-  fetchQuestion,
-  fetchQuestionSuccess,
-  sendQuestionSuccess,
+  fetchQuestions,
+  fetchQuestionsSuccess,
+  emitCurrentQuestion,
+  emitCurrentQuestionSuccess,
   evaluateAnswer,
-  answeredCorrectly,
-  answeredIncorrectly,
-  addToScore,
   emitAnswerResults,
   emitScores,
-  nextQuestion,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

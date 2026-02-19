@@ -5,17 +5,16 @@ import {
   tap,
   withLatestFrom,
   race,
-  timer,
-  ignoreElements,
   interval,
   takeWhile,
   last,
   mergeMap,
   take,
+  switchMap,
 } from 'rxjs';
 import { RootState } from '../../config/store';
 import { GameActions } from '../../types/game.actions';
-import { emitScores, sendQuestionSuccess } from '../game.slice';
+import { emitCurrentQuestionSuccess, emitScores } from '../game.slice';
 import { selectRoomByCode } from '../game.selectors';
 import { gameBoardSocketMap } from '../../../services/socket-registry';
 import SocketEvent from '../../../../../shared/socket-event';
@@ -25,7 +24,7 @@ export const showCorrectAnswerAfterRaceConditionEpic: Epic<GameActions, GameActi
   state$,
 ) =>
   action$.pipe(
-    filter(sendQuestionSuccess.match),
+    filter(emitCurrentQuestionSuccess.match),
     withLatestFrom(state$),
     map(([{ payload }, state]) => ({
       room: selectRoomByCode(state.game, payload.roomCode),
@@ -41,7 +40,7 @@ export const showCorrectAnswerAfterRaceConditionEpic: Epic<GameActions, GameActi
       );
 
       const timeout$ = interval(1000).pipe(
-        map(n => 10 - n),
+        map(n => 5 - n),
         takeWhile(n => n >= 0),
         tap(n => socket!.nsp.to(room!.roomCode).emit(SocketEvent.AnswerRevealCountdown, n)),
         last(),
@@ -52,9 +51,8 @@ export const showCorrectAnswerAfterRaceConditionEpic: Epic<GameActions, GameActi
           socket?.nsp
             .to(room!.roomCode)
             .emit(SocketEvent.ShowCorrectAnswer, room!.currentQuestion!.correctAnswerId);
-          return room!.roomCode;
+          return emitScores({ roomCode: room!.roomCode });
         }),
       );
     }),
-    map(roomCode => emitScores({ roomCode })),
   );
