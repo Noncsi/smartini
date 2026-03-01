@@ -1,9 +1,9 @@
-import ShortUniqueId from "short-unique-id";
-import { RoomCode } from "../store/types/game.types";
+import ShortUniqueId from 'short-unique-id';
+import { RoomCode } from '../store/types/game.types';
 
 const roomCodeGenerator = new ShortUniqueId({
   length: 4,
-  dictionary: "alpha_upper",
+  dictionary: 'alpha_upper',
 });
 
 const playerIdGenerator = new ShortUniqueId({ length: 10 });

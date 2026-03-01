@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { GameState, GamePhase } from '@models/game';
+import { GameState } from '@models/game';
 import {
   arePlayersReady,
   getHostPlayerId,
@@ -8,13 +8,14 @@ import {
   startGameSuccess,
 } from '../actions/lobby.actions';
 import { pause, resume, getQuestionSuccess, countdown } from '../actions/game.actions';
+import { GameStage } from '../../../../../../../shared/types';
 
 export interface PlayerGameState extends GameState {
   arePlayersReady: boolean;
 }
 
 const initialGameState: PlayerGameState = {
-  phase: GamePhase.lobby,
+  stage: GameStage.lobby,
   roomCode: '',
   isPaused: false,
   hostPlayerId: '',
@@ -42,7 +43,7 @@ export const gameReducer = createReducer(
     ...state,
     arePlayersReady: areReady,
   })),
-  on(startGameSuccess, state => ({ ...state, phase: GamePhase.gamePlay })),
+  on(startGameSuccess, state => ({ ...state, stage: GameStage.game })),
   on(getQuestionSuccess, (state, { payload }) => ({
     ...state,
     currentQuestion: {

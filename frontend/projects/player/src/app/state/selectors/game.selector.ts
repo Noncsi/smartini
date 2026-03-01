@@ -7,7 +7,7 @@ export const selectIsPaused = createSelector(selectGame, (game: PlayerGameState)
 
 export const selectRoomCode = createSelector(selectGame, (game: PlayerGameState) => game.roomCode);
 
-export const selectGamePhase = createSelector(selectGame, (game: PlayerGameState) => game.phase);
+export const selectGamePhase = createSelector(selectGame, (game: PlayerGameState) => game.stage);
 
 export const selectHostPlayerId = createSelector(
   selectGame,

@@ -16,7 +16,7 @@ export const startPreQuestionCountdownEpic: Epic<GameActions, GameActions, RootS
     filter(({ socket }) => Boolean(socket)),
     mergeMap(({ socket, roomCode }) =>
       timer(0, 1000).pipe(
-        map(n => 1 - n),
+        map(n => 10 - n),
         takeWhile(n => n >= 0),
         tap(n => socket?.nsp.to(roomCode).emit(SocketEvent.Countdown, n)),
         last(),

@@ -4,12 +4,12 @@ import {
   GameBoardSocket,
   RoomCode,
   PlayerSocket,
-  GameStage,
   Question,
   Room,
   Player,
 } from '../types/game.types';
 import { selectIsRoomExist, selectPlayerInRoomById, selectRoomByCode } from './game.selectors';
+import { GameStage } from '../../../../shared/types';
 
 export interface GameState {
   rooms: Room[];
@@ -81,6 +81,7 @@ export const gameSlice = createSlice({
       const room = selectRoomByCode(state, action.payload.roomCode);
       if (!room) return;
       room.stage = GameStage.game;
+      room.currentRound = 1;
     },
 
     countdownBeforeQuestion: (state, action: PayloadAction<{ roomCode: string }>) => {},
@@ -130,10 +131,18 @@ export const gameSlice = createSlice({
       const room = selectRoomByCode(state, roomCode);
       if (!room) return;
       room.currentRound++;
-      room.currentQuestion = room.allQuestions[room.currentRound];
+      if (room.currentRound <= room.allQuestions.length) {
+        room.currentQuestion = room.allQuestions[room.currentRound-1];
+      }
     },
+
+    endGame: (state, action: PayloadAction<{ roomCode: string }>) => {
+      const { roomCode } = action.payload;
+      const room = selectRoomByCode(state, roomCode);
+      if (!room) return;
+      room.stage = GameStage.end;
   },
-});
+}});
 
 export const {
   disconnectGameBoard,
@@ -150,6 +159,7 @@ export const {
   evaluateAnswer,
   emitAnswerResults,
   emitScores,
+  endGame
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

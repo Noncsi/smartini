@@ -1,14 +1,8 @@
-import { Player } from './player';
+import { GameStage } from '../../shared/types';
 import { QuestionPrompt } from './question';
 
-export enum GamePhase {
-  lobby,
-  gamePlay,
-  result,
-}
-
 export interface GameState {
-  phase: GamePhase;
+  stage: GameStage;
   roomCode: string;
   isPaused: boolean;
   hostPlayerId: string;

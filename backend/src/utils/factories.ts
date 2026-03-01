@@ -1,4 +1,5 @@
-import { GameStage, Player, Room, RoomCode } from '../store/types/game.types';
+import { Player, Room, RoomCode } from '../store/types/game.types';
+import { GameStage } from '../../../shared/types';
 
 export const createRoomObject = (roomCode: RoomCode): Room => ({
   stage: GameStage.lobby,

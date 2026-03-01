@@ -24,6 +24,7 @@ enum SocketEvent {
   Answer = 'answer',
   ShowCorrectAnswer = 'showCorrectAnswer',
   Scores = 'scores',
+  End = 'end'
 };
 
 export default SocketEvent;

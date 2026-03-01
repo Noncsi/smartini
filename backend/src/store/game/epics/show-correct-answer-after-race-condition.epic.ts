@@ -40,7 +40,7 @@ export const showCorrectAnswerAfterRaceConditionEpic: Epic<GameActions, GameActi
       );
 
       const timeout$ = interval(1000).pipe(
-        map(n => 5 - n),
+        map(n => 10 - n),
         takeWhile(n => n >= 0),
         tap(n => socket!.nsp.to(room!.roomCode).emit(SocketEvent.AnswerRevealCountdown, n)),
         last(),

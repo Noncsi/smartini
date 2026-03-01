@@ -10,9 +10,11 @@ import { broadcastReadyStatusEpic } from '../game/epics/broadcast-ready-status.e
 import { triggerPreQuestionCountdownOnGameStartEpic } from '../game/epics/trigger-pre-question-countdown-on-gamestart.epic';
 import { startPreQuestionCountdownEpic } from '../game/epics/start-pre-question-countdown.epic';
 import { showCorrectAnswerAfterRaceConditionEpic } from '../game/epics/show-correct-answer-after-race-condition.epic';
-import { emitScoresEpic, nextQuestionEpic } from '../game/epics/next-question.epic';
+import { nextQuestionEpic } from '../game/epics/next-question.epic';
 import { emitFirstQuestionEpic } from '../game/epics/emit-first-question.epic';
 import { emitCurrentQuestionEpic } from '../game/epics/emit-current-question.epic';
+import { emitScoresEpic } from '../game/epics/emit-scores.epic';
+import { emitEndEpic } from '../game/epics/emit-end.epic';
 
 export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
   cleanupGameBoardDisconnectionEpic,
@@ -28,4 +30,5 @@ export const rootEpic: Epic<GameActions, GameActions, RootState> = combineEpics(
   showCorrectAnswerAfterRaceConditionEpic,
   nextQuestionEpic,
   emitScoresEpic,
+  emitEndEpic
 );

@@ -2,11 +2,11 @@
   @case (gamePhase.lobby) {
     <app-lobby class="h-full"></app-lobby>
   }
-  @case (gamePhase.gamePlay) {
+  @case (gamePhase.game) {
     <app-game class="w-full h-full flex flex-col p-4"></app-game>
   }
-  @case (gamePhase.result) {
-    <span>result phase</span>
+  @case (gamePhase.end) {
+    <app-end></app-end>
   }
   @default {
     <span>unexpected error</span>

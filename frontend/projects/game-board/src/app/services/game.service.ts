@@ -7,6 +7,7 @@ import {
   selectHostPlayerId,
   selectPlayers,
   selectQuestion,
+  selectWinnerPlayer,
 } from '../state/gameboard.selector';
 import { getQuestion } from '../state/gameboard.actions';
 
@@ -19,6 +20,7 @@ export class GameService {
   answerRevealCountdown = this.store.selectSignal(selectAnswerRevealCountdown);
   currentQuestion = this.store.selectSignal(selectQuestion);
   currentCorrectAnswerId = this.store.selectSignal(selectCurrentCorrectAnswerId);
+  winnerPlayer = this.store.selectSignal(selectWinnerPlayer);
 
   getQuestion() {
     this.store.dispatch(getQuestion());

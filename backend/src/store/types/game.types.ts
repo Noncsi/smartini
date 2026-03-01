@@ -1,14 +1,10 @@
 import { Socket } from 'socket.io';
+import { GameStage } from '../../../../shared/types';
 
 export type RoomCode = string;
 export enum SocketType {
   GameboardSocket,
   PlayerSocket,
-}
-
-export enum GameStage {
-  lobby,
-  game,
 }
 
 export interface Room {
