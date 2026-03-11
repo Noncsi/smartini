@@ -41,7 +41,7 @@ export class JoinComponent {
     }),
     name: new FormControl('', {
       nonNullable: true,
-      validators: Validators.required,
+      validators: [Validators.required, Validators.maxLength(20)],
     }),
     iconId: new FormControl(0, {
       nonNullable: true,
