@@ -50,11 +50,11 @@
             {{ iconMap.get(player.iconId) }} {{ player.name }}
           </div>
         } @empty {
-          <div id="no-player">It's quiet here...</div>
+          <div id="no-player" class="text-[2vw]">It's quiet here...</div>
         }
       </div>
     </div>
   } @else {
-    <span>...</span>
+    <span>Cannot connect to server.</span>
   }
 </div>
